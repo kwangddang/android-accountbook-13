@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">android-accountbook-13</string>
+    <string name="desc_back">back</string>
+    <string name="desc_left">left</string>
+    <string name="desc_right">right</string>
+    <string name="desc_trash">trash</string>
+
+    <string name="text_btn">등록하기</string>
+
 </resources>
