@@ -28,7 +28,7 @@ fun TopAppBars(
         TopAppBar(
             backgroundColor = MaterialTheme.colors.background,
             contentColor = MaterialTheme.colors.onBackground,
-            elevation = 1.dp
+            elevation = 0.dp
         ) {
             Box {
                 if (leftVectorResource != null) {
@@ -51,6 +51,10 @@ fun TopAppBars(
                         rightVectorResource
                     )
                 }
+                Divider(
+                    color = MaterialTheme.colors.secondary,
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                )
             }
         }
     }
@@ -82,7 +86,7 @@ fun TitleTopAppBar(
 ) {
     Text(
         text = title,
-        style = MaterialTheme.typography.subtitle1,
+        style = MaterialTheme.typography.h6,
         textAlign = TextAlign.Center,
         modifier = modifier
     )
