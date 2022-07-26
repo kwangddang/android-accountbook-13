@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13
 
+import com.example.android_accountbook_13.utils.moneyConverter
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,6 +13,6 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        assertEquals(4, moneyConverter(10000))
     }
 }

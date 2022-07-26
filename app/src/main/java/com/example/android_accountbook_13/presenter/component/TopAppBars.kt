@@ -19,10 +19,10 @@ import com.example.android_accountbook_13.ui.theme.Red
 @Composable
 fun TopAppBars(
     title: String,
-    onLeftClick: () -> Unit = {},
-    onRightClick: () -> Unit = {},
     leftVectorResource: Int? = null,
     rightVectorResource: Int? = null,
+    onLeftClick: () -> Unit = {},
+    onRightClick: () -> Unit = {}
 ) {
     MyTheme() {
         TopAppBar(
@@ -91,23 +91,23 @@ fun TitleTopAppBar(
 @Preview(showBackground = true)
 @Composable
 fun BaseTopAppBarPreview() {
-    TopAppBars("Toolbar", { }, { })
+    TopAppBars("Toolbar")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun BackTopAppBarPreview() {
-    TopAppBars("설정", {}, {}, R.drawable.ic_back)
+    TopAppBars("설정", R.drawable.ic_back)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DateTopAppBarPreview() {
-    TopAppBars("2022년 7월", { }, { }, R.drawable.ic_left, R.drawable.ic_right)
+    TopAppBars("2022년 7월", R.drawable.ic_left, R.drawable.ic_right)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun TrashTopAppBarPreview() {
-    TopAppBars("1개 선택", { }, { }, R.drawable.ic_back, R.drawable.ic_trash)
+    TopAppBars("1개 선택", R.drawable.ic_back, R.drawable.ic_trash)
 }
