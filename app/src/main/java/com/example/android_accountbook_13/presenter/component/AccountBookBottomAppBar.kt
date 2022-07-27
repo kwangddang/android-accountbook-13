@@ -10,23 +10,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.android_accountbook_13.presenter.navigation.Calendar
-import com.example.android_accountbook_13.presenter.navigation.AccountBookDestination
-import com.example.android_accountbook_13.presenter.navigation.bottomTabScreens
+import com.example.android_accountbook_13.presenter.AccountBookDestination
+import com.example.android_accountbook_13.presenter.Calendar
+import com.example.android_accountbook_13.presenter.bottomTabScreens
 import com.example.android_accountbook_13.ui.theme.MyTheme
+import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.White
 import com.example.android_accountbook_13.ui.theme.White50
 
 @Composable
-fun BottomAppBars(
+fun AccountBookBottomAppBar(
     destination: AccountBookDestination,
+    backgroundColor: Color = Purple,
+    elevation: Dp = 0.dp,
     onClick: (AccountBookDestination) -> Unit = {}
 ) {
     MyTheme() {
         BottomAppBar(
-            backgroundColor = MaterialTheme.colors.secondary,
-            elevation = 0.dp,
+            backgroundColor = backgroundColor,
+            elevation = elevation
         ) {
             bottomTabScreens.forEach { screen ->
                 ItemBottomAppBars(
@@ -42,7 +46,7 @@ fun BottomAppBars(
 }
 
 @Composable
-fun ItemBottomAppBars(
+private fun ItemBottomAppBars(
     screen: AccountBookDestination,
     modifier: Modifier,
     color: Color,
@@ -67,6 +71,6 @@ fun ItemBottomAppBars(
 
 @Composable
 @Preview(showBackground = true)
-fun BottomAppBarsPreview() {
-    BottomAppBars(Calendar)
+private fun BottomAppBarsPreview() {
+    AccountBookBottomAppBar(Calendar)
 }

@@ -6,36 +6,46 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.ui.theme.MyTheme
+import com.example.android_accountbook_13.ui.theme.OffWhite
+import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.Red
 
 @Composable
-fun TopAppBars(
+fun AccountBookTopAppBar(
     title: String,
     leftVectorResource: Int? = null,
     rightVectorResource: Int? = null,
-    onLeftClick: () -> Unit = {},
-    onRightClick: () -> Unit = {}
+    backgroundColor: Color = OffWhite,
+    contentColor: Color = Purple,
+    elevation: Dp = 0.dp,
+    leftDescription: String = "",
+    rightDescription: String = "",
+    onLeftClick: () -> Unit,
+    onRightClick: () -> Unit
 ) {
     MyTheme() {
         TopAppBar(
-            backgroundColor = MaterialTheme.colors.background,
-            contentColor = MaterialTheme.colors.onBackground,
-            elevation = 0.dp
+            backgroundColor = backgroundColor,
+            contentColor = contentColor,
+            elevation = elevation
         ) {
             Box {
                 if (leftVectorResource != null) {
                     IconTopAppBar(
-                        onLeftClick,
-                        Modifier.align(Alignment.CenterStart),
-                        leftVectorResource
+                        modifier = Modifier.align(Alignment.CenterStart),
+                        vectorResource =  leftVectorResource,
+                        contentDescription = leftDescription,
+                        contentColor = contentColor,
+                        onClick = onLeftClick
                     )
                 }
                 TitleTopAppBar(
@@ -46,9 +56,11 @@ fun TopAppBars(
                 )
                 if (rightVectorResource != null) {
                     IconTopAppBar(
-                        onRightClick,
-                        Modifier.align(Alignment.CenterEnd),
-                        rightVectorResource
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        vectorResource =  rightVectorResource,
+                        contentDescription = rightDescription,
+                        contentColor = contentColor,
+                        onClick = onRightClick
                     )
                 }
                 Divider(
@@ -61,10 +73,12 @@ fun TopAppBars(
 }
 
 @Composable
-fun IconTopAppBar(
-    onClick: () -> Unit,
+private fun IconTopAppBar(
+    contentDescription: String,
+    contentColor: Color,
     modifier: Modifier,
-    vectorResource: Int
+    vectorResource: Int,
+    onClick: () -> Unit,
 ) {
     IconButton(
         onClick = onClick,
@@ -72,15 +86,15 @@ fun IconTopAppBar(
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(id = vectorResource),
-            contentDescription = stringResource(id = R.string.desc_back),
+            contentDescription = contentDescription,
             tint = if (vectorResource == R.drawable.ic_trash) Red
-                    else MaterialTheme.colors.secondary
+                    else contentColor
         )
     }
 }
 
 @Composable
-fun TitleTopAppBar(
+private fun TitleTopAppBar(
     title: String,
     modifier: Modifier
 ) {
@@ -94,24 +108,24 @@ fun TitleTopAppBar(
 
 @Preview(showBackground = true)
 @Composable
-fun BaseTopAppBarPreview() {
-    TopAppBars("Toolbar")
+private fun BaseTopAppBarPreview() {
+    AccountBookTopAppBar(title = "Toolbar", onLeftClick = { }, onRightClick = {})
 }
 
 @Preview(showBackground = true)
 @Composable
-fun BackTopAppBarPreview() {
-    TopAppBars("설정", R.drawable.ic_back)
+private fun BackTopAppBarPreview() {
+    AccountBookTopAppBar("설정", R.drawable.ic_back, onLeftClick = {}, onRightClick = {})
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DateTopAppBarPreview() {
-    TopAppBars("2022년 7월", R.drawable.ic_left, R.drawable.ic_right)
+private fun DateTopAppBarPreview() {
+    AccountBookTopAppBar("2022년 7월", R.drawable.ic_left, R.drawable.ic_right, onLeftClick = {}, onRightClick = {})
 }
 
 @Preview(showBackground = true)
 @Composable
-fun TrashTopAppBarPreview() {
-    TopAppBars("1개 선택", R.drawable.ic_back, R.drawable.ic_trash)
+private fun TrashTopAppBarPreview() {
+    AccountBookTopAppBar("1개 선택", R.drawable.ic_back, R.drawable.ic_trash, onLeftClick = {}, onRightClick = {})
 }
