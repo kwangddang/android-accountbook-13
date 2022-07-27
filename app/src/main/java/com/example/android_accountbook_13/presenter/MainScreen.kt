@@ -9,6 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.presenter.calendar.CalendarScreen
@@ -22,35 +23,27 @@ import com.example.android_accountbook_13.ui.theme.MyTheme
 
 @Composable
 fun MainScreen() {
-    val navController = rememberNavController()
     MyTheme() {
-        val currentScreen: Destination by remember { mutableStateOf(History) }
         val navController = rememberNavController()
+        val currentBackStack by navController.currentBackStackEntryAsState()
+        val currentDestination = currentBackStack?.destination
+        val currentScreen = bottomTabScreens.find { it.route ==  currentDestination?.route}
 
         Scaffold(
             topBar = { TopAppBars("2022년 7월", R.drawable.ic_left, R.drawable.ic_right) },
-            bottomBar = { BottomAppBars {} },
-        ) {
-            NavHost(
-                navController = navController,
-                startDestination = stringResource(R.string.nav_history)
-            ) {
-                composable(History.route) {
-                    HistoryScreen()
-                }
-
-                composable(Calendar.route) {
-                    CalendarScreen()
-                }
-
-                composable(Statistic.route) {
-                    StatisticScreen()
-                }
-
-                composable(Setting.route) {
-                    SettingScreen()
-                }
+            bottomBar = {
+                BottomAppBars(
+                    destination = currentScreen ?: History,
+                    onClick = { newScreen ->
+                        navController.navigateSingleTopTo(newScreen.route)
+                    }
+                )
             }
+        ) {
+            AccountBookNavHost(
+                navController,
+                History.route
+            )
         }
     }
 }
