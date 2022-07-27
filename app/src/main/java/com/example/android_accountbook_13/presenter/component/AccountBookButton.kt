@@ -63,7 +63,7 @@ fun AccountBookSwitchButton(
     onLeftClick: () -> Unit = {},
     onRightClick: () -> Unit = {},
 ) {
-    MyTheme {
+    AccountBookTheme {
         Row {
             ThinButton(
                 shape = RoundedCornerShape(
@@ -122,7 +122,7 @@ fun AccountBookFilterButton(
     onLeftCheckedChange: (Boolean) -> Unit = {},
     onRightCheckedChange: (Boolean) -> Unit = {},
 ) {
-    MyTheme {
+    AccountBookTheme {
         Row {
             ThinButton(
                 shape = RoundedCornerShape(

@@ -7,11 +7,11 @@ import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.presenter.component.AccountBookBottomAppBar
 import com.example.android_accountbook_13.presenter.component.AccountBookTopAppBar
 import com.example.android_accountbook_13.presenter.navigation.AccountBookNavHost
-import com.example.android_accountbook_13.ui.theme.MyTheme
+import com.example.android_accountbook_13.ui.theme.AccountBookTheme
 
 @Composable
 fun AccountBookApp() {
-    MyTheme {
+    AccountBookTheme {
         val appState = rememberAccountBookAppState()
 
         Scaffold(
@@ -33,9 +33,10 @@ fun AccountBookApp() {
                     }
                 )
             }
-        ) {
+        ) { innerPadding ->
             AccountBookNavHost(
                 appState.navController,
+                innerPadding,
                 History.route
             )
         }

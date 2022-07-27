@@ -1,14 +1,29 @@
 package com.example.android_accountbook_13.presenter.history
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import com.example.android_accountbook_13.ui.theme.OffWhite
-import com.example.android_accountbook_13.ui.theme.Olive1
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.android_accountbook_13.presenter.component.AccountBookFab
+import com.example.android_accountbook_13.ui.theme.Pink1
 
 @Composable
 fun HistoryScreen() {
-    Box(modifier = Modifier.fillMaxSize().background(OffWhite))
+    androidx.compose.material.Surface() {
+        
+    }
+    Scaffold(
+        floatingActionButton = {
+            AccountBookFab (onClick = {})
+        },
+        backgroundColor = MaterialTheme.colors.background
+    ) {
+
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HistoryPreview() {
+    HistoryScreen()
 }

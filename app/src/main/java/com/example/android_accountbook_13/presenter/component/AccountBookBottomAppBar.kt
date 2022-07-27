@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.android_accountbook_13.presenter.AccountBookDestination
 import com.example.android_accountbook_13.presenter.Calendar
 import com.example.android_accountbook_13.presenter.bottomTabScreens
-import com.example.android_accountbook_13.ui.theme.MyTheme
+import com.example.android_accountbook_13.ui.theme.AccountBookTheme
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.White
 import com.example.android_accountbook_13.ui.theme.White50
@@ -27,7 +27,7 @@ fun AccountBookBottomAppBar(
     elevation: Dp = 0.dp,
     onClick: (AccountBookDestination) -> Unit = {}
 ) {
-    MyTheme() {
+    AccountBookTheme() {
         BottomAppBar(
             backgroundColor = backgroundColor,
             elevation = elevation
