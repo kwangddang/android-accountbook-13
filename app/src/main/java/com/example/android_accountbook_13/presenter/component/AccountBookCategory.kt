@@ -15,9 +15,13 @@ import com.example.android_accountbook_13.ui.theme.White
 import com.example.android_accountbook_13.ui.theme.Yellow
 
 @Composable
-fun AccountBookCategory(title: String, backgroundColor: Color) {
+fun AccountBookCategory(
+    title: String,
+    backgroundColor: Color,
+    modifier: Modifier = Modifier
+) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .width(64.dp)
             .height(24.dp),
         color = backgroundColor,
