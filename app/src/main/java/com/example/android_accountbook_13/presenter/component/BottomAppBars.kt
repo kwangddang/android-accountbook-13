@@ -42,7 +42,7 @@ fun BottomAppBars(
 }
 
 @Composable
-fun ItemBottomAppBars(
+private fun ItemBottomAppBars(
     screen: AccountBookDestination,
     modifier: Modifier,
     color: Color,
@@ -67,6 +67,6 @@ fun ItemBottomAppBars(
 
 @Composable
 @Preview(showBackground = true)
-fun BottomAppBarsPreview() {
+private fun BottomAppBarsPreview() {
     BottomAppBars(Calendar)
 }

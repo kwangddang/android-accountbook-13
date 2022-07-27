@@ -114,7 +114,7 @@ fun FilterButton(
 }
 
 @Composable
-fun CheckedText(
+private fun CheckedText(
     title: String,
     checked: Boolean,
     modifier: Modifier,
@@ -140,7 +140,7 @@ fun CheckedText(
 }
 
 @Composable
-fun ThinButton(
+private fun ThinButton(
     shape: RoundedCornerShape,
     checked: Boolean,
     onClick: () -> Unit,
@@ -160,7 +160,7 @@ fun ThinButton(
 
 @Preview()
 @Composable
-fun AddButtonPreview() {
+private fun AddButtonPreview() {
     AddingButton {
 
     }
@@ -168,12 +168,12 @@ fun AddButtonPreview() {
 
 @Preview()
 @Composable
-fun SwitchButtonPreview() {
+private fun SwitchButtonPreview() {
     SwitchButton()
 }
 
 @Preview()
 @Composable
-fun FilterButtonPreview() {
+private fun FilterButtonPreview() {
     FilterButton()
 }

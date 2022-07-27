@@ -61,7 +61,7 @@ fun TopAppBars(
 }
 
 @Composable
-fun IconTopAppBar(
+private fun IconTopAppBar(
     onClick: () -> Unit,
     modifier: Modifier,
     vectorResource: Int
@@ -80,7 +80,7 @@ fun IconTopAppBar(
 }
 
 @Composable
-fun TitleTopAppBar(
+private fun TitleTopAppBar(
     title: String,
     modifier: Modifier
 ) {
@@ -94,24 +94,24 @@ fun TitleTopAppBar(
 
 @Preview(showBackground = true)
 @Composable
-fun BaseTopAppBarPreview() {
+private fun BaseTopAppBarPreview() {
     TopAppBars("Toolbar")
 }
 
 @Preview(showBackground = true)
 @Composable
-fun BackTopAppBarPreview() {
+private fun BackTopAppBarPreview() {
     TopAppBars("설정", R.drawable.ic_back)
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DateTopAppBarPreview() {
+private fun DateTopAppBarPreview() {
     TopAppBars("2022년 7월", R.drawable.ic_left, R.drawable.ic_right)
 }
 
 @Preview(showBackground = true)
 @Composable
-fun TrashTopAppBarPreview() {
+private fun TrashTopAppBarPreview() {
     TopAppBars("1개 선택", R.drawable.ic_back, R.drawable.ic_trash)
 }
