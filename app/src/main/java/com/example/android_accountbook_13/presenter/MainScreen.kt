@@ -3,22 +3,16 @@ package com.example.android_accountbook_13.presenter
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
-import com.example.android_accountbook_13.presenter.calendar.CalendarScreen
 import com.example.android_accountbook_13.presenter.component.BottomAppBars
 import com.example.android_accountbook_13.presenter.component.TopAppBars
-import com.example.android_accountbook_13.presenter.history.HistoryScreen
-import com.example.android_accountbook_13.presenter.navigation.*
-import com.example.android_accountbook_13.presenter.setting.SettingScreen
-import com.example.android_accountbook_13.presenter.statistic.StatisticScreen
+import com.example.android_accountbook_13.presenter.navigation.AccountBookNavHost
+import com.example.android_accountbook_13.presenter.navigation.History
+import com.example.android_accountbook_13.presenter.navigation.bottomTabScreens
+import com.example.android_accountbook_13.presenter.navigation.navigateSingleTopTo
 import com.example.android_accountbook_13.ui.theme.MyTheme
 
 @Composable

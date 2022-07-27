@@ -16,7 +16,9 @@ import com.example.android_accountbook_13.presenter.component.FilterButton
 import com.example.android_accountbook_13.presenter.component.SwitchButton
 import com.example.android_accountbook_13.ui.theme.Blue1
 import com.example.android_accountbook_13.ui.theme.MyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
