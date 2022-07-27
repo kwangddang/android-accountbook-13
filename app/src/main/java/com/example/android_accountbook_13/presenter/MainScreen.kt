@@ -21,10 +21,18 @@ fun MainScreen() {
         val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
         val currentDestination = currentBackStack?.destination
-        val currentScreen = bottomTabScreens.find { it.route ==  currentDestination?.route}
+        val currentScreen = bottomTabScreens.find { it.route == currentDestination?.route }
 
         Scaffold(
-            topBar = { AccountBookTopAppBar("2022년 7월", R.drawable.ic_left, R.drawable.ic_right) },
+            topBar = {
+                AccountBookTopAppBar(
+                    title = "2022년 7월",
+                    leftVectorResource = R.drawable.ic_left,
+                    rightVectorResource = R.drawable.ic_right,
+                    onLeftClick = {},
+                    onRightClick = {}
+                )
+            },
             bottomBar = {
                 AccountBookBottomAppBar(
                     destination = currentScreen ?: History,

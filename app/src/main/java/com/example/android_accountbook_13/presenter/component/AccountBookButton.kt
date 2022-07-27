@@ -6,59 +6,93 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.ui.theme.*
 import com.example.android_accountbook_13.utils.moneyConverter
 
+data class RadiusDP(
+    val topStart: Dp = 14.dp,
+    val bottomStart: Dp = 14.dp,
+    val topEnd: Dp = 14.dp,
+    val bottomEnd: Dp = 14.dp,
+)
+
 @Composable
-fun AccountBookAddingButton(onClick: () -> Unit) {
+fun AccountBookAddingButton(
+    title: String = stringResource(id = R.string.text_btn),
+    style: TextStyle = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
+    modifier: Modifier = Modifier
+        .width(328.dp)
+        .height(64.dp),
+    shape: RoundedCornerShape = RoundedCornerShape(14.dp),
+    buttonColors: ButtonColors = ButtonDefaults.buttonColors(Yellow),
+    textColor: Color = White,
+    onClick: () -> Unit
+) {
     Button(
         onClick = onClick,
-        modifier = Modifier
-            .width(328.dp)
-            .height(64.dp),
-        shape = RoundedCornerShape(14.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Yellow)
+        modifier = modifier,
+        shape = shape,
+        colors = buttonColors
     ) {
         Text(
-            text = stringResource(id = R.string.text_btn),
-            style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
-            color = White
+            text = title,
+            style = style,
+            color = textColor
         )
     }
 }
 
 @Composable
 fun AccountBookSwitchButton(
-    incomeChecked: Boolean = true,
-    expenseChecked: Boolean = false,
-    onIncomeClick: () -> Unit = {},
-    onExpenseClick: () -> Unit = {},
+    leftChecked: Boolean,
+    rightChecked: Boolean,
+    leftString: String = stringResource(id = R.string.text_income),
+    rightString: String = stringResource(id = R.string.text_expense),
+    textColor: Color = White,
+    enabledColor: Color = Purple,
+    unEnabledColor: Color = LightPurple,
+    radiusDP: RadiusDP = RadiusDP(),
+    onLeftClick: () -> Unit = {},
+    onRightClick: () -> Unit = {},
 ) {
     MyTheme {
         Row {
             ThinButton(
-                shape = RoundedCornerShape(topStart = 14.dp, bottomStart = 14.dp),
-                checked = incomeChecked,
-                onClick = onIncomeClick
+                shape = RoundedCornerShape(
+                    topStart = radiusDP.topStart,
+                    bottomStart = radiusDP.bottomStart
+                ),
+                checked = leftChecked,
+                onClick = onLeftClick,
+                enabledColor = enabledColor,
+                unEnabledColor = unEnabledColor
             ) {
                 Text(
-                    text = stringResource(id = R.string.text_income),
-                    color = MaterialTheme.colors.onSecondary
+                    text = leftString,
+                    color = textColor
                 )
             }
             ThinButton(
-                shape = RoundedCornerShape(topEnd = 14.dp, bottomEnd = 14.dp),
-                checked = expenseChecked,
-                onClick = onExpenseClick
+                shape = RoundedCornerShape(
+                    topEnd = radiusDP.topEnd,
+                    bottomEnd = radiusDP.bottomEnd
+                ),
+                checked = rightChecked,
+                onClick = onRightClick,
+                enabledColor = enabledColor,
+                unEnabledColor = unEnabledColor
             ) {
                 Text(
-                    text = stringResource(id = R.string.text_expense),
-                    color = MaterialTheme.colors.onSecondary
+                    text = rightString,
+                    color = textColor
                 )
             }
         }
@@ -68,44 +102,75 @@ fun AccountBookSwitchButton(
 
 @Composable
 fun AccountBookFilterButton(
-    incomeChecked: Boolean = true,
-    expenseChecked: Boolean = false,
-    incomeMoney: Long = 0,
-    expenseMoney: Long = 0,
-    onIncomeClick: () -> Unit = {},
-    onExpenseClick: () -> Unit = {},
-    onIncomeCheckedChange: (Boolean) -> Unit = {},
-    onExpenseCheckedChange: (Boolean) -> Unit = {},
+    leftChecked: Boolean,
+    rightChecked: Boolean,
+    leftMoney: Long,
+    rightMoney: Long,
+    radiusDP: RadiusDP = RadiusDP(),
+    checkedColor : Color = White,
+    uncheckedColor : Color = White,
+    checkmarkColor : Color = Purple,
+    enabledColor: Color = Purple,
+    unEnabledColor: Color = LightPurple,
+    textColor: Color = White,
+    textStyle: TextStyle = MaterialTheme.typography.caption,
+    leftString: String = stringResource(id = R.string.text_income),
+    rightString: String = stringResource(id = R.string.text_expense),
+    modifier: Modifier = Modifier,
+    onLeftClick: () -> Unit = {},
+    onRightClick: () -> Unit = {},
+    onLeftCheckedChange: (Boolean) -> Unit = {},
+    onRightCheckedChange: (Boolean) -> Unit = {},
 ) {
     MyTheme {
         Row {
             ThinButton(
-                shape = RoundedCornerShape(topStart = 14.dp, bottomStart = 14.dp),
-                checked = incomeChecked,
-                onClick = onIncomeClick
+                shape = RoundedCornerShape(
+                    topStart = radiusDP.topStart,
+                    bottomStart = radiusDP.bottomStart
+                ),
+                checked = leftChecked,
+                onClick = onLeftClick,
+                enabledColor = enabledColor,
+                unEnabledColor = unEnabledColor
             ) {
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(modifier = modifier.fillMaxWidth()) {
                     CheckedText(
-                        title = stringResource(id = R.string.text_income),
-                        money = incomeMoney,
-                        checked = incomeChecked,
+                        title = leftString,
+                        money = leftMoney,
+                        checked = leftChecked,
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onCheckedChange = onIncomeCheckedChange
+                        onCheckedChange = onLeftCheckedChange,
+                        checkedColor = checkedColor,
+                        uncheckedColor = uncheckedColor,
+                        checkmarkColor = checkmarkColor,
+                        textColor = textColor,
+                        textStyle = textStyle
                     )
                 }
             }
             ThinButton(
-                shape = RoundedCornerShape(topEnd = 14.dp, bottomEnd = 14.dp),
-                checked = expenseChecked,
-                onClick = onExpenseClick
+                shape = RoundedCornerShape(
+                    topEnd = radiusDP.topEnd,
+                    bottomEnd = radiusDP.bottomEnd
+                ),
+                checked = rightChecked,
+                onClick = onRightClick,
+                enabledColor = enabledColor,
+                unEnabledColor = unEnabledColor
             ) {
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(modifier = modifier.fillMaxWidth()) {
                     CheckedText(
-                        title = stringResource(id = R.string.text_expense),
-                        money = expenseMoney,
-                        checked = expenseChecked,
+                        title = rightString,
+                        money = rightMoney,
+                        checked = rightChecked,
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onCheckedChange = onExpenseCheckedChange
+                        onCheckedChange = onRightCheckedChange,
+                        checkedColor = checkedColor,
+                        uncheckedColor = uncheckedColor,
+                        checkmarkColor = checkmarkColor,
+                        textColor = textColor,
+                        textStyle = textStyle
                     )
                 }
             }
@@ -118,24 +183,29 @@ private fun CheckedText(
     title: String,
     checked: Boolean,
     modifier: Modifier,
-    money: Long = 0,
+    money: Long,
+    checkedColor : Color,
+    uncheckedColor : Color,
+    checkmarkColor : Color,
+    textColor: Color,
+    textStyle: TextStyle,
     onCheckedChange: (Boolean) -> Unit
 ) {
     Checkbox(
         checked = checked,
         onCheckedChange = onCheckedChange,
         colors = CheckboxDefaults.colors(
-            checkedColor = MaterialTheme.colors.onSecondary,
-            uncheckedColor = MaterialTheme.colors.onSecondary,
-            checkmarkColor = MaterialTheme.colors.secondary
+            checkedColor = checkedColor,
+            uncheckedColor = uncheckedColor,
+            checkmarkColor = checkmarkColor
         ),
         modifier = Modifier.size(24.dp)
     )
     Text(
         text = "${title} ${moneyConverter(money)}",
         modifier = modifier.padding(start = 8.dp),
-        color = MaterialTheme.colors.onSecondary,
-        style = MaterialTheme.typography.caption
+        color = textColor,
+        style = textStyle
     )
 }
 
@@ -144,16 +214,17 @@ private fun ThinButton(
     shape: RoundedCornerShape,
     checked: Boolean,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier.width(164.dp).height(32.dp),
+    enabledColor: Color,
+    unEnabledColor: Color,
     content: @Composable RowScope.() -> Unit
 ) {
     Button(
         onClick = onClick,
-        modifier = Modifier
-            .width(164.dp)
-            .height(32.dp),
+        modifier = modifier,
         shape = shape,
-        colors = if (checked) ButtonDefaults.buttonColors(backgroundColor = Purple)
-        else ButtonDefaults.buttonColors(backgroundColor = LightPurple),
+        colors = if (checked) ButtonDefaults.buttonColors(backgroundColor = enabledColor)
+        else ButtonDefaults.buttonColors(backgroundColor = unEnabledColor),
         content = content
     )
 }
@@ -169,11 +240,16 @@ private fun AddButtonPreview() {
 @Preview()
 @Composable
 private fun SwitchButtonPreview() {
-    AccountBookSwitchButton()
+    AccountBookSwitchButton(leftChecked = false, rightChecked = true)
 }
 
 @Preview()
 @Composable
 private fun FilterButtonPreview() {
-    AccountBookFilterButton()
+    AccountBookFilterButton(
+        leftChecked = false,
+        rightChecked = true,
+        leftMoney = 1000,
+        rightMoney = 200000,
+    )
 }
