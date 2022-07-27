@@ -17,7 +17,7 @@ import com.example.android_accountbook_13.ui.theme.MyTheme
 import com.example.android_accountbook_13.ui.theme.Red
 
 @Composable
-fun TopAppBars(
+fun AccountBookTopAppBar(
     title: String,
     leftVectorResource: Int? = null,
     rightVectorResource: Int? = null,
@@ -95,23 +95,23 @@ private fun TitleTopAppBar(
 @Preview(showBackground = true)
 @Composable
 private fun BaseTopAppBarPreview() {
-    TopAppBars("Toolbar")
+    AccountBookTopAppBar("Toolbar")
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun BackTopAppBarPreview() {
-    TopAppBars("설정", R.drawable.ic_back)
+    AccountBookTopAppBar("설정", R.drawable.ic_back)
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun DateTopAppBarPreview() {
-    TopAppBars("2022년 7월", R.drawable.ic_left, R.drawable.ic_right)
+    AccountBookTopAppBar("2022년 7월", R.drawable.ic_left, R.drawable.ic_right)
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun TrashTopAppBarPreview() {
-    TopAppBars("1개 선택", R.drawable.ic_back, R.drawable.ic_trash)
+    AccountBookTopAppBar("1개 선택", R.drawable.ic_back, R.drawable.ic_trash)
 }

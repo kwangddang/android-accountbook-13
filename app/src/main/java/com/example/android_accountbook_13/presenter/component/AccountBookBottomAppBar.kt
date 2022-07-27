@@ -19,7 +19,7 @@ import com.example.android_accountbook_13.ui.theme.White
 import com.example.android_accountbook_13.ui.theme.White50
 
 @Composable
-fun BottomAppBars(
+fun AccountBookBottomAppBar(
     destination: AccountBookDestination,
     onClick: (AccountBookDestination) -> Unit = {}
 ) {
@@ -68,5 +68,5 @@ private fun ItemBottomAppBars(
 @Composable
 @Preview(showBackground = true)
 private fun BottomAppBarsPreview() {
-    BottomAppBars(Calendar)
+    AccountBookBottomAppBar(Calendar)
 }

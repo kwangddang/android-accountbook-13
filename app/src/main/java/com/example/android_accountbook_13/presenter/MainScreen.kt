@@ -7,8 +7,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
-import com.example.android_accountbook_13.presenter.component.BottomAppBars
-import com.example.android_accountbook_13.presenter.component.TopAppBars
+import com.example.android_accountbook_13.presenter.component.AccountBookBottomAppBar
+import com.example.android_accountbook_13.presenter.component.AccountBookTopAppBar
 import com.example.android_accountbook_13.presenter.navigation.AccountBookNavHost
 import com.example.android_accountbook_13.presenter.navigation.History
 import com.example.android_accountbook_13.presenter.navigation.bottomTabScreens
@@ -24,9 +24,9 @@ fun MainScreen() {
         val currentScreen = bottomTabScreens.find { it.route ==  currentDestination?.route}
 
         Scaffold(
-            topBar = { TopAppBars("2022년 7월", R.drawable.ic_left, R.drawable.ic_right) },
+            topBar = { AccountBookTopAppBar("2022년 7월", R.drawable.ic_left, R.drawable.ic_right) },
             bottomBar = {
-                BottomAppBars(
+                AccountBookBottomAppBar(
                     destination = currentScreen ?: History,
                     onClick = { newScreen ->
                         navController.navigateSingleTopTo(newScreen.route)

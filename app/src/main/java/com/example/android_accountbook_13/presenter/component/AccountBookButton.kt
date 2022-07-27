@@ -15,7 +15,7 @@ import com.example.android_accountbook_13.ui.theme.*
 import com.example.android_accountbook_13.utils.moneyConverter
 
 @Composable
-fun AddingButton(onClick: () -> Unit) {
+fun AccountBookAddingButton(onClick: () -> Unit) {
     Button(
         onClick = onClick,
         modifier = Modifier
@@ -33,7 +33,7 @@ fun AddingButton(onClick: () -> Unit) {
 }
 
 @Composable
-fun SwitchButton(
+fun AccountBookSwitchButton(
     incomeChecked: Boolean = true,
     expenseChecked: Boolean = false,
     onIncomeClick: () -> Unit = {},
@@ -67,7 +67,7 @@ fun SwitchButton(
 
 
 @Composable
-fun FilterButton(
+fun AccountBookFilterButton(
     incomeChecked: Boolean = true,
     expenseChecked: Boolean = false,
     incomeMoney: Long = 0,
@@ -161,7 +161,7 @@ private fun ThinButton(
 @Preview()
 @Composable
 private fun AddButtonPreview() {
-    AddingButton {
+    AccountBookAddingButton {
 
     }
 }
@@ -169,11 +169,11 @@ private fun AddButtonPreview() {
 @Preview()
 @Composable
 private fun SwitchButtonPreview() {
-    SwitchButton()
+    AccountBookSwitchButton()
 }
 
 @Preview()
 @Composable
 private fun FilterButtonPreview() {
-    FilterButton()
+    AccountBookFilterButton()
 }
