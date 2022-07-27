@@ -8,46 +8,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.android_accountbook_13.R
+import com.example.android_accountbook_13.presenter.navigation.Calendar
+import com.example.android_accountbook_13.presenter.navigation.AccountBookDestination
+import com.example.android_accountbook_13.presenter.navigation.bottomTabScreens
 import com.example.android_accountbook_13.ui.theme.MyTheme
 import com.example.android_accountbook_13.ui.theme.White
 import com.example.android_accountbook_13.ui.theme.White50
 
 @Composable
 fun BottomAppBars(
-    onSelected: Int = 0,
-    vectorResources: List<Int> = listOf(
-        R.drawable.ic_history,
-        R.drawable.ic_calendar,
-        R.drawable.ic_statistic,
-        R.drawable.ic_setting,
-    ),
-    stringResources: List<Int> = listOf(
-        R.string.content_history,
-        R.string.content_calendar,
-        R.string.content_statistic,
-        R.string.content_setting,
-    ),
-    onClick: () -> Unit = {}
+    destination: AccountBookDestination,
+    onClick: (AccountBookDestination) -> Unit = {}
 ) {
     MyTheme() {
         BottomAppBar(
             backgroundColor = MaterialTheme.colors.secondary,
-            elevation = 1.dp,
+            elevation = 0.dp,
         ) {
-            for(i in 0..3) {
-                val color = if(onSelected == i) White else White50
+            bottomTabScreens.forEach { screen ->
                 ItemBottomAppBars(
-                    stringResources[i],
-                    vectorResources[i],
+                    screen,
                     Modifier.weight(1f),
-                    color,
-                    onClick
-                )
+                    if (destination.route == screen.route) White else White50
+                ) {
+                    onClick(screen)
+                }
             }
         }
     }
@@ -55,8 +43,7 @@ fun BottomAppBars(
 
 @Composable
 fun ItemBottomAppBars(
-    stringResource: Int,
-    vectorResource: Int,
+    screen: AccountBookDestination,
     modifier: Modifier,
     color: Color,
     onClick: () -> Unit
@@ -64,13 +51,13 @@ fun ItemBottomAppBars(
     Box(contentAlignment = Alignment.TopCenter, modifier = modifier.fillMaxHeight()) {
         IconButton(onClick = onClick) {
             Icon(
-                imageVector = ImageVector.vectorResource(id = vectorResource),
-                contentDescription = stringResource(id = stringResource),
+                imageVector = ImageVector.vectorResource(id = screen.vectorResource),
+                contentDescription = screen.route,
                 tint = color
             )
         }
         Text(
-            text = stringResource(id = stringResource),
+            text = screen.content,
             modifier = Modifier.align(Alignment.BottomCenter),
             style = MaterialTheme.typography.caption,
             color = color
@@ -81,5 +68,5 @@ fun ItemBottomAppBars(
 @Composable
 @Preview(showBackground = true)
 fun BottomAppBarsPreview() {
-    BottomAppBars()
+    BottomAppBars(Calendar)
 }
