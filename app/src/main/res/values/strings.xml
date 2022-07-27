@@ -14,5 +14,10 @@
     <string name="content_statistic">통계</string>
     <string name="content_setting">설정</string>
 
+    <string name="nav_history">history</string>
+    <string name="nav_calendar">calendar</string>
+    <string name="nav_statistic">statistic</string>
+    <string name="nav_setting">setting</string>
+
 
 </resources>
