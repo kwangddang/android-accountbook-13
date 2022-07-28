@@ -23,7 +23,7 @@ fun AccountBookCategory(
     Surface(
         modifier = modifier
             .width(64.dp)
-            .height(24.dp),
+            .height(20.dp),
         color = backgroundColor,
         contentColor = White,
         shape = RoundedCornerShape(8.dp),
@@ -32,7 +32,7 @@ fun AccountBookCategory(
             text = title,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.caption,
-            modifier = Modifier.padding(4.dp)
+            modifier = Modifier.padding(2.dp)
         )
     }
 }

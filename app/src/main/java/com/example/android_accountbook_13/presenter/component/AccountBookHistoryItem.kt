@@ -26,7 +26,9 @@ fun AccountBookHistoryItemContent(
     onLongClick: () -> Boolean
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 8.dp,start = 16.dp, end = 16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp, start = 16.dp, end = 16.dp)
     ) {
         Box(
             modifier = Modifier.fillMaxWidth()
@@ -46,11 +48,13 @@ fun AccountBookHistoryItemContent(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Purple,
-                modifier = Modifier.align(Alignment.CenterStart).padding(top = 8.dp)
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(top = 8.dp)
             )
             var color: Color
             var text: String
-            if(historyItem.payment.methodType) {
+            if (historyItem.payment.methodType) {
                 color = Green6
                 text = "${moneyConverter(historyItem.payment.money)}원"
             } else {
@@ -62,10 +66,11 @@ fun AccountBookHistoryItemContent(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = color,
-                modifier = Modifier.align(Alignment.CenterEnd).padding(top = 8.dp)
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(top = 8.dp)
             )
         }
-        Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp))
     }
 }
 
@@ -76,7 +81,9 @@ fun AccountBookHistoryItemHeader(
     expense: Long
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 16.dp, end = 16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 24.dp, start = 16.dp, end = 16.dp),
     ) {
         Row(
             verticalAlignment = Alignment.Bottom
