@@ -34,7 +34,6 @@ class MainActivity : ComponentActivity() {
                 val day = cursor.getInt(8)
                 val payment = Payment(
                     id,categoryId,paymentMethodId,name,methodType,money,year,month,day)
-                Log.d("Test", payment.toString())
             }
         }
     }

@@ -1,14 +1,11 @@
 package com.example.android_accountbook_13.di
 
-import com.example.android_accountbook_13.data.local.LocalRepositoryImpl
+import com.example.android_accountbook_13.domain.GetHistoryUseCase
 import com.example.android_accountbook_13.domain.LocalRepository
-import com.example.android_accountbook_13.domain.LocalUseCase
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -18,5 +15,5 @@ object UseCaseModule {
     @Provides
     fun providesLocalUseCase(
         repository: LocalRepository
-    ): LocalUseCase = LocalUseCase(repository)
+    ): GetHistoryUseCase = GetHistoryUseCase(repository)
 }
