@@ -1,12 +1,12 @@
 package com.example.android_accountbook_13.data.entity
 
 data class Payment(
-    val id: Long,
-    val categoryId: Long,
-    val paymentMethodId: Long,
+    val id: Int,
+    val categoryId: Int,
+    val paymentMethodId: Int,
     val name: String,
     val methodType: Boolean,
-    val money: Long,
+    val money: Int,
     val year: Int,
     val month: Int,
     val day: Int

@@ -77,8 +77,8 @@ fun AccountBookHistoryItemContent(
 @Composable
 fun AccountBookHistoryItemHeader(
     date: String,
-    income: Long,
-    expense: Long,
+    income: Int,
+    expense: Int,
     leftChecked: Boolean,
     rightChecked: Boolean,
 ) {

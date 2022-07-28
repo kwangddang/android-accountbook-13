@@ -54,11 +54,11 @@ fun HistoryScreen() {
 
         var leftChecked by rememberSaveable { mutableStateOf(true) }
         var rightChecked by rememberSaveable { mutableStateOf(true) }
-        var leftMoney by rememberSaveable { mutableStateOf(0L) }
-        var rightMoney by rememberSaveable { mutableStateOf(0L) }
+        var leftMoney by rememberSaveable { mutableStateOf(0) }
+        var rightMoney by rememberSaveable { mutableStateOf(0) }
 
-        var totalIncome = 0L
-        var totalExpense = 0L
+        var totalIncome = 0
+        var totalExpense = 0
 
         val checkedList = mutableListOf<HistoryItem>()
 
@@ -84,8 +84,8 @@ fun HistoryScreen() {
             if (checkedList.isNotEmpty()) {
                 LazyColumn {
                     group.forEach { (day, historyList) ->
-                        var income = 0L
-                        var expense = 0L
+                        var income = 0
+                        var expense = 0
                         for (item in historyList) {
                             if (item.payment.methodType) {
                                 income += item.payment.money
@@ -158,12 +158,12 @@ private fun willViewModel(checkedList: MutableList<HistoryItem>): Map<Int, List<
 
 @Composable
 private fun willDomain(
-    totalIncome: Long,
-    totalExpense: Long,
+    totalIncome: Int,
+    totalExpense: Int,
     leftChecked: Boolean,
     rightChecked: Boolean,
     checkedList: MutableList<HistoryItem>
-): Pair<Long, Long> {
+): Pair<Int, Int> {
     var totalIncome1 = totalIncome
     var totalExpense1 = totalExpense
     DummyData.historyItem.forEach { item ->

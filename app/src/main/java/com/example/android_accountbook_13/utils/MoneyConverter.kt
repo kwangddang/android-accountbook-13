@@ -1,6 +1,6 @@
 package com.example.android_accountbook_13.utils
 
-fun moneyConverter(money: Long) : String {
+fun moneyConverter(money: Int) : String {
     val moneyString = StringBuilder(money.toString()).reverse()
     val count = (moneyString.length - 1) / 3
     for(i in 1..count) {
