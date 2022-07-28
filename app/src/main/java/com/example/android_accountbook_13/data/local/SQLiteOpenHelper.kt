@@ -3,11 +3,10 @@ package com.example.android_accountbook_13.data.local
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class SQLiteOpenHelper
-constructor(
-    private val context: Context
-) : SQLiteOpenHelper(context, DB_NAME, null, 1) {
+class SQLiteOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 1) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
