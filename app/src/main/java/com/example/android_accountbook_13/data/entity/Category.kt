@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.data.model
+package com.example.android_accountbook_13.data.entity
 
 data class Category(
     val id: Long,

@@ -18,7 +18,7 @@ fun AccountBookApp() {
             scaffoldState = appState.scaffoldState,
             topBar = {
                 AccountBookTopAppBar(
-                    title = "",
+                    title = "2022년 7월",
                     leftVectorResource = R.drawable.ic_left,
                     rightVectorResource = R.drawable.ic_right,
                     onLeftClick = {},

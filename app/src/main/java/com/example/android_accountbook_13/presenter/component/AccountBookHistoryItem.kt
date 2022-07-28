@@ -12,38 +12,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.android_accountbook_13.data.model.Category
-import com.example.android_accountbook_13.data.model.Payment
-import com.example.android_accountbook_13.data.model.PaymentMethod
+import com.example.android_accountbook_13.data.HistoryItem
+import com.example.android_accountbook_13.data.entity.Category
+import com.example.android_accountbook_13.data.entity.Payment
+import com.example.android_accountbook_13.data.entity.PaymentMethod
 import com.example.android_accountbook_13.ui.theme.*
 import com.example.android_accountbook_13.utils.moneyConverter
 
 @Composable
 fun AccountBookHistoryItemContent(
-    payment: Payment,
-    category: Category,
-    paymentMethod: PaymentMethod,
+    historyItem: HistoryItem,
     onClick: () -> Unit,
     onLongClick: () -> Boolean
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+        modifier = Modifier.fillMaxWidth().padding(top = 8.dp,start = 16.dp, end = 16.dp)
     ) {
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
             AccountBookCategory(
-                title = category.name,
-                backgroundColor = Color(category.color),
+                title = historyItem.category.name,
+                backgroundColor = Color(historyItem.category.color),
                 modifier = Modifier.align(Alignment.CenterStart)
             )
-            Text(text = paymentMethod.name, fontSize = 12.sp, color = Purple, modifier = Modifier.align(Alignment.CenterEnd))
+            Text(text = historyItem.paymentMethod.name, fontSize = 12.sp, color = Purple, modifier = Modifier.align(Alignment.CenterEnd))
         }
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = payment.name,
+                text = historyItem.payment.name,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Purple,
@@ -51,12 +50,12 @@ fun AccountBookHistoryItemContent(
             )
             var color: Color
             var text: String
-            if(payment.methodType) {
+            if(historyItem.payment.methodType) {
                 color = Green6
-                text = "${moneyConverter(payment.money)}원"
+                text = "${moneyConverter(historyItem.payment.money)}원"
             } else {
                 color = Red
-                text = "-${moneyConverter(payment.money)}원"
+                text = "-${moneyConverter(historyItem.payment.money)}원"
             }
             Text(
                 text = text,
@@ -77,7 +76,7 @@ fun AccountBookHistoryItemHeader(
     expense: Long
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 16.dp, end = 16.dp),
     ) {
         Row(
             verticalAlignment = Alignment.Bottom
@@ -110,11 +109,13 @@ private fun HeaderText(text: String) {
 
 @Preview(showBackground = true)
 @Composable
-fun AccountBookHistoryItemContent() {
+private fun AccountBookHistoryItemContentPreview() {
     AccountBookHistoryItemContent(
-        payment = Payment(0, 0, 0, "스트리밍 서비스 정기 결제", true, 10900, 2022, 7, 15),
-        category = Category(0, "문화/여가", 0xFF40B98D),
-        paymentMethod = PaymentMethod(0, "현대카드"),
+        historyItem = HistoryItem(
+            payment = Payment(0, 0, 0, "스트리밍 서비스 정기 결제", true, 10900, 2022, 7, 15),
+            category = Category(0, "문화/여가", 0xFF40B98D),
+            paymentMethod = PaymentMethod(0, "현대카드"),
+        ),
         onClick = { /*TODO*/ }) {
         true
     }
@@ -122,6 +123,6 @@ fun AccountBookHistoryItemContent() {
 
 @Preview(showBackground = true)
 @Composable
-fun AccountBookHistoryHeaderPreview() {
+private fun AccountBookHistoryHeaderPreview() {
     AccountBookHistoryItemHeader("7월 15일 금", 0, 56240)
 }
