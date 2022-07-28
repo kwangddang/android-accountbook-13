@@ -78,7 +78,9 @@ fun AccountBookHistoryItemContent(
 fun AccountBookHistoryItemHeader(
     date: String,
     income: Long,
-    expense: Long
+    expense: Long,
+    leftChecked: Boolean,
+    rightChecked: Boolean,
 ) {
     Column(
         modifier = Modifier
@@ -94,10 +96,14 @@ fun AccountBookHistoryItemHeader(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                HeaderText("수입")
-                HeaderText(moneyConverter(income))
-                HeaderText("지출")
-                HeaderText(moneyConverter(expense))
+                if(leftChecked){
+                    HeaderText("수입")
+                    HeaderText(moneyConverter(income))
+                }
+                if(rightChecked){
+                    HeaderText("지출")
+                    HeaderText(moneyConverter(expense))
+                }
             }
         }
         Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp))
@@ -131,5 +137,5 @@ private fun AccountBookHistoryItemContentPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun AccountBookHistoryHeaderPreview() {
-    AccountBookHistoryItemHeader("7월 15일 금", 0, 56240)
+    AccountBookHistoryItemHeader("7월 15일 금", 0, 56240,true,true)
 }

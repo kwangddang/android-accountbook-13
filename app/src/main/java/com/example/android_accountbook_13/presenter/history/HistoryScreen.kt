@@ -1,18 +1,20 @@
 package com.example.android_accountbook_13.presenter.history
 
-import android.util.Log
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.runtime.*
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.android_accountbook_13.data.DummyData
@@ -24,25 +26,32 @@ import com.example.android_accountbook_13.presenter.component.AccountBookHistory
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HistoryScreen() {
-    Surface() {
-
-    }
     Scaffold(
         floatingActionButton = {
             AccountBookFab(onClick = {})
         },
         backgroundColor = MaterialTheme.colors.background
     ) {
-        /**
-         * 수입 지출 표시, 목록 아이템 순서 이상해지는 거 수정, 날이 바뀔 때 디바이더 추가
-         */
+
         var leftChecked by rememberSaveable { mutableStateOf(true) }
         var rightChecked by rememberSaveable { mutableStateOf(true) }
         var leftMoney by rememberSaveable { mutableStateOf(0L) }
         var rightMoney by rememberSaveable { mutableStateOf(0L) }
+
+        var totalIncome = 0L
+        var totalExpense = 0L
+
+        val checkedList = mutableListOf<HistoryItem>()
+
+        /*TODO Domain 영역에서 처리?*/
+        val pair = willDomain(totalIncome, totalExpense, leftChecked, rightChecked, checkedList)
+        totalExpense = pair.first
+        totalIncome = pair.second
+
+        /*TODO ViewModel에서 처리?*/
+        val group = willViewModel(checkedList)
 
         Column {
             AccountBookFilterButton(
@@ -55,61 +64,112 @@ fun HistoryScreen() {
                 onLeftCheckedChange = { leftChecked = !leftChecked },
                 onRightCheckedChange = { rightChecked = !rightChecked },
             )
-            // TODO: This ideally would be done in the ViewModel
-            val grouped = DummyData.historyItem.groupBy { it.payment.day }
-            var totalIncome = 0L
-            var totalExpense = 0L
-            LazyColumn {
-                grouped.forEach { (day, historyList) ->
-                    var income = 0L
-                    var expense = 0L
-                    for (item in historyList) {
-                        if (item.payment.methodType) {
-                            income = item.payment.money
-                            totalIncome = item.payment.money
-                        } else {
-                            expense += item.payment.money
-                            totalExpense += item.payment.money
+            if (checkedList.isNotEmpty()) {
+                LazyColumn {
+                    group.forEach { (day, historyList) ->
+                        var income = 0L
+                        var expense = 0L
+                        for (item in historyList) {
+                            if (item.payment.methodType) {
+                                income += item.payment.money
+                            } else {
+                                expense += item.payment.money
+                            }
                         }
-                    }
-
-                    item {
-                        AccountBookHistoryItemHeader(
-                            date = "7월 ${day}일",
-                            income = income,
-                            expense = expense
-                        )
-                    }
-
-                    val historyItems: MutableList<HistoryItem> = historyList.toMutableList()
-                    val lastHistoryItem = historyItems[historyItems.lastIndex]
-                    historyItems.removeLast()
-
-                    items(historyItems) { item ->
-                        AccountBookHistoryItemContent(
-                            item,
-                            onClick = { /*TODO*/ }) {
-                            true
+                        /**
+                         * Header
+                         */
+                        item {
+                            AccountBookHistoryItemHeader(
+                                date = "7월 ${day}일",
+                                income = income,
+                                expense = expense,
+                                leftChecked,
+                                rightChecked
+                            )
                         }
-                        Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp))
-                    }
 
-                    item {
-                        AccountBookHistoryItemContent(
-                            lastHistoryItem,
-                            onClick = { /*TODO*/ }) {
-                            true
+                        val historyItems: MutableList<HistoryItem> = historyList.toMutableList()
+                        val lastHistoryItem = historyItems.removeLast()
+
+                        /**
+                         * Content
+                         */
+                        items(historyItems) { item ->
+                            AccountBookHistoryItemContent(
+                                item,
+                                onClick = { /*TODO*/ }) {
+                                true
+                            }
+                            Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp))
                         }
-                    }
 
-                    item {
-                        Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
+                        /**
+                         * LastItem
+                         */
+
+                        item {
+                            AccountBookHistoryItemContent(
+                                lastHistoryItem,
+                                onClick = { /*TODO*/ }) {
+                                true
+                            }
+                        }
+
+                        /**
+                         * Footer
+                         */
+                        item {
+                            Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
+                        }
+
                     }
                 }
-            }
+            } else { BlankScreen() }
             leftMoney = totalIncome
             rightMoney = totalExpense
         }
+    }
+}
+
+@Composable
+private fun willViewModel(checkedList: MutableList<HistoryItem>): Map<Int, List<HistoryItem>> {
+    return checkedList.groupBy { it.payment.day }
+}
+
+@Composable
+private fun willDomain(
+    totalIncome: Long,
+    totalExpense: Long,
+    leftChecked: Boolean,
+    rightChecked: Boolean,
+    checkedList: MutableList<HistoryItem>
+): Pair<Long, Long> {
+    var totalIncome1 = totalIncome
+    var totalExpense1 = totalExpense
+    DummyData.historyItem.forEach { item ->
+        if (item.payment.methodType) {
+            totalIncome1 += item.payment.money
+        } else {
+            totalExpense1 += item.payment.money
+        }
+        if ((item.payment.methodType && leftChecked) || !item.payment.methodType && rightChecked) {
+            checkedList.add(item)
+        }
+    }
+    return Pair(totalExpense1, totalIncome1)
+}
+
+
+@Composable
+private fun BlankScreen() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(
+            text = "내역이 없습니다.",
+            style = MaterialTheme.typography.h5,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
     }
 }
 
