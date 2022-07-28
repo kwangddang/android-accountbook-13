@@ -1,10 +1,8 @@
 package com.example.android_accountbook_13
 
-import com.example.android_accountbook_13.ui.theme.Pink1
-import com.example.android_accountbook_13.utils.moneyConverter
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
+import org.threeten.bp.LocalDate
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -14,6 +12,6 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, "0xffffffff".toLong().toString())
+        assertEquals(4, LocalDate.now().toString())
     }
 }

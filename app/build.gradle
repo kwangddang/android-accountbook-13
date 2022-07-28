@@ -49,6 +49,9 @@ android {
 
 dependencies {
 
+    //ThreeTenABP
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
+
     //Hilt
     implementation "androidx.hilt:hilt-navigation-compose:${hilt_navigation_version}"
     implementation "com.google.dagger:hilt-android:${hilt_version}"
