@@ -1,6 +1,9 @@
 package com.example.android_accountbook_13.presenter.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,11 +19,13 @@ import com.example.android_accountbook_13.presenter.statistic.StatisticScreen
 @Composable
 fun AccountBookNavHost(
     navController: NavHostController,
+    innerPaddingModifier: PaddingValues,
     startDestination: String = History.route
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        modifier = Modifier.padding(innerPaddingModifier)
     ) {
         composable(History.route) {
             HistoryScreen()

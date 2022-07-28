@@ -7,24 +7,15 @@ import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.presenter.component.AccountBookBottomAppBar
 import com.example.android_accountbook_13.presenter.component.AccountBookTopAppBar
 import com.example.android_accountbook_13.presenter.navigation.AccountBookNavHost
-import com.example.android_accountbook_13.ui.theme.MyTheme
+import com.example.android_accountbook_13.ui.theme.AccountBookTheme
 
 @Composable
 fun AccountBookApp() {
-    MyTheme {
+    AccountBookTheme {
         val appState = rememberAccountBookAppState()
 
         Scaffold(
             scaffoldState = appState.scaffoldState,
-            topBar = {
-                AccountBookTopAppBar(
-                    title = "",
-                    leftVectorResource = R.drawable.ic_left,
-                    rightVectorResource = R.drawable.ic_right,
-                    onLeftClick = {},
-                    onRightClick = {}
-                )
-            },
             bottomBar = {
                 AccountBookBottomAppBar(
                     destination = appState.currentScreen ?: History,
@@ -33,9 +24,10 @@ fun AccountBookApp() {
                     }
                 )
             }
-        ) {
+        ) { innerPadding ->
             AccountBookNavHost(
                 appState.navController,
+                innerPadding,
                 History.route
             )
         }
