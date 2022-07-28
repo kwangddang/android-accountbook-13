@@ -117,13 +117,16 @@ fun AccountBookFilterButton(
     leftString: String = stringResource(id = R.string.text_income),
     rightString: String = stringResource(id = R.string.text_expense),
     modifier: Modifier = Modifier,
-    onLeftClick: () -> Unit = {},
-    onRightClick: () -> Unit = {},
-    onLeftCheckedChange: (Boolean) -> Unit = {},
-    onRightCheckedChange: (Boolean) -> Unit = {},
+    onLeftClick: () -> Unit,
+    onRightClick: () -> Unit,
+    onLeftCheckedChange: (Boolean) -> Unit,
+    onRightCheckedChange: (Boolean) -> Unit,
 ) {
     AccountBookTheme {
-        Row {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(top = 16 .dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
             ThinButton(
                 shape = RoundedCornerShape(
                     topStart = radiusDP.topStart,
@@ -251,5 +254,9 @@ private fun FilterButtonPreview() {
         rightChecked = true,
         leftMoney = 1000,
         rightMoney = 200000,
+        onRightClick = {},
+        onLeftClick = {},
+        onLeftCheckedChange = {},
+        onRightCheckedChange = {}
     )
 }
