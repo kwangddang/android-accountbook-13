@@ -87,7 +87,7 @@ fun HistoryScreen() {
                         var income = 0
                         var expense = 0
                         for (item in historyList) {
-                            if (item.payment.methodType) {
+                            if (item.payment.methodType == 1) {
                                 income += item.payment.money
                             } else {
                                 expense += item.payment.money
@@ -167,12 +167,12 @@ private fun willDomain(
     var totalIncome1 = totalIncome
     var totalExpense1 = totalExpense
     DummyData.historyItem.forEach { item ->
-        if (item.payment.methodType) {
+        if (item.payment.methodType == 1) {
             totalIncome1 += item.payment.money
         } else {
             totalExpense1 += item.payment.money
         }
-        if ((item.payment.methodType && leftChecked) || !item.payment.methodType && rightChecked) {
+        if ((item.payment.methodType == 1 && leftChecked) || item.payment.methodType == 0 && rightChecked) {
             checkedList.add(item)
         }
     }

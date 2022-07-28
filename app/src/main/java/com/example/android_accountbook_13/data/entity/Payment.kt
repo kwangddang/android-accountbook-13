@@ -5,7 +5,7 @@ data class Payment(
     val categoryId: Int,
     val paymentMethodId: Int,
     val name: String,
-    val methodType: Boolean,
+    val methodType: Int,
     val money: Int,
     val year: Int,
     val month: Int,

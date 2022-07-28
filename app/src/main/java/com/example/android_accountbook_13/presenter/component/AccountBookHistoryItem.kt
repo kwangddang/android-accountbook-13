@@ -54,7 +54,7 @@ fun AccountBookHistoryItemContent(
             )
             var color: Color
             var text: String
-            if (historyItem.payment.methodType) {
+            if (historyItem.payment.methodType == 1) {
                 color = Green6
                 text = "${moneyConverter(historyItem.payment.money)}원"
             } else {
@@ -125,7 +125,7 @@ private fun HeaderText(text: String) {
 private fun AccountBookHistoryItemContentPreview() {
     AccountBookHistoryItemContent(
         historyItem = HistoryItem(
-            payment = Payment(0, 0, 0, "스트리밍 서비스 정기 결제", true, 10900, 2022, 7, 15),
+            payment = Payment(0, 0, 0, "스트리밍 서비스 정기 결제", 1, 10900, 2022, 7, 15),
             category = Category(0, "문화/여가", "#40B98D"),
             paymentMethod = PaymentMethod(0, "현대카드"),
         ),
