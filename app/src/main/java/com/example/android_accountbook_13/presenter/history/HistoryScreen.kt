@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.DummyData
-import com.example.android_accountbook_13.data.HistoryItem
+import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.presenter.component.*
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
@@ -60,7 +60,7 @@ fun HistoryScreen() {
         var totalIncome = 0
         var totalExpense = 0
 
-        val checkedList = mutableListOf<HistoryItem>()
+        val checkedList = mutableListOf<AccountBookItem>()
 
         /*TODO Domain 영역에서 처리?*/
         val pair = willDomain(totalIncome, totalExpense, leftChecked, rightChecked, checkedList)
@@ -87,17 +87,17 @@ fun HistoryScreen() {
                         var income = 0
                         var expense = 0
                         for (item in historyList) {
-                            if (item.payment.methodType == 1) {
-                                income += item.payment.money
+                            if (item.history.methodType == 1) {
+                                income += item.history.money
                             } else {
-                                expense += item.payment.money
+                                expense += item.history.money
                             }
                         }
                         /**
                          * Header
                          */
                         item {
-                            AccountBookHistoryItemHeader(
+                            AccountBookItemHeader(
                                 date = "7월 ${day}일",
                                 income = income,
                                 expense = expense,
@@ -106,14 +106,14 @@ fun HistoryScreen() {
                             )
                         }
 
-                        val historyItems: MutableList<HistoryItem> = historyList.toMutableList()
-                        val lastHistoryItem = historyItems.removeLast()
+                        val accountBookItems: MutableList<AccountBookItem> = historyList.toMutableList()
+                        val lastAccountBookItem = accountBookItems.removeLast()
 
                         /**
                          * Content
                          */
-                        items(historyItems) { item ->
-                            AccountBookHistoryItemContent(
+                        items(accountBookItems) { item ->
+                            AccountBookItemContent(
                                 item,
                                 onClick = { /*TODO*/ }) {
                                 true
@@ -126,8 +126,8 @@ fun HistoryScreen() {
                          */
 
                         item {
-                            AccountBookHistoryItemContent(
-                                lastHistoryItem,
+                            AccountBookItemContent(
+                                lastAccountBookItem,
                                 onClick = { /*TODO*/ }) {
                                 true
                             }
@@ -152,8 +152,8 @@ fun HistoryScreen() {
 }
 
 @Composable
-private fun willViewModel(checkedList: MutableList<HistoryItem>): Map<Int, List<HistoryItem>> {
-    return checkedList.groupBy { it.payment.day }
+private fun willViewModel(checkedList: MutableList<AccountBookItem>): Map<Int, List<AccountBookItem>> {
+    return checkedList.groupBy { it.history.day }
 }
 
 @Composable
@@ -162,17 +162,17 @@ private fun willDomain(
     totalExpense: Int,
     leftChecked: Boolean,
     rightChecked: Boolean,
-    checkedList: MutableList<HistoryItem>
+    checkedList: MutableList<AccountBookItem>
 ): Pair<Int, Int> {
     var totalIncome1 = totalIncome
     var totalExpense1 = totalExpense
-    DummyData.historyItem.forEach { item ->
-        if (item.payment.methodType == 1) {
-            totalIncome1 += item.payment.money
+    DummyData.accountBookItems.forEach { item ->
+        if (item.history.methodType == 1) {
+            totalIncome1 += item.history.money
         } else {
-            totalExpense1 += item.payment.money
+            totalExpense1 += item.history.money
         }
-        if ((item.payment.methodType == 1 && leftChecked) || item.payment.methodType == 0 && rightChecked) {
+        if ((item.history.methodType == 1 && leftChecked) || item.history.methodType == 0 && rightChecked) {
             checkedList.add(item)
         }
     }
