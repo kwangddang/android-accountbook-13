@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.domain
+package com.example.android_accountbook_13.data.local.repository
 
 import android.database.Cursor
 

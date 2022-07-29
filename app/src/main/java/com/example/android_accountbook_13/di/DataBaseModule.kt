@@ -1,7 +1,6 @@
 package com.example.android_accountbook_13.di
 
 import android.content.Context
-import com.example.android_accountbook_13.data.local.LocalDataSource
 import com.example.android_accountbook_13.data.local.SQLiteOpenHelper
 import dagger.Module
 import dagger.Provides
@@ -17,9 +16,4 @@ object DataBaseModule {
     @Provides
     fun provideSQLiteOpenHelper(@ApplicationContext context: Context) : SQLiteOpenHelper =
         SQLiteOpenHelper(context)
-
-    @Singleton
-    @Provides
-    fun provideLocalDataSource(sqLiteOpenHelper: SQLiteOpenHelper) : LocalDataSource =
-        LocalDataSource(sqLiteOpenHelper)
 }

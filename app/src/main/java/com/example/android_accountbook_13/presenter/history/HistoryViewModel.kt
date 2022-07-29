@@ -2,17 +2,10 @@ package com.example.android_accountbook_13.presenter.history
 
 import androidx.lifecycle.ViewModel
 import com.example.android_accountbook_13.data.HistoryItem
-import com.example.android_accountbook_13.domain.GetHistoryUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
-import javax.inject.Inject
 
-@HiltViewModel
-class HistoryViewModel @Inject constructor(
-    private val getHistoryUseCase: GetHistoryUseCase
-) : ViewModel(){
+class HistoryViewModel  constructor() : ViewModel(){
     private val _historyItems = MutableStateFlow<List<HistoryItem>>(emptyList())
     val historyItems: StateFlow<List<HistoryItem>> get() = _historyItems
 
@@ -26,10 +19,6 @@ class HistoryViewModel @Inject constructor(
     val totalExpense: StateFlow<Int> get() = _totalExpense
 
     var itemsByDay = mapOf<Int,List<HistoryItem>>()
-
-    fun getHistory(month: Int) {
-        _historyItems.value = getHistoryUseCase(month)
-    }
 
     fun getCheckedHistory(num: Int) {
         if(num > 1)
