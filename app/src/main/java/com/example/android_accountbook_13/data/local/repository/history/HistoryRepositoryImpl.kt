@@ -18,16 +18,22 @@ private val localDataSource: LocalDataSourceImpl
         return DataResponse.Success(itemList)
     }
 
-    override fun insertHistory(history: History): Result<Unit> {
-        TODO("Not yet implemented")
+    override fun insertHistory(history: History): DataResponse<Unit> {
+        if(localDataSource.insertHistory(history).getOrNull() == null)
+            return DataResponse.Error()
+        return DataResponse.Success(Unit)
     }
 
-    override fun updateHistory(history: History): Result<Unit> {
-        TODO("Not yet implemented")
+    override fun updateHistory(history: History): DataResponse<Unit> {
+        if(localDataSource.updateHistory(history).getOrNull() == null)
+            return DataResponse.Error()
+        return DataResponse.Success(Unit)
     }
 
-    override fun deleteHistory(history: History): Result<Unit> {
-        TODO("Not yet implemented")
+    override fun deleteHistory(historyId: Int): DataResponse<Unit> {
+        if(localDataSource.deleteHistory(historyId).getOrNull() == null)
+            return DataResponse.Error()
+        return DataResponse.Success(Unit)
     }
 
 }

@@ -5,6 +5,7 @@ import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
 import com.example.android_accountbook_13.data.local.datasource.LocalDataSourceImpl
+import com.example.android_accountbook_13.utils.getCategoryFromCursor
 import com.example.android_accountbook_13.utils.getHistoryFromCursor
 import com.example.android_accountbook_13.utils.getMethodFromCursor
 import javax.inject.Inject
@@ -21,19 +22,27 @@ class MethodRepositoryImpl @Inject constructor(
         return DataResponse.Success(itemList)
     }
 
-    override fun getMethod(id: Int): DataResponse<List<Method>> {
-        TODO("Not yet implemented")
+    override fun getMethod(id: Int): DataResponse<Method> {
+        val cursor = localDataSource.getMethod(id).getOrNull() ?: return DataResponse.Error()
+        cursor.moveToNext()
+        return DataResponse.Success(getMethodFromCursor(cursor,0))
     }
 
-    override fun insertMethod(method : Method): Result<Unit> {
-        TODO("Not yet implemented")
+    override fun insertMethod(method : Method): DataResponse<Unit> {
+        if(localDataSource.insertMethod(method).getOrNull() == null)
+            return DataResponse.Error()
+        return DataResponse.Success(Unit)
     }
 
-    override fun updateMethod(method : Method): Result<Unit> {
-        TODO("Not yet implemented")
+    override fun updateMethod(method : Method): DataResponse<Unit> {
+        if(localDataSource.updateMethod(method).getOrNull() == null)
+            return DataResponse.Error()
+        return DataResponse.Success(Unit)
     }
 
-    override fun deleteMethod(method : Method): Result<Unit> {
-        TODO("Not yet implemented")
+    override fun deleteMethod(methodId: Int): DataResponse<Unit> {
+        if(localDataSource.deleteMethod(methodId).getOrNull() == null)
+            return DataResponse.Error()
+        return DataResponse.Success(Unit)
     }
 }

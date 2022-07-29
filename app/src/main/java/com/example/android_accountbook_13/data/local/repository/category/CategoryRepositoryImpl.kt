@@ -25,16 +25,22 @@ class CategoryRepositoryImpl @Inject constructor(
         return DataResponse.Success(getCategoryFromCursor(cursor,0))
     }
 
-    override fun insertCategory(category: Category): Result<Unit> {
-        TODO("Not yet implemented")
+    override fun insertCategory(category: Category): DataResponse<Unit> {
+        if(localDataSource.insertCategory(category).getOrNull() == null)
+            return DataResponse.Error()
+        return DataResponse.Success(Unit)
     }
 
-    override fun updateCategory(category: Category): Result<Unit> {
-        TODO("Not yet implemented")
+    override fun updateCategory(category: Category): DataResponse<Unit> {
+        if(localDataSource.updateCategory(category).getOrNull() == null)
+            return DataResponse.Error()
+        return DataResponse.Success(Unit)
     }
 
-    override fun deleteCategory(category: Category): Result<Unit> {
-        TODO("Not yet implemented")
+    override fun deleteCategory(categoryId: Int): DataResponse<Unit> {
+        if(localDataSource.deleteCategory(categoryId).getOrNull() == null)
+            return DataResponse.Error()
+        return DataResponse.Success(Unit)
     }
 
 }
