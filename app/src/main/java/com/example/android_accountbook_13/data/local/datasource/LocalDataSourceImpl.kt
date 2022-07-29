@@ -5,8 +5,9 @@ import com.example.android_accountbook_13.data.HistoryItem
 import com.example.android_accountbook_13.data.entity.Category
 import com.example.android_accountbook_13.data.entity.PaymentMethod
 import com.example.android_accountbook_13.data.local.SQLiteOpenHelper
+import javax.inject.Inject
 
-class LocalDataSourceImpl(
+class LocalDataSourceImpl @Inject constructor(
     private val db: SQLiteOpenHelper
 ): LocalDataSource {
     /**

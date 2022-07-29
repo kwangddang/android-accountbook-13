@@ -1,7 +1,7 @@
 package com.example.android_accountbook_13.di
 
-import com.example.android_accountbook_13.data.local.repository.LocalRepository
-import com.example.android_accountbook_13.data.local.repository.LocalRepositoryImpl
+import com.example.android_accountbook_13.data.local.datasource.LocalDataSource
+import com.example.android_accountbook_13.data.local.datasource.LocalDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,6 +13,6 @@ abstract
 class DataSourceModule {
     @Binds
     abstract fun provideLocalDataSource(
-        localRepositoryImpl: LocalRepositoryImpl
-    ): LocalRepository
+        localDateSourceImpl: LocalDataSourceImpl
+    ): LocalDataSource
 }
