@@ -10,11 +10,11 @@ class SQLiteOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
-            "CREATE TABLE payment(id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "categoryId INTEGER," +
-                    "paymentMethodId INTEGER," +
+            "CREATE TABLE history(id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "category_id INTEGER," +
+                    "method_id INTEGER," +
                     "name TEXT," +
-                    "methodType INTEGER," +
+                    "method_type INTEGER," +
                     "money INTEGER," +
                     "year INTEGER," +
                     "month INTEGER," +
@@ -26,15 +26,15 @@ class SQLiteOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
                     "color TEXT)"
         )
         db?.execSQL(
-            "CREATE TABLE payment_method(id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "CREATE TABLE method(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "name TEXT)"
         )
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS payment")
+        db?.execSQL("DROP TABLE IF EXISTS history")
         db?.execSQL("DROP TABLE IF EXISTS category")
-        db?.execSQL("DROP TABLE IF EXISTS payment_method")
+        db?.execSQL("DROP TABLE IF EXISTS method")
         onCreate(db)
     }
 

@@ -1,7 +1,7 @@
 package com.example.android_accountbook_13.data.local.repository.method
 
 import android.database.Cursor
-import com.example.android_accountbook_13.data.entity.Method
+import com.example.android_accountbook_13.data.dto.Method
 
 interface MethodRepository {
     fun getAllMethod(): Result<Cursor>

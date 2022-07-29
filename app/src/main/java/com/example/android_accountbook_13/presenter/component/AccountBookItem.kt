@@ -12,10 +12,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.android_accountbook_13.data.AccountBookItem
-import com.example.android_accountbook_13.data.entity.Category
-import com.example.android_accountbook_13.data.entity.History
-import com.example.android_accountbook_13.data.entity.Method
+import com.example.android_accountbook_13.data.dto.AccountBookItem
+import com.example.android_accountbook_13.data.dto.Category
+import com.example.android_accountbook_13.data.dto.History
+import com.example.android_accountbook_13.data.dto.Method
 import com.example.android_accountbook_13.ui.theme.*
 import com.example.android_accountbook_13.utils.moneyConverter
 

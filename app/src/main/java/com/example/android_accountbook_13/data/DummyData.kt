@@ -1,8 +1,9 @@
 package com.example.android_accountbook_13.data
 
-import com.example.android_accountbook_13.data.entity.Category
-import com.example.android_accountbook_13.data.entity.History
-import com.example.android_accountbook_13.data.entity.Method
+import com.example.android_accountbook_13.data.dto.AccountBookItem
+import com.example.android_accountbook_13.data.dto.Category
+import com.example.android_accountbook_13.data.dto.History
+import com.example.android_accountbook_13.data.dto.Method
 
 object DummyData {
     val accountBookItems = listOf<AccountBookItem>(

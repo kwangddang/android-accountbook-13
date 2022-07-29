@@ -1,7 +1,7 @@
 package com.example.android_accountbook_13.presenter.history
 
 import androidx.lifecycle.ViewModel
-import com.example.android_accountbook_13.data.AccountBookItem
+import com.example.android_accountbook_13.data.dto.AccountBookItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

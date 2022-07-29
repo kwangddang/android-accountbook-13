@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.data.entity
+package com.example.android_accountbook_13.data.dto
 
 data class History(
     val id: Int,

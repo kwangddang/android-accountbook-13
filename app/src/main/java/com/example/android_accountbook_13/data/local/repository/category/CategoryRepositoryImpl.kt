@@ -2,7 +2,7 @@
 package com.example.android_accountbook_13.data.local.repository.category
 
 import android.database.Cursor
-import com.example.android_accountbook_13.data.entity.Category
+import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.local.datasource.LocalDataSourceImpl
 import javax.inject.Inject
 

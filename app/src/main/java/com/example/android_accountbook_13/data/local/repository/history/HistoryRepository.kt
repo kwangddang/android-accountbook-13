@@ -1,7 +1,6 @@
 package com.example.android_accountbook_13.data.local.repository.history
 
 import android.database.Cursor
-import com.example.android_accountbook_13.data.AccountBookItem
 import com.example.android_accountbook_13.presenter.History
 
 interface HistoryRepository {
