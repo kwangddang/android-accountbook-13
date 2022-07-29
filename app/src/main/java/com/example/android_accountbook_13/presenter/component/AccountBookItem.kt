@@ -125,7 +125,7 @@ private fun HeaderText(text: String) {
 private fun AccountBookItemContentPreview() {
     AccountBookItemContent(
         accountBookItem = AccountBookItem(
-            history = History(0, 0, 0, "스트리밍 서비스 정기 결제", 1, 10900, 2022, 7, 15),
+            history = History( 0, 0, 0, "스트리밍 서비스 정기 결제", 1, 10900, 2022, 7, 15),
             category = Category(0, "문화/여가", "#40B98D"),
             method = Method(0, "현대카드"),
         ),
