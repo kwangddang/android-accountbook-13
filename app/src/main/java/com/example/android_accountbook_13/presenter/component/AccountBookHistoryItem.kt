@@ -35,7 +35,7 @@ fun AccountBookHistoryItemContent(
         ) {
             AccountBookCategory(
                 title = historyItem.category.name,
-                backgroundColor = Color(historyItem.category.color),
+                backgroundColor = Color(android.graphics.Color.parseColor(historyItem.category.color)),
                 modifier = Modifier.align(Alignment.CenterStart)
             )
             Text(text = historyItem.paymentMethod.name, fontSize = 12.sp, color = Purple, modifier = Modifier.align(Alignment.CenterEnd))
@@ -54,7 +54,7 @@ fun AccountBookHistoryItemContent(
             )
             var color: Color
             var text: String
-            if (historyItem.payment.methodType) {
+            if (historyItem.payment.methodType == 1) {
                 color = Green6
                 text = "${moneyConverter(historyItem.payment.money)}원"
             } else {
@@ -77,8 +77,8 @@ fun AccountBookHistoryItemContent(
 @Composable
 fun AccountBookHistoryItemHeader(
     date: String,
-    income: Long,
-    expense: Long,
+    income: Int,
+    expense: Int,
     leftChecked: Boolean,
     rightChecked: Boolean,
 ) {
@@ -125,8 +125,8 @@ private fun HeaderText(text: String) {
 private fun AccountBookHistoryItemContentPreview() {
     AccountBookHistoryItemContent(
         historyItem = HistoryItem(
-            payment = Payment(0, 0, 0, "스트리밍 서비스 정기 결제", true, 10900, 2022, 7, 15),
-            category = Category(0, "문화/여가", 0xFF40B98D),
+            payment = Payment(0, 0, 0, "스트리밍 서비스 정기 결제", 1, 10900, 2022, 7, 15),
+            category = Category(0, "문화/여가", "#40B98D"),
             paymentMethod = PaymentMethod(0, "현대카드"),
         ),
         onClick = { /*TODO*/ }) {
