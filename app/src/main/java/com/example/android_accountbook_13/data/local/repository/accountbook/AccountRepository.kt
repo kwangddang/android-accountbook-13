@@ -1,8 +1,8 @@
 package com.example.android_accountbook_13.data.local.repository.accountbook
 
-import android.database.Cursor
-import com.example.android_accountbook_13.data.dto.Category
+import com.example.android_accountbook_13.data.DataResponse
+import com.example.android_accountbook_13.data.dto.AccountBookItem
 
 interface AccountRepository {
-    fun getAccountBook(): Result<Cursor>
+    fun getAccountBook(month: Int): DataResponse<List<AccountBookItem>>
 }

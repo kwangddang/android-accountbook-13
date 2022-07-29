@@ -23,5 +23,5 @@ interface LocalDataSource {
     fun updateMethod(method: Method): Result<Unit>
     fun deleteMethod(methodId: Int): Result<Unit>
 
-    fun getAccountBook(): Result<Cursor>
+    fun getAccountBook(month: Int): Result<Cursor>
 }
