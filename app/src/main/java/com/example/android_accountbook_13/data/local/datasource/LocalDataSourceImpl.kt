@@ -1,9 +1,10 @@
 package com.example.android_accountbook_13.data.local.datasource
 
 import android.database.Cursor
-import com.example.android_accountbook_13.data.HistoryItem
+import com.example.android_accountbook_13.data.AccountBookItem
 import com.example.android_accountbook_13.data.entity.Category
-import com.example.android_accountbook_13.data.entity.PaymentMethod
+import com.example.android_accountbook_13.data.entity.History
+import com.example.android_accountbook_13.data.entity.Method
 import com.example.android_accountbook_13.data.local.SQLiteOpenHelper
 import javax.inject.Inject
 
@@ -18,17 +19,18 @@ class LocalDataSourceImpl @Inject constructor(
             "SELECT * FROM payment WHERE month like ${month};",null
         ) }
 
-    override fun insertHistory(historyItem: HistoryItem): Result<Unit> {
+    override fun insertHistory(history: History): Result<Unit> {
         TODO("Not yet implemented")
     }
 
-    override fun updateHistory(historyItem: HistoryItem): Result<Unit> {
+    override fun updateHistory(history: History): Result<Unit> {
         TODO("Not yet implemented")
     }
 
-    override fun deleteHistory(historyItem: HistoryItem): Result<Unit> {
+    override fun deleteHistory(history: History): Result<Unit> {
         TODO("Not yet implemented")
     }
+
 
     /**
      * Category
@@ -59,32 +61,32 @@ class LocalDataSourceImpl @Inject constructor(
     }
 
     /**
-     * PaymentMethod
+     * Method
      */
 
-    override fun getAllPaymentMethod(): Result<Cursor> =
+    override fun getAllMethod(): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
                 "SELECT * FROM payment_method;", null
             )
         }
 
-    override fun getPaymentMethod(id: Int): Result<Cursor> =
+    override fun getMethod(id: Int): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
                 "SELECT * FROM payment_method WHERE id like ${id};", null
             )
         }
 
-    override fun insertPaymentMethod(paymentMethod: PaymentMethod): Result<Unit> {
+    override fun insertMethod(method: Method): Result<Unit> {
         TODO("Not yet implemented")
     }
 
-    override fun updatePaymentMethod(paymentMethod: PaymentMethod): Result<Unit> {
+    override fun updateMethod(method: Method): Result<Unit> {
         TODO("Not yet implemented")
     }
 
-    override fun deletePaymentMethod(paymentMethod: PaymentMethod): Result<Unit> {
+    override fun deleteMethod(method: Method): Result<Unit> {
         TODO("Not yet implemented")
     }
 

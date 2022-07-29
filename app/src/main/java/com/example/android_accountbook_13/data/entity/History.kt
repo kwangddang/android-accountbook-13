@@ -1,9 +1,9 @@
 package com.example.android_accountbook_13.data.entity
 
-data class Payment(
+data class History(
     val id: Int,
     val categoryId: Int,
-    val paymentMethodId: Int,
+    val methodId: Int,
     val name: String,
     val methodType: Int,
     val money: Int,

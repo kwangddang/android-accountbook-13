@@ -4,8 +4,8 @@ import com.example.android_accountbook_13.data.local.repository.category.Categor
 import com.example.android_accountbook_13.data.local.repository.category.CategoryRepositoryImpl
 import com.example.android_accountbook_13.data.local.repository.history.HistoryRepository
 import com.example.android_accountbook_13.data.local.repository.history.HistoryRepositoryImpl
-import com.example.android_accountbook_13.data.local.repository.method.PaymentMethodRepository
-import com.example.android_accountbook_13.data.local.repository.method.PaymentMethodRepositoryImpl
+import com.example.android_accountbook_13.data.local.repository.method.MethodRepository
+import com.example.android_accountbook_13.data.local.repository.method.MethodRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -26,7 +26,7 @@ class RepositoryModule {
     ): CategoryRepository
 
     @Binds
-    abstract fun providePaymentMethodRepository(
-        paymentMethodRepositoryImpl: PaymentMethodRepositoryImpl
-    ): PaymentMethodRepository
+    abstract fun provideMethodRepository(
+        MethodRepositoryImpl: MethodRepositoryImpl
+    ): MethodRepository
 }
