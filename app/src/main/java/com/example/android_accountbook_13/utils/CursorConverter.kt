@@ -24,8 +24,9 @@ fun getCategoryFromCursor(cursor: Cursor,startIndex: Int): Category {
     val id = cursor.getInt(index++)
     val name = cursor.getString(index++)
     val color = cursor.getString(index++)
+    val type = cursor.getInt(index++)
 
-    return Category(id,name, color)
+    return Category(id,name, color, type)
 }
 
 fun getMethodFromCursor(cursor: Cursor,startIndex: Int): Method {

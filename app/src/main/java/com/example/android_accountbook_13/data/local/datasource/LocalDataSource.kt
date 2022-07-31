@@ -12,7 +12,8 @@ interface LocalDataSource {
     fun deleteHistory(historyId: Int): Result<Unit>
 
     fun getAllCategory(): Result<Cursor>
-    fun getCategory(id: Int): Result<Cursor>
+    fun getIncomeCategory(): Result<Cursor>
+    fun getExpenseCategory(): Result<Cursor>
     fun insertCategory(category: Category): Result<Unit>
     fun updateCategory(category: Category): Result<Unit>
     fun deleteCategory(categoryId: Int): Result<Unit>

@@ -11,18 +11,15 @@ class CategoryRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSourceImpl
 ) : CategoryRepository {
     override fun getAllCategory(): DataResponse<List<Category>> {
-        val cursor = localDataSource.getAllCategory().getOrNull() ?: return DataResponse.Error()
-        val itemList = mutableListOf<Category>()
-        while (cursor.moveToNext()) {
-            itemList.add(getCategoryFromCursor(cursor,0))
-        }
-        return DataResponse.Success(itemList)
+        return cursorToCategory()
     }
 
-    override fun getCategory(id: Int): DataResponse<Category> {
-        val cursor = localDataSource.getCategory(id).getOrNull() ?: return DataResponse.Error()
-        cursor.moveToNext()
-        return DataResponse.Success(getCategoryFromCursor(cursor,0))
+    override fun getIncomeCategory(): DataResponse<List<Category>> {
+        return cursorToCategory()
+    }
+
+    override fun getExpenseCategory(): DataResponse<List<Category>> {
+        return cursorToCategory()
     }
 
     override fun insertCategory(category: Category): DataResponse<Unit> {
@@ -41,6 +38,15 @@ class CategoryRepositoryImpl @Inject constructor(
         if(localDataSource.deleteCategory(categoryId).getOrNull() == null)
             return DataResponse.Error()
         return DataResponse.Success(Unit)
+    }
+
+    private fun cursorToCategory(): DataResponse<List<Category>> {
+        val cursor = localDataSource.getAllCategory().getOrNull() ?: return DataResponse.Error()
+        val itemList = mutableListOf<Category>()
+        while (cursor.moveToNext()) {
+            itemList.add(getCategoryFromCursor(cursor, 0))
+        }
+        return DataResponse.Success(itemList)
     }
 
 }

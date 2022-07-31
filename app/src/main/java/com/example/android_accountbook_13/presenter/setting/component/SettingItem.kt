@@ -87,7 +87,7 @@ private fun SettingHeaderPreview() {
 @Preview
 @Composable
 private fun SettingContentPreview() {
-    SettingContent(title = "교통", category = Category(null, "교통", "#372912")) {
+    SettingContent(title = "교통", category = Category(null, "교통", "#372912", 0)) {
 
     }
 }

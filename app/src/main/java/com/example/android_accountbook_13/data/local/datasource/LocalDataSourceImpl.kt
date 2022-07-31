@@ -65,10 +65,17 @@ class LocalDataSourceImpl @Inject constructor(
             )
         }
 
-    override fun getCategory(id: Int): Result<Cursor> =
+    override fun getIncomeCategory(): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
-                "SELECT * FROM category WHERE id like ${id};", null
+                "SELECT * FROM category WHERE type = 0;", null
+            )
+        }
+
+    override fun getExpenseCategory(): Result<Cursor> =
+        runCatching {
+            db.readableDatabase.rawQuery(
+                "SELECT * FROM category WHERE type = 1;", null
             )
         }
 
