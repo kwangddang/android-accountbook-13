@@ -38,10 +38,10 @@ class LocalDataSourceImpl @Inject constructor(
         runCatching {
             db.writableDatabase.execSQL(
                 "UPDATE history SET " +
-                        "category_id = ${history.categoryId}, method_id = ${history.methodId}," +
-                        "name = ${history.name}, method_type = ${history.methodType}," +
-                        "money = ${history.money}, year = ${history.year}," +
-                        "month = ${history.month}, day = ${history.day} " +
+                        "category_id = '${history.categoryId}', method_id = '${history.methodId}'," +
+                        "name = '${history.name}', method_type = '${history.methodType}'," +
+                        "money = '${history.money}', year = '${history.year}'," +
+                        "month = '${history.month}', day = '${history.day}' " +
                         "WHERE id = ${history.id};"
             )
         }
@@ -65,24 +65,31 @@ class LocalDataSourceImpl @Inject constructor(
             )
         }
 
-    override fun getCategory(id: Int): Result<Cursor> =
+    override fun getIncomeCategory(): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
-                "SELECT * FROM category WHERE id like ${id};", null
+                "SELECT * FROM category WHERE type = 0;", null
+            )
+        }
+
+    override fun getExpenseCategory(): Result<Cursor> =
+        runCatching {
+            db.readableDatabase.rawQuery(
+                "SELECT * FROM category WHERE type = 1;", null
             )
         }
 
     override fun insertCategory(category: Category): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
-                "INSERT INTO category ('name','color') VALUES ('${category.name}','${category.color}')"
+                "INSERT INTO category ('name','color','type') VALUES ('${category.name}','${category.color}','${category.type}')"
             )
         }
 
     override fun updateCategory(category: Category): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
-                "UPDATE category SET name = ${category.name}, color = ${category.color} WHERE id = ${category.id};"
+                "UPDATE category SET name = '${category.name}', color = '${category.color}' WHERE id = ${category.id};"
             )
         }
 
@@ -121,7 +128,7 @@ class LocalDataSourceImpl @Inject constructor(
     override fun updateMethod(method: Method): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
-                "UPDATE method SET name = ${method.name} WHERE id = ${method.id};"
+                "UPDATE method SET name = '${method.name}' WHERE id = ${method.id};"
             )
         }
 

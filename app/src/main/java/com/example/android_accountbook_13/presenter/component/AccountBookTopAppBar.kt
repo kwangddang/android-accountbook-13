@@ -1,7 +1,6 @@
 package com.example.android_accountbook_13.presenter.component
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,8 +28,8 @@ fun AccountBookTopAppBar(
     elevation: Dp = 0.dp,
     leftDescription: String = "",
     rightDescription: String = "",
-    onLeftClick: () -> Unit,
-    onRightClick: () -> Unit
+    onLeftClick: () -> Unit = {},
+    onRightClick: () -> Unit = {}
 ) {
     AccountBookTheme() {
         TopAppBar(
@@ -38,7 +37,7 @@ fun AccountBookTopAppBar(
             contentColor = contentColor,
             elevation = elevation
         ) {
-            Box {
+            Box() {
                 if (leftVectorResource != null) {
                     IconTopAppBar(
                         modifier = Modifier.align(Alignment.CenterStart),
@@ -50,9 +49,7 @@ fun AccountBookTopAppBar(
                 }
                 TitleTopAppBar(
                     title,
-                    Modifier
-                        .align(Alignment.Center)
-                        .fillMaxWidth()
+                    Modifier.align(Alignment.Center)
                 )
                 if (rightVectorResource != null) {
                     IconTopAppBar(
@@ -101,8 +98,7 @@ private fun TitleTopAppBar(
     Text(
         text = title,
         style = MaterialTheme.typography.h6,
-        textAlign = TextAlign.Center,
-        modifier = modifier
+        modifier = modifier.fillMaxHeight().padding(top = 14.dp, bottom = 14.dp)
     )
 }
 

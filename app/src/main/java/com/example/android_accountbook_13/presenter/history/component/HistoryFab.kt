@@ -13,7 +13,7 @@ import com.example.android_accountbook_13.ui.theme.AccountBookTheme
 import com.example.android_accountbook_13.ui.theme.Yellow
 
 @Composable
-fun AccountBookFab(
+fun HistoryFab(
     onClick: () -> Unit
 ) {
     AccountBookTheme() {
@@ -32,5 +32,5 @@ fun AccountBookFab(
 @Preview
 @Composable
 private fun FabPreview() {
-    AccountBookFab(){}
+    HistoryFab(){}
 }

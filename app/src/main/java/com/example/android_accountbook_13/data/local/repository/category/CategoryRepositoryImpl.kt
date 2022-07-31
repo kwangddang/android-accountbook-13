@@ -1,6 +1,7 @@
 
 package com.example.android_accountbook_13.data.local.repository.category
 
+import android.database.Cursor
 import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.local.datasource.LocalDataSourceImpl
@@ -12,17 +13,17 @@ class CategoryRepositoryImpl @Inject constructor(
 ) : CategoryRepository {
     override fun getAllCategory(): DataResponse<List<Category>> {
         val cursor = localDataSource.getAllCategory().getOrNull() ?: return DataResponse.Error()
-        val itemList = mutableListOf<Category>()
-        while (cursor.moveToNext()) {
-            itemList.add(getCategoryFromCursor(cursor,0))
-        }
-        return DataResponse.Success(itemList)
+        return cursorToCategory(cursor)
     }
 
-    override fun getCategory(id: Int): DataResponse<Category> {
-        val cursor = localDataSource.getCategory(id).getOrNull() ?: return DataResponse.Error()
-        cursor.moveToNext()
-        return DataResponse.Success(getCategoryFromCursor(cursor,0))
+    override fun getIncomeCategory(): DataResponse<List<Category>> {
+        val cursor = localDataSource.getIncomeCategory().getOrNull() ?: return DataResponse.Error()
+        return cursorToCategory(cursor)
+    }
+
+    override fun getExpenseCategory(): DataResponse<List<Category>> {
+        val cursor = localDataSource.getExpenseCategory().getOrNull() ?: return DataResponse.Error()
+        return cursorToCategory(cursor)
     }
 
     override fun insertCategory(category: Category): DataResponse<Unit> {
@@ -41,6 +42,14 @@ class CategoryRepositoryImpl @Inject constructor(
         if(localDataSource.deleteCategory(categoryId).getOrNull() == null)
             return DataResponse.Error()
         return DataResponse.Success(Unit)
+    }
+
+    private fun cursorToCategory(cursor: Cursor): DataResponse<List<Category>> {
+        val itemList = mutableListOf<Category>()
+        while (cursor.moveToNext()) {
+            itemList.add(getCategoryFromCursor(cursor, 0))
+        }
+        return DataResponse.Success(itemList)
     }
 
 }

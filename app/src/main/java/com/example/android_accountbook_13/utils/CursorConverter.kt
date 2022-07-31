@@ -19,13 +19,14 @@ fun getHistoryFromCursor(cursor: Cursor,startIndex: Int): History {
     return History(id, categoryId, methodId, name, methodType, money, year, month, day)
 }
 
-fun getCategoryFromCursor(cursor: Cursor,startIndex: Int): Category {
+fun getCategoryFromCursor(cursor: Cursor, startIndex: Int): Category {
     var index = startIndex
     val id = cursor.getInt(index++)
     val name = cursor.getString(index++)
     val color = cursor.getString(index++)
+    val type = cursor.getInt(index++)
 
-    return Category(id,name, color)
+    return Category(id,name, color, type)
 }
 
 fun getMethodFromCursor(cursor: Cursor,startIndex: Int): Method {
