@@ -52,16 +52,14 @@ fun AccountBookAddingButton(
 
 @Composable
 fun AccountBookSwitchButton(
-    leftChecked: Boolean,
-    rightChecked: Boolean,
-    leftString: String = stringResource(id = R.string.text_income),
-    rightString: String = stringResource(id = R.string.text_expense),
+    incomeChecked: Boolean,
+    expenseChecked: Boolean,
     textColor: Color = White,
     enabledColor: Color = Purple,
     unEnabledColor: Color = LightPurple,
     radiusDP: RadiusDP = RadiusDP(),
-    onLeftClick: () -> Unit = {},
-    onRightClick: () -> Unit = {},
+    onIncomeClick: () -> Unit = {},
+    onExpenseClick: () -> Unit = {},
 ) {
     AccountBookTheme {
         Row {
@@ -70,13 +68,13 @@ fun AccountBookSwitchButton(
                     topStart = radiusDP.topStart,
                     bottomStart = radiusDP.bottomStart
                 ),
-                checked = leftChecked,
-                onClick = onLeftClick,
+                checked = incomeChecked,
+                onClick = onIncomeClick,
                 enabledColor = enabledColor,
                 unEnabledColor = unEnabledColor
             ) {
                 Text(
-                    text = leftString,
+                    text = stringResource(id = R.string.text_income),
                     color = textColor
                 )
             }
@@ -85,13 +83,13 @@ fun AccountBookSwitchButton(
                     topEnd = radiusDP.topEnd,
                     bottomEnd = radiusDP.bottomEnd
                 ),
-                checked = rightChecked,
-                onClick = onRightClick,
+                checked = expenseChecked,
+                onClick = onExpenseClick,
                 enabledColor = enabledColor,
                 unEnabledColor = unEnabledColor
             ) {
                 Text(
-                    text = rightString,
+                    text = stringResource(id = R.string.text_expense),
                     color = textColor
                 )
             }
@@ -102,10 +100,10 @@ fun AccountBookSwitchButton(
 
 @Composable
 fun AccountBookFilterButton(
-    leftChecked: Boolean,
-    rightChecked: Boolean,
-    leftMoney: Int,
-    rightMoney: Int,
+    incomeChecked: Boolean,
+    expenseChecked: Boolean,
+    incomeMoney: Long,
+    expenseMoney: Long,
     radiusDP: RadiusDP = RadiusDP(),
     checkedColor : Color = White,
     uncheckedColor : Color = White,
@@ -114,13 +112,11 @@ fun AccountBookFilterButton(
     unEnabledColor: Color = LightPurple,
     textColor: Color = White,
     textStyle: TextStyle = MaterialTheme.typography.caption,
-    leftString: String = stringResource(id = R.string.text_income),
-    rightString: String = stringResource(id = R.string.text_expense),
     modifier: Modifier = Modifier,
-    onLeftClick: () -> Unit,
-    onRightClick: () -> Unit,
-    onLeftCheckedChange: (Boolean) -> Unit,
-    onRightCheckedChange: (Boolean) -> Unit,
+    onIncomeClick: () -> Unit,
+    onExpenseClick: () -> Unit,
+    onIncomeCheckedChange: (Boolean) -> Unit,
+    onExpenseCheckedChange: (Boolean) -> Unit,
 ) {
     AccountBookTheme {
         Row(
@@ -132,18 +128,18 @@ fun AccountBookFilterButton(
                     topStart = radiusDP.topStart,
                     bottomStart = radiusDP.bottomStart
                 ),
-                checked = leftChecked,
-                onClick = onLeftClick,
+                checked = incomeChecked,
+                onClick = onIncomeClick,
                 enabledColor = enabledColor,
                 unEnabledColor = unEnabledColor
             ) {
                 Row(modifier = modifier.fillMaxWidth()) {
                     CheckedText(
-                        title = leftString,
-                        money = leftMoney,
-                        checked = leftChecked,
+                        title = stringResource(id = R.string.text_income),
+                        money = incomeMoney,
+                        checked = incomeChecked,
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onCheckedChange = onLeftCheckedChange,
+                        onCheckedChange = onIncomeCheckedChange,
                         checkedColor = checkedColor,
                         uncheckedColor = uncheckedColor,
                         checkmarkColor = checkmarkColor,
@@ -157,18 +153,18 @@ fun AccountBookFilterButton(
                     topEnd = radiusDP.topEnd,
                     bottomEnd = radiusDP.bottomEnd
                 ),
-                checked = rightChecked,
-                onClick = onRightClick,
+                checked = expenseChecked,
+                onClick = onExpenseClick,
                 enabledColor = enabledColor,
                 unEnabledColor = unEnabledColor
             ) {
                 Row(modifier = modifier.fillMaxWidth()) {
                     CheckedText(
-                        title = rightString,
-                        money = rightMoney,
-                        checked = rightChecked,
+                        title = stringResource(id = R.string.text_expense),
+                        money = expenseMoney,
+                        checked = expenseChecked,
                         modifier = Modifier.align(Alignment.CenterVertically),
-                        onCheckedChange = onRightCheckedChange,
+                        onCheckedChange = onExpenseCheckedChange,
                         checkedColor = checkedColor,
                         uncheckedColor = uncheckedColor,
                         checkmarkColor = checkmarkColor,
@@ -186,7 +182,7 @@ private fun CheckedText(
     title: String,
     checked: Boolean,
     modifier: Modifier,
-    money: Int,
+    money: Long,
     checkedColor : Color,
     uncheckedColor : Color,
     checkmarkColor : Color,
@@ -243,20 +239,20 @@ private fun AddButtonPreview() {
 @Preview()
 @Composable
 private fun SwitchButtonPreview() {
-    AccountBookSwitchButton(leftChecked = false, rightChecked = true)
+    AccountBookSwitchButton(incomeChecked = false, expenseChecked = true)
 }
 
 @Preview()
 @Composable
 private fun FilterButtonPreview() {
     AccountBookFilterButton(
-        leftChecked = false,
-        rightChecked = true,
-        leftMoney = 1000,
-        rightMoney = 200000,
-        onRightClick = {},
-        onLeftClick = {},
-        onLeftCheckedChange = {},
-        onRightCheckedChange = {}
+        incomeChecked = false,
+        expenseChecked = true,
+        incomeMoney = 1000,
+        expenseMoney = 200000,
+        onExpenseClick = {},
+        onIncomeClick = {},
+        onIncomeCheckedChange = {},
+        onExpenseCheckedChange = {}
     )
 }

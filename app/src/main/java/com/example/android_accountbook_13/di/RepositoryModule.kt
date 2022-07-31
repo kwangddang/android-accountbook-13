@@ -1,5 +1,7 @@
 package com.example.android_accountbook_13.di
 
+import com.example.android_accountbook_13.data.local.repository.accountbook.AccountRepository
+import com.example.android_accountbook_13.data.local.repository.accountbook.AccountRepositoryImpl
 import com.example.android_accountbook_13.data.local.repository.category.CategoryRepository
 import com.example.android_accountbook_13.data.local.repository.category.CategoryRepositoryImpl
 import com.example.android_accountbook_13.data.local.repository.history.HistoryRepository
@@ -27,6 +29,11 @@ class RepositoryModule {
 
     @Binds
     abstract fun provideMethodRepository(
-        MethodRepositoryImpl: MethodRepositoryImpl
+        methodRepositoryImpl: MethodRepositoryImpl
     ): MethodRepository
+
+    @Binds
+    abstract fun provideAccountRepository(
+        accountRepositoryImpl: AccountRepositoryImpl
+    ): AccountRepository
 }
