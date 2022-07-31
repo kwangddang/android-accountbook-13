@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import com.chargemap.compose.numberpicker.NumberPicker
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.presenter.component.AccountBookAddingButton
 import com.example.android_accountbook_13.presenter.component.AccountBookSwitchButton
@@ -40,6 +42,8 @@ fun HistoryAdditionScreen(
     var categoryTitle by rememberSaveable { mutableStateOf("") }
     var categoryExpanded by rememberSaveable { mutableStateOf(false) }
 
+    var isDialog by rememberSaveable { mutableStateOf(false) }
+
     //val methods by viewModel.methods.collectAsState()
 
     Scaffold(
@@ -49,8 +53,13 @@ fun HistoryAdditionScreen(
                 leftVectorResource = R.drawable.ic_back
             )
         },
-        backgroundColor = OffWhite
+        backgroundColor = OffWhite,
     ) {
+        if (isDialog) {
+            Dialog(onDismissRequest = { isDialog = false }) {
+
+            }
+        }
         Column {
             Spacer(modifier = Modifier.height(24.dp))
             AccountBookSwitchButton(incomeChecked = true, expenseChecked = false)
@@ -61,6 +70,7 @@ fun HistoryAdditionScreen(
                     text = "2022.7.16 토요일",
                     onValueChange = {},
                     modifier = Modifier.clickable {
+
                     }
                 )
             }
@@ -87,7 +97,7 @@ fun HistoryAdditionScreen(
 
             HistoryAdditionItem(title = "분류") {
                 Box() {
-                    HistoryAdditionTextField(categoryTitle,"선택하세요", {}, true)
+                    HistoryAdditionTextField(categoryTitle, "선택하세요", {}, true)
                     HistoryAdditionSpinner(
                         Modifier.Companion.align(Alignment.CenterEnd),
                         categoryExpanded,
@@ -107,11 +117,13 @@ fun HistoryAdditionScreen(
             Box(modifier = Modifier.fillMaxSize()) {
                 AccountBookAddingButton(
                     enabled = true,
-                    modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth()
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
                         .height(56.dp)
                 ) {
-                    
+
                 }
             }
         }
