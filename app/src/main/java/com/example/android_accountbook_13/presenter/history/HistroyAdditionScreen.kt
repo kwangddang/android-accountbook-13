@@ -18,6 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.presenter.component.AccountBookAddingButton
@@ -33,7 +35,9 @@ import com.example.android_accountbook_13.utils.getYearMonthDayString
 
 @Composable
 fun HistoryAdditionScreen(
-    type: Boolean,
+    navHostController: NavHostController,
+    method: Int,
+    id: Int?
 ) {
     var price by rememberSaveable { mutableStateOf("") }
     var content by rememberSaveable { mutableStateOf("") }
@@ -52,7 +56,7 @@ fun HistoryAdditionScreen(
     Scaffold(
         topBar = {
             AccountBookTopAppBar(
-                title = "내역 ${if (type) "등록" else "수정"}",
+                title = "내역 ${if (id == -1) "등록" else "수정"}",
                 leftVectorResource = R.drawable.ic_back
             )
         },
@@ -74,8 +78,11 @@ fun HistoryAdditionScreen(
             HistoryAdditionItem(title = "일자") {
 
                 Text(text = getYearMonthDayString(date),
-                modifier = Modifier.clickable { isDialog = true }.width(280.dp).height(56.dp).
-                    padding(start = 16.dp, top = 16.dp),
+                modifier = Modifier
+                    .clickable { isDialog = true }
+                    .width(280.dp)
+                    .height(56.dp)
+                    .padding(start = 16.dp, top = 16.dp),
                 fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Purple)
             }
 
@@ -213,5 +220,5 @@ private fun HistoryAdditionTextField(
 @Composable
 @Preview(showBackground = true)
 fun HistoryAdditionScreenPreview() {
-    HistoryAdditionScreen(type = false)
+    HistoryAdditionScreen(rememberNavController(),0,-1)
 }

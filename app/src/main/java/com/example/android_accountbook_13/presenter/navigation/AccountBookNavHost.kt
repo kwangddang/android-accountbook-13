@@ -13,6 +13,7 @@ import androidx.navigation.navArgument
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.presenter.calendar.CalendarScreen
 import com.example.android_accountbook_13.presenter.component.AccountBookAdditionScreen
+import com.example.android_accountbook_13.presenter.history.HistoryAdditionScreen
 import com.example.android_accountbook_13.presenter.history.HistoryScreen
 import com.example.android_accountbook_13.presenter.setting.SettingScreen
 import com.example.android_accountbook_13.presenter.statistic.StatisticScreen
@@ -29,7 +30,7 @@ fun AccountBookNavHost(
         modifier = Modifier.padding(innerPaddingModifier)
     ) {
         composable(History.route) {
-            HistoryScreen()
+            HistoryScreen(navController)
         }
 
         composable(Calendar.route) {
@@ -45,7 +46,7 @@ fun AccountBookNavHost(
         }
 
         composable(
-            route = Addition.route,
+            route = SettingAddition.route,
             arguments = listOf(
                 navArgument("title") { type = NavType.StringType},
                 navArgument("id") { type = NavType.IntType},
@@ -57,6 +58,20 @@ fun AccountBookNavHost(
                 title = it.arguments?.getString("title")!!,
                 id = it.arguments?.getInt("id"),
                 type = it.arguments?.getBoolean("type")!!
+            )
+        }
+
+        composable(
+            route = HistoryAddition.route,
+            arguments = listOf(
+                navArgument("method") { type = NavType.StringType},
+                navArgument("id") { type = NavType.IntType},
+            )
+        ) {
+            HistoryAdditionScreen(
+                navController,
+                method = it.arguments?.getInt("method")!!,
+                id = it.arguments?.getInt("id"),
             )
         }
     }
@@ -92,8 +107,14 @@ object Setting : AccountBookDestination {
     override val vectorResource = R.drawable.ic_setting
 }
 
-object Addition : AccountBookDestination {
-    override val route: String = "addition/{title},{id},{type}"
+object SettingAddition : AccountBookDestination {
+    override val route: String = "settingAddition/{title},{id},{type}"
+    override val content: String = "추가"
+    override val vectorResource: Int = 0
+}
+
+object HistoryAddition : AccountBookDestination {
+    override val route: String = "historyAddition/{method},{id}"
     override val content: String = "추가"
     override val vectorResource: Int = 0
 }
