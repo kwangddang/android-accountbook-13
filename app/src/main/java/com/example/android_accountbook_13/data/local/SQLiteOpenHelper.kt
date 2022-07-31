@@ -23,7 +23,8 @@ class SQLiteOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
         db?.execSQL(
             "CREATE TABLE category(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "name TEXT," +
-                    "color TEXT)"
+                    "color TEXT," +
+                    "type INTEGER)"
         )
         db?.execSQL(
             "CREATE TABLE method(id INTEGER PRIMARY KEY AUTOINCREMENT," +

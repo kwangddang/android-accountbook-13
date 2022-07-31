@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +37,13 @@ fun SettingContent(
         .padding(start = 16.dp, end = 16.dp, top = 8.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
-            Text(text = title, fontSize = 16.sp, color = Purple, modifier = Modifier.align(Alignment.CenterStart))
+            Text(
+                text = title,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Purple,
+                modifier = Modifier.align(Alignment.CenterStart)
+            )
             if (category != null) {
                 AccountBookCategory(
                     title = category.name,
@@ -68,7 +75,13 @@ fun SettingFooter(
         .padding(top = 8.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp)) {
-            Text(text = title, fontSize = 16.sp, color = Purple, modifier = Modifier.align(Alignment.CenterStart))
+            Text(
+                text = title,
+                fontSize = 16.sp,
+                color = Purple,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.align(Alignment.CenterStart)
+            )
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus), contentDescription = "추가",
                 modifier = Modifier.align(Alignment.CenterEnd), tint = Purple

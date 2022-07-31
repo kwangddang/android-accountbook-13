@@ -82,7 +82,7 @@ class LocalDataSourceImpl @Inject constructor(
     override fun insertCategory(category: Category): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
-                "INSERT INTO category ('name','color') VALUES ('${category.name}','${category.color}')"
+                "INSERT INTO category ('name','color','type') VALUES ('${category.name}','${category.color}','${category.type}')"
             )
         }
 

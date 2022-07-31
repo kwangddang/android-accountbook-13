@@ -1,6 +1,7 @@
 
 package com.example.android_accountbook_13.data.local.repository.category
 
+import android.database.Cursor
 import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.local.datasource.LocalDataSourceImpl
@@ -11,15 +12,18 @@ class CategoryRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSourceImpl
 ) : CategoryRepository {
     override fun getAllCategory(): DataResponse<List<Category>> {
-        return cursorToCategory()
+        val cursor = localDataSource.getAllCategory().getOrNull() ?: return DataResponse.Error()
+        return cursorToCategory(cursor)
     }
 
     override fun getIncomeCategory(): DataResponse<List<Category>> {
-        return cursorToCategory()
+        val cursor = localDataSource.getIncomeCategory().getOrNull() ?: return DataResponse.Error()
+        return cursorToCategory(cursor)
     }
 
     override fun getExpenseCategory(): DataResponse<List<Category>> {
-        return cursorToCategory()
+        val cursor = localDataSource.getExpenseCategory().getOrNull() ?: return DataResponse.Error()
+        return cursorToCategory(cursor)
     }
 
     override fun insertCategory(category: Category): DataResponse<Unit> {
@@ -40,8 +44,7 @@ class CategoryRepositoryImpl @Inject constructor(
         return DataResponse.Success(Unit)
     }
 
-    private fun cursorToCategory(): DataResponse<List<Category>> {
-        val cursor = localDataSource.getAllCategory().getOrNull() ?: return DataResponse.Error()
+    private fun cursorToCategory(cursor: Cursor): DataResponse<List<Category>> {
         val itemList = mutableListOf<Category>()
         while (cursor.moveToNext()) {
             itemList.add(getCategoryFromCursor(cursor, 0))

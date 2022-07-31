@@ -17,7 +17,7 @@ import javax.inject.Inject
 class SettingViewModel @Inject constructor(
     private val methodRepository: MethodRepository,
     private val categoryRepository: CategoryRepository
-): ViewModel() {
+) : ViewModel() {
     private val _methods = MutableStateFlow<List<Method>>(emptyList())
     val methods: StateFlow<List<Method>> get() = _methods
 
@@ -30,7 +30,7 @@ class SettingViewModel @Inject constructor(
     fun getAllMethod() {
         viewModelScope.launch {
             val response = methodRepository.getAllMethod()
-            if(response is DataResponse.Success) {
+            if (response is DataResponse.Success) {
                 _methods.value = response.data!!
             }
         }
@@ -39,7 +39,7 @@ class SettingViewModel @Inject constructor(
     fun getIncomeCategory() {
         viewModelScope.launch {
             val response = categoryRepository.getIncomeCategory()
-            if(response is DataResponse.Success) {
+            if (response is DataResponse.Success) {
                 _incomeCategories.value = response.data!!
             }
         }
@@ -48,8 +48,35 @@ class SettingViewModel @Inject constructor(
     fun getExpenseCategory() {
         viewModelScope.launch {
             val response = categoryRepository.getExpenseCategory()
-            if(response is DataResponse.Success) {
+            if (response is DataResponse.Success) {
                 _expenseCategories.value = response.data!!
+            }
+        }
+    }
+
+    fun insertMethod(method: Method) {
+        viewModelScope.launch {
+            val response = methodRepository.insertMethod(method)
+            if(response is DataResponse.Error) {
+                
+            }
+        }
+    }
+
+    fun insertCategory(category: Category) {
+        viewModelScope.launch {
+            val response = categoryRepository.insertCategory(category)
+            if (response is DataResponse.Error) {
+
+            }
+        }
+    }
+
+    fun updateCategory(category: Category) {
+        viewModelScope.launch {
+            val response = categoryRepository.updateCategory(category)
+            if (response is DataResponse.Error) {
+
             }
         }
     }
