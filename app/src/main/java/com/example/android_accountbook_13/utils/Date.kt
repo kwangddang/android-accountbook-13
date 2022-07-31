@@ -22,8 +22,12 @@ fun getDayOfWeek(date: Date): String {
     return dayOfWeekName[number - 1]
 }
 
-fun getDateString(date: Date): String {
+fun getYearMonthString(date: Date): String {
     return "${date.year}년 ${date.month}월"
+}
+
+fun getYearMonthDayString(date: Date): String {
+    return "${date.year}년 ${date.month}월 ${date.day}일 ${getDayOfWeek(date)}"
 }
 
 fun getStringToDate(str : String): Date {

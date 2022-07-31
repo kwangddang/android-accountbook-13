@@ -22,7 +22,7 @@ import com.example.android_accountbook_13.utils.getCurrentDate
 @Composable
 fun YearMonthDatePicker(
     onDismissRequest: () -> Unit,
-    onClick: () -> Unit
+    onClick: (Int, Int, Int) -> Unit
 ) {
     val date = getCurrentDate()
     var year by remember { mutableStateOf(date.year) }
@@ -42,9 +42,9 @@ fun YearMonthDatePicker(
                     DatePicker(num = day, startNum = 1, lastNum = 31, onValueChange = { it -> day = it })
                     Text(text = "일", modifier = Modifier.padding(4.dp))
                 }
-                AccountBookAddingButton(enabled = true, modifier = Modifier.fillMaxWidth()) {
-                    onClick()
-                }
+                AccountBookAddingButton(
+                    enabled = true, modifier = Modifier.fillMaxWidth(),
+                    onClick = { onClick(year, month, day) })
             }
         }
     }
@@ -69,8 +69,8 @@ private fun DatePicker(
 
 @Preview(showBackground = true)
 @Composable
-fun YearMonthDatePickerPreview() {
-    YearMonthDatePicker({}) {
+private fun YearMonthDatePickerPreview() {
+    YearMonthDatePicker({}) { a,b,c ->
 
     }
 }

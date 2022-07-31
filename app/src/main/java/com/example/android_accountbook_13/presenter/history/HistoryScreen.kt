@@ -24,7 +24,7 @@ import com.example.android_accountbook_13.presenter.component.*
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.utils.decreaseDate
-import com.example.android_accountbook_13.utils.getDateString
+import com.example.android_accountbook_13.utils.getYearMonthString
 import com.example.android_accountbook_13.utils.increaseDate
 
 @Composable
@@ -38,7 +38,7 @@ fun HistoryScreen(
     Scaffold(
         topBar = {
             AccountBookTopAppBar(
-                title = getDateString(date),
+                title = getYearMonthString(date),
                 leftVectorResource = R.drawable.ic_left,
                 rightVectorResource = R.drawable.ic_right,
                 onLeftClick = {
