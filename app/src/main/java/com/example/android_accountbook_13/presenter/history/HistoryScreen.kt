@@ -50,7 +50,7 @@ fun HistoryScreen(
             )
         },
         floatingActionButton = {
-            AccountBookFab(onClick = {})
+            HistoryFab(onClick = {})
         },
         backgroundColor = MaterialTheme.colors.background
     ) {
