@@ -77,10 +77,10 @@ fun AccountBookItemContent(
 @Composable
 fun AccountBookItemHeader(
     date: String,
-    income: Int,
-    expense: Int,
-    leftChecked: Boolean,
-    rightChecked: Boolean,
+    income: Long,
+    expense: Long,
+    incomeChecked: Boolean,
+    expenseChecked: Boolean,
 ) {
     Column(
         modifier = Modifier
@@ -96,11 +96,11 @@ fun AccountBookItemHeader(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                if(leftChecked){
+                if(incomeChecked){
                     HeaderText("수입")
                     HeaderText(moneyConverter(income))
                 }
-                if(rightChecked){
+                if(expenseChecked){
                     HeaderText("지출")
                     HeaderText(moneyConverter(expense))
                 }

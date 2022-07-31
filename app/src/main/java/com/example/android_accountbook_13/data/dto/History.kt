@@ -6,7 +6,7 @@ data class History(
     val methodId: Int,
     val name: String,
     val methodType: Int,
-    val money: Int,
+    val money: Long,
     val year: Int,
     val month: Int,
     val day: Int

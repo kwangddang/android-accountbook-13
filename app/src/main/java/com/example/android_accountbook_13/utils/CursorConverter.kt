@@ -12,7 +12,7 @@ fun getHistoryFromCursor(cursor: Cursor,startIndex: Int): History {
     val methodId = cursor.getInt(index++)
     val name = cursor.getString(index++)
     val methodType = cursor.getInt(index++)
-    val money = cursor.getInt(index++)
+    val money = cursor.getLong(index++)
     val year = cursor.getInt(index++)
     val month = cursor.getInt(index++)
     val day = cursor.getInt(index++)

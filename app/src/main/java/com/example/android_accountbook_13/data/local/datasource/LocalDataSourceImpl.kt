@@ -14,10 +14,10 @@ class LocalDataSourceImpl @Inject constructor(
     /**
      * History
      */
-    override fun getHistory(month: Int): Result<Cursor> =
+    override fun getHistory(year: Int, month: Int): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
-                "SELECT * FROM history WHERE month like ${month};", null
+                "SELECT * FROM history WHERE year = $year AND month = ${month};", null
             )
         }
 
@@ -135,10 +135,10 @@ class LocalDataSourceImpl @Inject constructor(
     /**
      *  AccountBook
      */
-    override fun getAccountBook(month: Int): Result<Cursor> =
+    override fun getAccountBook(year: Int, month: Int): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
-                "SELECT * FROM history h INNER JOIN category c ON h.category_id = c.id INNER JOIN method m ON h.method_id = m.id WHERE h.month = ${month};", null
+                "SELECT * FROM history h INNER JOIN category c ON h.category_id = c.id INNER JOIN method m ON h.method_id = m.id WHERE h.month = ${month} AND h.year = ${year};", null
             )
         }
 }

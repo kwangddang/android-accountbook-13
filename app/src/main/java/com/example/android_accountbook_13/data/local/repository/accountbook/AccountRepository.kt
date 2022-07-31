@@ -4,5 +4,5 @@ import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 
 interface AccountRepository {
-    fun getAccountBook(month: Int): DataResponse<List<AccountBookItem>>
+    fun getAccountBook(year: Int, month: Int): DataResponse<List<AccountBookItem>>
 }

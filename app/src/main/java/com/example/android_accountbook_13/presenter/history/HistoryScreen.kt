@@ -17,20 +17,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.android_accountbook_13.R
-import com.example.android_accountbook_13.data.DummyData
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.presenter.component.*
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.utils.decreaseDate
-import com.example.android_accountbook_13.utils.getCurrentDate
 import com.example.android_accountbook_13.utils.getDateString
 import com.example.android_accountbook_13.utils.increaseDate
 
 @Composable
-fun HistoryScreen() {
-    var date by remember { mutableStateOf(getCurrentDate()) }
+fun HistoryScreen(
+    historyViewModel: HistoryViewModel = hiltViewModel(),
+) {
+
+    var date by historyViewModel.date
+    historyViewModel.getAccountBookItems(date.year, date.month)
 
     Scaffold(
         topBar = {
@@ -51,41 +54,34 @@ fun HistoryScreen() {
         },
         backgroundColor = MaterialTheme.colors.background
     ) {
-
-        var leftChecked by rememberSaveable { mutableStateOf(true) }
-        var rightChecked by rememberSaveable { mutableStateOf(true) }
-        var leftMoney by rememberSaveable { mutableStateOf(0) }
-        var rightMoney by rememberSaveable { mutableStateOf(0) }
-
-        var totalIncome = 0
-        var totalExpense = 0
-
-        val checkedList = mutableListOf<AccountBookItem>()
-
-        /*TODO Domain 영역에서 처리?*/
-        val pair = willDomain(totalIncome, totalExpense, leftChecked, rightChecked, checkedList)
-        totalExpense = pair.first
-        totalIncome = pair.second
-
-        /*TODO ViewModel에서 처리?*/
-        val group = willViewModel(checkedList)
+        val checkedItems by historyViewModel.checkedItems.collectAsState()
+        var incomeChecked by rememberSaveable { mutableStateOf(true) }
+        var expenseChecked by rememberSaveable { mutableStateOf(true) }
+        val incomeMoney by historyViewModel.incomeMoney.collectAsState()
+        val expenseMoney by historyViewModel.expenseMoney.collectAsState()
+        historyViewModel.getCheckedItems(incomeChecked,expenseChecked)
+        val group = checkedItems.groupBy { it.history.day }
 
         Column {
             AccountBookFilterButton(
-                leftChecked = leftChecked,
-                rightChecked = rightChecked,
-                leftMoney = leftMoney,
-                rightMoney = rightMoney,
-                onLeftClick = { leftChecked = !leftChecked },
-                onRightClick = { rightChecked = !rightChecked },
-                onLeftCheckedChange = { leftChecked = !leftChecked },
-                onRightCheckedChange = { rightChecked = !rightChecked },
+                incomeChecked = incomeChecked,
+                expenseChecked = expenseChecked,
+                incomeMoney = incomeMoney,
+                expenseMoney = expenseMoney,
+                onIncomeClick = {
+                    incomeChecked = !incomeChecked
+                },
+                onExpenseClick = {
+                    expenseChecked = !expenseChecked
+                },
+                onIncomeCheckedChange = { incomeChecked = !incomeChecked },
+                onExpenseCheckedChange = { expenseChecked = !expenseChecked },
             )
-            if (checkedList.isNotEmpty()) {
+            if (checkedItems.isNotEmpty()) {
                 LazyColumn {
                     group.forEach { (day, historyList) ->
-                        var income = 0
-                        var expense = 0
+                        var income = 0L
+                        var expense = 0L
                         for (item in historyList) {
                             if (item.history.methodType == 1) {
                                 income += item.history.money
@@ -93,25 +89,20 @@ fun HistoryScreen() {
                                 expense += item.history.money
                             }
                         }
-                        /**
-                         * Header
-                         */
+
                         item {
                             AccountBookItemHeader(
-                                date = "7월 ${day}일",
+                                date = "${date.month}월 ${day}일",
                                 income = income,
                                 expense = expense,
-                                leftChecked,
-                                rightChecked
+                                incomeChecked,
+                                expenseChecked
                             )
                         }
 
                         val accountBookItems: MutableList<AccountBookItem> = historyList.toMutableList()
                         val lastAccountBookItem = accountBookItems.removeLast()
 
-                        /**
-                         * Content
-                         */
                         items(accountBookItems) { item ->
                             AccountBookItemContent(
                                 item,
@@ -121,10 +112,6 @@ fun HistoryScreen() {
                             Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp))
                         }
 
-                        /**
-                         * LastItem
-                         */
-
                         item {
                             AccountBookItemContent(
                                 lastAccountBookItem,
@@ -133,9 +120,6 @@ fun HistoryScreen() {
                             }
                         }
 
-                        /**
-                         * Footer
-                         */
                         item {
                             Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
                         }
@@ -145,40 +129,9 @@ fun HistoryScreen() {
             } else {
                 BlankScreen()
             }
-            leftMoney = totalIncome
-            rightMoney = totalExpense
         }
     }
 }
-
-@Composable
-private fun willViewModel(checkedList: MutableList<AccountBookItem>): Map<Int, List<AccountBookItem>> {
-    return checkedList.groupBy { it.history.day }
-}
-
-@Composable
-private fun willDomain(
-    totalIncome: Int,
-    totalExpense: Int,
-    leftChecked: Boolean,
-    rightChecked: Boolean,
-    checkedList: MutableList<AccountBookItem>
-): Pair<Int, Int> {
-    var totalIncome1 = totalIncome
-    var totalExpense1 = totalExpense
-    DummyData.accountBookItems.forEach { item ->
-        if (item.history.methodType == 1) {
-            totalIncome1 += item.history.money
-        } else {
-            totalExpense1 += item.history.money
-        }
-        if ((item.history.methodType == 1 && leftChecked) || item.history.methodType == 0 && rightChecked) {
-            checkedList.add(item)
-        }
-    }
-    return Pair(totalExpense1, totalIncome1)
-}
-
 
 @Composable
 private fun BlankScreen() {
