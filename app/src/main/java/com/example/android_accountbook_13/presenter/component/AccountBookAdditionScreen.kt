@@ -18,6 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.Method
@@ -29,6 +31,7 @@ import com.example.android_accountbook_13.ui.theme.Purple
 
 @Composable
 fun AccountBookAdditionScreen(
+    navController: NavHostController,
     title: String,
     id: Int?,
     type: Boolean,
@@ -50,11 +53,13 @@ fun AccountBookAdditionScreen(
     }
     var text by rememberSaveable { mutableStateOf("") }
     var color by rememberSaveable { mutableStateOf("") }
+
     Scaffold(
         topBar = {
             AccountBookTopAppBar(
                 title = screenTitle,
-                leftVectorResource = R.drawable.ic_back
+                leftVectorResource = R.drawable.ic_back,
+                onLeftClick = {navController.popBackStack()}
             )
         },
         backgroundColor = OffWhite
@@ -106,6 +111,7 @@ fun AccountBookAdditionScreen(
                         .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
                         .height(56.dp),
                     title = if (type) "등록하기" else "수정하기",
+                    enabled = text.isNotBlank() && text.isNotEmpty(),
                     onClick = {
                         if (title == "결제") {
                             if (type) {
@@ -151,10 +157,10 @@ private fun ColorPalette(
         items(colors) { color ->
             Surface(
                 modifier = Modifier
-                    .size(24.dp)
                     .clickable {
                         onClick(color)
-                    },
+                    }
+                    .size(24.dp),
                 color = Color(android.graphics.Color.parseColor(color))
             ) {
 
@@ -163,11 +169,6 @@ private fun ColorPalette(
     }
 }
 
-@Composable
-@Preview(showBackground = true)
-fun AccountBookAdditionPreview() {
-    AccountBookAdditionScreen("지출", 0, false)
-}
 
 val incomeColors = listOf(
     "#9BD182", "#A3CB7A", "#B5CC7A",

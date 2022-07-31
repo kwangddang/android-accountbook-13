@@ -31,6 +31,7 @@ fun AccountBookAddingButton(
     modifier: Modifier = Modifier
         .width(328.dp)
         .height(64.dp),
+    enabled: Boolean,
     shape: RoundedCornerShape = RoundedCornerShape(14.dp),
     buttonColors: ButtonColors = ButtonDefaults.buttonColors(Yellow),
     textColor: Color = White,
@@ -40,7 +41,8 @@ fun AccountBookAddingButton(
         onClick = onClick,
         modifier = modifier,
         shape = shape,
-        colors = buttonColors
+        colors = buttonColors,
+        enabled = enabled
     ) {
         Text(
             text = title,
@@ -231,7 +233,7 @@ private fun ThinButton(
 @Preview()
 @Composable
 private fun AddButtonPreview() {
-    AccountBookAddingButton {
+    AccountBookAddingButton(enabled = true) {
 
     }
 }

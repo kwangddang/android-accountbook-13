@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.setting
 
+import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,7 +34,6 @@ fun SettingScreen(
     val methods by viewModel.methods.collectAsState()
     val incomeCategories by viewModel.incomeCategories.collectAsState()
     val expenseCategories by viewModel.expenseCategories.collectAsState()
-
     Scaffold(
         topBar = {
             AccountBookTopAppBar(

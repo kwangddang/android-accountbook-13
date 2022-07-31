@@ -53,6 +53,7 @@ fun AccountBookNavHost(
             )
         ) {
             AccountBookAdditionScreen(
+                navController,
                 title = it.arguments?.getString("title")!!,
                 id = it.arguments?.getInt("id"),
                 type = it.arguments?.getBoolean("type")!!

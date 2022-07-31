@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.setting
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_accountbook_13.data.DataResponse
@@ -27,6 +26,7 @@ class SettingViewModel @Inject constructor(
 
     private val _expenseCategories = MutableStateFlow<List<Category>>(emptyList())
     val expenseCategories: StateFlow<List<Category>> get() = _expenseCategories
+
 
     fun getAllMethod() {
         viewModelScope.launch {
@@ -77,7 +77,7 @@ class SettingViewModel @Inject constructor(
         viewModelScope.launch {
             val response = categoryRepository.updateCategory(category)
             if (response is DataResponse.Error) {
-                Log.d("Test", "실패")
+
             }
         }
     }
