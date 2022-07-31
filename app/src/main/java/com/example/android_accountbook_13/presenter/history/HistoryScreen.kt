@@ -109,7 +109,7 @@ fun HistoryScreen(
                                 onClick = { /*TODO*/ }) {
                                 true
                             }
-                            Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp))
+                            Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp))
                         }
 
                         item {

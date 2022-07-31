@@ -58,7 +58,7 @@ fun SettingContent(
 
 @Composable
 fun SettingHeader(title: String) {
-    Column(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
+    Column(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 24.dp)) {
         Text(text = title, fontSize = 18.sp, color = LightPurple)
         Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp))
     }
