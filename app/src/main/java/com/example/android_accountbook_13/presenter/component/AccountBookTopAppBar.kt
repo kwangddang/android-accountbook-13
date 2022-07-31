@@ -98,7 +98,8 @@ private fun TitleTopAppBar(
     Text(
         text = title,
         style = MaterialTheme.typography.h6,
-        modifier = modifier.fillMaxHeight().padding(top = 14.dp, bottom = 14.dp)
+        modifier = modifier.fillMaxHeight().padding(top = 14.dp, bottom = 14.dp),
+        color = Purple
     )
 }
 
