@@ -6,7 +6,7 @@ import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
 
 interface LocalDataSource {
-    fun getHistory(month: Int): Result<Cursor>
+    fun getHistory(year: Int, month: Int): Result<Cursor>
     fun insertHistory(history: History): Result<Unit>
     fun updateHistory(history: History): Result<Unit>
     fun deleteHistory(historyId: Int): Result<Unit>
@@ -23,5 +23,5 @@ interface LocalDataSource {
     fun updateMethod(method: Method): Result<Unit>
     fun deleteMethod(methodId: Int): Result<Unit>
 
-    fun getAccountBook(month: Int): Result<Cursor>
+    fun getAccountBook(year: Int, month: Int): Result<Cursor>
 }

@@ -9,8 +9,8 @@ import javax.inject.Inject
 class HistoryRepositoryImpl @Inject constructor(
 private val localDataSource: LocalDataSourceImpl
 ) : HistoryRepository {
-    override fun getHistory(month: Int): DataResponse<List<History>> {
-        val cursor = localDataSource.getHistory(month).getOrNull() ?: return DataResponse.Error()
+    override fun getHistory(year: Int, month: Int): DataResponse<List<History>> {
+        val cursor = localDataSource.getHistory(year, month).getOrNull() ?: return DataResponse.Error()
         val itemList = mutableListOf<History>()
         while (cursor.moveToNext()) {
             itemList.add(getHistoryFromCursor(cursor,0))

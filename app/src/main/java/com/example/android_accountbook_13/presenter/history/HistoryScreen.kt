@@ -33,7 +33,7 @@ fun HistoryScreen(
 ) {
 
     var date by historyViewModel.date
-    historyViewModel.getAccountBookItems(date.month)
+    historyViewModel.getAccountBookItems(date.year, date.month)
 
     Scaffold(
         topBar = {

@@ -38,9 +38,9 @@ class HistoryViewModel @Inject constructor(
 
     var date = mutableStateOf(getCurrentDate())
 
-    fun getAccountBookItems(month: Int) {
+    fun getAccountBookItems(year: Int, month: Int) {
         viewModelScope.launch {
-            val response = accountRepository.getAccountBook(month)
+            val response = accountRepository.getAccountBook(year, month)
             if (response is DataResponse.Success) {
                 _accountBookItems.value = response.data!!
                 getMoney()
