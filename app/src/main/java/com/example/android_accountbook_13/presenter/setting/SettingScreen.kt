@@ -1,14 +1,10 @@
 package com.example.android_accountbook_13.presenter.setting
 
-import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -19,13 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.android_accountbook_13.data.dto.Category
-import com.example.android_accountbook_13.data.dto.Method
 import com.example.android_accountbook_13.presenter.component.AccountBookTopAppBar
 import com.example.android_accountbook_13.presenter.setting.component.SettingContent
 import com.example.android_accountbook_13.presenter.setting.component.SettingFooter
 import com.example.android_accountbook_13.presenter.setting.component.SettingHeader
-import com.example.android_accountbook_13.ui.theme.Yellow
 
 @Composable
 fun SettingScreen(
@@ -58,7 +51,7 @@ fun SettingScreen(
                 SettingContent(
                     title = method.name,
                     onClick = {
-                        navController.navigate("addition/결제,false")
+                        navController.navigate("addition/결제,${method.id},false")
                     }
                 )
             }
@@ -67,7 +60,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "결제수단 추가하기",
                     onClick = {
-                        navController.navigate("addition/결제,true")
+                        navController.navigate("addition/결제,-1,true")
                     }
                 )
             }
@@ -81,7 +74,7 @@ fun SettingScreen(
                     title = category.name,
                     category = category,
                     onClick = {
-                        navController.navigate("addition/지출,false")
+                        navController.navigate("addition/지출,${category.id},false")
                     }
                 )
             }
@@ -90,7 +83,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "지출 카테고리 추가하기",
                     onClick = {
-                        navController.navigate("addition/지출,true")
+                        navController.navigate("addition/지출,-1,true")
                     }
                 )
             }
@@ -104,7 +97,7 @@ fun SettingScreen(
                     title = category.name,
                     category = category,
                     onClick = {
-                        navController.navigate("addition/수입,false")
+                        navController.navigate("addition/수입,${category.id},false")
                     }
                 )
             }
@@ -113,7 +106,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "수입 카테고리 추가하기",
                     onClick = {
-                        navController.navigate("addition/수입,true")
+                        navController.navigate("addition/수입,-1,true")
                     }
                 )
             }

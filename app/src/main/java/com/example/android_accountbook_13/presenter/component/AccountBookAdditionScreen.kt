@@ -1,11 +1,13 @@
 package com.example.android_accountbook_13.presenter.component
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,7 +17,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.android_accountbook_13.R
+import com.example.android_accountbook_13.data.dto.Category
+import com.example.android_accountbook_13.data.dto.Method
+import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.presenter.setting.component.SettingHeader
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.OffWhite
@@ -24,24 +30,26 @@ import com.example.android_accountbook_13.ui.theme.Purple
 @Composable
 fun AccountBookAdditionScreen(
     title: String,
+    id: Int?,
     type: Boolean,
-    text: TextFieldValue = TextFieldValue(""),
-    onTextChange: (TextFieldValue) -> Unit = {}
+    viewModel: SettingViewModel = hiltViewModel()
 ) {
     var screenTitle: String = ""
-    screenTitle = if(type) {
-        if(title == "결제") {
+    screenTitle = if (type) {
+        if (title == "결제") {
             "결제 수단 추가하기"
         } else {
             "${title} 카테고리 추가"
         }
     } else {
-        if(title == "결제") {
+        if (title == "결제") {
             "결제 수단 수정하기"
         } else {
             "${title} 카테고리 수정"
         }
     }
+    var text by rememberSaveable { mutableStateOf("") }
+    var color by rememberSaveable { mutableStateOf("") }
     Scaffold(
         topBar = {
             AccountBookTopAppBar(
@@ -67,7 +75,7 @@ fun AccountBookAdditionScreen(
                 )
                 TextField(
                     value = text,
-                    onValueChange = onTextChange,
+                    onValueChange = { textValue -> text = textValue },
                     textStyle = TextStyle(fontSize = 18.sp),
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = LightPurple,
@@ -75,29 +83,53 @@ fun AccountBookAdditionScreen(
                         focusedIndicatorColor = OffWhite,
                         unfocusedIndicatorColor = OffWhite
                     ),
-                    placeholder = { Text(text = "입력하세요" )}
+                    placeholder = { Text(text = "입력하세요") }
                 )
             }
             Divider(color = LightPurple, modifier = Modifier.padding(start = 16.dp, end = 16.dp))
-            
-            if(title != "결제") {
+
+            if (title != "결제") {
                 SettingHeader(title = "색상")
-                if(title == "지출") {
-                    ColorPalette(expenseColors1, {})
-                    ColorPalette(expenseColors2, {})
+                if (title == "지출") {
+                    ColorPalette(expenseColors1, { selectedColor -> color = selectedColor })
+                    ColorPalette(expenseColors2, { selectedColor -> color = selectedColor })
                 } else {
-                    ColorPalette(colors = incomeColors, onClick = { })
+                    ColorPalette(incomeColors, { selectedColor -> color = selectedColor })
                 }
             }
             Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
 
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter){
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
                 AccountBookAddingButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
                         .height(56.dp),
-                    onClick = {}
+                    title = if (type) "등록하기" else "수정하기",
+                    onClick = {
+                        if (title == "결제") {
+                            if (type) {
+                                viewModel.insertMethod(Method(null, text))
+                            } else {
+                                viewModel.updateMethod(Method(id, text))
+                            }
+                        } else {
+                            if (type) {
+                                if(title == "수입"){
+                                    viewModel.insertCategory(Category(null, text, color, 0))
+                                } else {
+                                    viewModel.insertCategory(Category(null, text, color, 1))
+                                }
+                            } else {
+                                Log.d("Test", id.toString())
+                                if(title == "수입"){
+                                    viewModel.updateCategory(Category(id, text, color, 0))
+                                } else {
+                                    viewModel.updateCategory(Category(id, text, color, 1))
+                                }
+                            }
+                        }
+                    }
                 )
             }
         }
@@ -107,7 +139,7 @@ fun AccountBookAdditionScreen(
 @Composable
 private fun ColorPalette(
     colors: List<String>,
-    onClick: () -> Unit,
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -116,13 +148,14 @@ private fun ColorPalette(
         contentPadding = PaddingValues(16.dp)
 
     ) {
-        items(colors) { it ->
+        items(colors) { color ->
             Surface(
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable(onClick = onClick)
-                ,
-                color = Color(android.graphics.Color.parseColor(it))
+                    .clickable {
+                        onClick(color)
+                    },
+                color = Color(android.graphics.Color.parseColor(color))
             ) {
 
             }
@@ -133,7 +166,7 @@ private fun ColorPalette(
 @Composable
 @Preview(showBackground = true)
 fun AccountBookAdditionPreview() {
-    AccountBookAdditionScreen("지출", false)
+    AccountBookAdditionScreen("지출", 0, false)
 }
 
 val incomeColors = listOf(

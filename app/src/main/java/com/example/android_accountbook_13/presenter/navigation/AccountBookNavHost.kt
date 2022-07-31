@@ -48,11 +48,13 @@ fun AccountBookNavHost(
             route = Addition.route,
             arguments = listOf(
                 navArgument("title") { type = NavType.StringType},
-                navArgument("type") { type = NavType.BoolType},
+                navArgument("id") { type = NavType.IntType},
+                navArgument("type"){ type = NavType.BoolType}
             )
         ) {
             AccountBookAdditionScreen(
                 title = it.arguments?.getString("title")!!,
+                id = it.arguments?.getInt("id"),
                 type = it.arguments?.getBoolean("type")!!
             )
         }
@@ -90,7 +92,7 @@ object Setting : AccountBookDestination {
 }
 
 object Addition : AccountBookDestination {
-    override val route: String = "addition/{title},{type}"
+    override val route: String = "addition/{title},{id},{type}"
     override val content: String = "추가"
     override val vectorResource: Int = 0
 }

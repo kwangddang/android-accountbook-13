@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.setting
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_accountbook_13.data.DataResponse
@@ -57,8 +58,8 @@ class SettingViewModel @Inject constructor(
     fun insertMethod(method: Method) {
         viewModelScope.launch {
             val response = methodRepository.insertMethod(method)
-            if(response is DataResponse.Error) {
-                
+            if (response is DataResponse.Error) {
+
             }
         }
     }
@@ -75,6 +76,15 @@ class SettingViewModel @Inject constructor(
     fun updateCategory(category: Category) {
         viewModelScope.launch {
             val response = categoryRepository.updateCategory(category)
+            if (response is DataResponse.Error) {
+                Log.d("Test", "실패")
+            }
+        }
+    }
+
+    fun updateMethod(method: Method) {
+        viewModelScope.launch {
+            val response = methodRepository.updateMethod(method)
             if (response is DataResponse.Error) {
 
             }
