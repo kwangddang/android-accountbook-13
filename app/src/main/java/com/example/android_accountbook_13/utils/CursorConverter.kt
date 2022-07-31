@@ -1,6 +1,7 @@
 package com.example.android_accountbook_13.utils
 
 import android.database.Cursor
+import android.util.Log
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
@@ -33,6 +34,5 @@ fun getMethodFromCursor(cursor: Cursor,startIndex: Int): Method {
     var index = startIndex
     val id = cursor.getInt(index++)
     val name = cursor.getString(index++)
-
     return Method(id,name)
 }

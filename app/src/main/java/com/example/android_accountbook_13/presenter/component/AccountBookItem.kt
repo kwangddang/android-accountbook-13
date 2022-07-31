@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme

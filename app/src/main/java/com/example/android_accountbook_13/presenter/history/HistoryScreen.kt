@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.history
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,7 +57,8 @@ fun HistoryScreen(
         },
         floatingActionButton = {
             HistoryFab(onClick = {
-                navHostController.navigate("historyAddition/${if(incomeChecked && expenseChecked || incomeChecked) 0 else 1},-1")
+                navHostController.navigate("historyAddition/" +
+                        "${if((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 0 else 1},-1")
             })
         },
         backgroundColor = MaterialTheme.colors.background
@@ -66,7 +68,6 @@ fun HistoryScreen(
         val expenseMoney by historyViewModel.expenseMoney.collectAsState()
         historyViewModel.getCheckedItems(incomeChecked, expenseChecked)
         val group = checkedItems.groupBy { it.history.day }
-
         Column {
             AccountBookFilterButton(
                 incomeChecked = incomeChecked,

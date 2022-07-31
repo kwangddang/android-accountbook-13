@@ -64,7 +64,7 @@ fun AccountBookNavHost(
         composable(
             route = HistoryAddition.route,
             arguments = listOf(
-                navArgument("method") { type = NavType.StringType},
+                navArgument("method") { type = NavType.IntType},
                 navArgument("id") { type = NavType.IntType},
             )
         ) {

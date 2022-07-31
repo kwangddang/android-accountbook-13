@@ -141,7 +141,6 @@ fun AccountBookAdditionScreen(
                                     viewModel.insertCategory(Category(null, text, color, 1))
                                 }
                             } else {
-                                Log.d("Test", id.toString())
                                 if (title == "수입") {
                                     viewModel.updateCategory(Category(id, text, color, 0))
                                 } else {

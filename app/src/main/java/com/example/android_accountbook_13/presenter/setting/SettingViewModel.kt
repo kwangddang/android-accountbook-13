@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.Category
+import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
 import com.example.android_accountbook_13.data.local.repository.category.CategoryRepository
+import com.example.android_accountbook_13.data.local.repository.history.HistoryRepository
 import com.example.android_accountbook_13.data.local.repository.method.MethodRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingViewModel @Inject constructor(
     private val methodRepository: MethodRepository,
-    private val categoryRepository: CategoryRepository
+    private val categoryRepository: CategoryRepository,
+    private val historyRepository: HistoryRepository
 ) : ViewModel() {
     private val _methods = MutableStateFlow<List<Method>>(emptyList())
     val methods: StateFlow<List<Method>> get() = _methods
@@ -85,6 +88,24 @@ class SettingViewModel @Inject constructor(
     fun updateMethod(method: Method) {
         viewModelScope.launch {
             val response = methodRepository.updateMethod(method)
+            if (response is DataResponse.Error) {
+
+            }
+        }
+    }
+
+    fun insertHistory(history: History) {
+        viewModelScope.launch {
+            val response = historyRepository.insertHistory(history)
+            if (response is DataResponse.Error) {
+
+            }
+        }
+    }
+
+    fun updateHistory(history: History) {
+        viewModelScope.launch {
+            val response = historyRepository.updateHistory(history)
             if (response is DataResponse.Error) {
 
             }
