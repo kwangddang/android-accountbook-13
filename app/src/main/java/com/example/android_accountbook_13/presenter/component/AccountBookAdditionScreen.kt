@@ -100,9 +100,9 @@ fun AccountBookAdditionScreen(
                     placeholder = { Text(text = "입력하세요") }
                 )
             }
-            Divider(color = LightPurple, modifier = Modifier.padding(start = 16.dp, end = 16.dp))
 
             if (title != "결제") {
+                Divider(color = LightPurple, modifier = Modifier.padding(start = 16.dp, end = 16.dp))
                 SettingHeader(title = "색상")
                 if (title == "지출") {
                     ColorPalette(expenseColors, selectedIndex) { selectedColor, index ->

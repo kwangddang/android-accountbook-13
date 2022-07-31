@@ -19,7 +19,7 @@ fun AccountBookApp() {
             scaffoldState = appState.scaffoldState,
             bottomBar = {
                 AccountBookBottomAppBar(
-                    destination = appState.currentScreen ?: History,
+                    destination = appState.currentScreen,
                     onClick = { newScreen ->
                         appState.navController.navigateSingleTopTo(newScreen.route)
                     }

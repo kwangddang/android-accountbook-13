@@ -14,15 +14,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.android_accountbook_13.presenter.navigation.AccountBookDestination
 import com.example.android_accountbook_13.presenter.navigation.Calendar
+import com.example.android_accountbook_13.presenter.navigation.History
 import com.example.android_accountbook_13.presenter.navigation.bottomTabScreens
 import com.example.android_accountbook_13.ui.theme.AccountBookTheme
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.White
 import com.example.android_accountbook_13.ui.theme.White50
 
+private var prevScreen: AccountBookDestination = History
+
 @Composable
 fun AccountBookBottomAppBar(
-    destination: AccountBookDestination,
+    destination: AccountBookDestination?,
     backgroundColor: Color = Purple,
     elevation: Dp = 0.dp,
     onClick: (AccountBookDestination) -> Unit = {}
@@ -32,11 +35,12 @@ fun AccountBookBottomAppBar(
             backgroundColor = backgroundColor,
             elevation = elevation
         ) {
+            var nextScreen: AccountBookDestination = destination ?: prevScreen
             bottomTabScreens.forEach { screen ->
                 ItemBottomAppBars(
                     screen,
                     Modifier.weight(1f),
-                    if (destination.route == screen.route) White else White50
+                    if (nextScreen.route == screen.route) White else White50
                 ) {
                     onClick(screen)
                 }
@@ -52,6 +56,7 @@ private fun ItemBottomAppBars(
     color: Color,
     onClick: () -> Unit
 ) {
+    prevScreen = screen
     Box(contentAlignment = Alignment.TopCenter, modifier = modifier.fillMaxHeight()) {
         IconButton(onClick = onClick) {
             Icon(
