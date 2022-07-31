@@ -1,9 +1,16 @@
 package com.example.android_accountbook_13.presenter.component
 
 import android.util.Log
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.scaleIn
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -20,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.Method
@@ -53,13 +61,14 @@ fun AccountBookAdditionScreen(
     }
     var text by rememberSaveable { mutableStateOf("") }
     var color by rememberSaveable { mutableStateOf("") }
+    var selectedIndex by rememberSaveable { mutableStateOf(0) }
 
     Scaffold(
         topBar = {
             AccountBookTopAppBar(
                 title = screenTitle,
                 leftVectorResource = R.drawable.ic_back,
-                onLeftClick = {navController.popBackStack()}
+                onLeftClick = { navController.popBackStack() }
             )
         },
         backgroundColor = OffWhite
@@ -96,10 +105,15 @@ fun AccountBookAdditionScreen(
             if (title != "결제") {
                 SettingHeader(title = "색상")
                 if (title == "지출") {
-                    ColorPalette(expenseColors1, { selectedColor -> color = selectedColor })
-                    ColorPalette(expenseColors2, { selectedColor -> color = selectedColor })
+                    ColorPalette(expenseColors, selectedIndex) { selectedColor, index ->
+                        color = selectedColor
+                        selectedIndex = index
+                    }
                 } else {
-                    ColorPalette(incomeColors, { selectedColor -> color = selectedColor })
+                    ColorPalette(incomeColors, selectedIndex) { selectedColor, index ->
+                        color = selectedColor
+                        selectedIndex = index
+                    }
                 }
             }
             Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
@@ -121,14 +135,14 @@ fun AccountBookAdditionScreen(
                             }
                         } else {
                             if (type) {
-                                if(title == "수입"){
+                                if (title == "수입") {
                                     viewModel.insertCategory(Category(null, text, color, 0))
                                 } else {
                                     viewModel.insertCategory(Category(null, text, color, 1))
                                 }
                             } else {
                                 Log.d("Test", id.toString())
-                                if(title == "수입"){
+                                if (title == "수입") {
                                     viewModel.updateCategory(Category(id, text, color, 0))
                                 } else {
                                     viewModel.updateCategory(Category(id, text, color, 1))
@@ -142,31 +156,41 @@ fun AccountBookAdditionScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ColorPalette(
     colors: List<String>,
-    onClick: (String) -> Unit,
-    modifier: Modifier = Modifier
+    selectedIndex: Int,
+    onClick: (String, Int) -> Unit
 ) {
-    LazyRow(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(13.dp),
-        contentPadding = PaddingValues(16.dp)
-
+    LazyVerticalGrid(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        cells = GridCells.Fixed(10),
+        verticalArrangement = Arrangement.Center
     ) {
-        items(colors) { color ->
-            Surface(
-                modifier = Modifier
-                    .clickable {
-                        onClick(color)
-                    }
-                    .size(24.dp),
-                color = Color(android.graphics.Color.parseColor(color))
-            ) {
-
+        colors.forEachIndexed { index, color ->
+            item {
+                Box(modifier = Modifier.size(32.dp).padding(4.dp)) {
+                    Surface(
+                        modifier = Modifier
+                            .clickable { onClick(color, index) }
+                            .size(if (selectedIndex == index) 24.dp else 16.dp)
+                            .align(Alignment.Center)
+                            .animateContentSize(TweenSpec()),
+                        color = Color(android.graphics.Color.parseColor(color))
+                    ) {}
+                }
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AdditionScreenPreview() {
+    AccountBookAdditionScreen(navController = rememberNavController(), title = "지출", id = 0, type = false)
 }
 
 
@@ -175,13 +199,10 @@ val incomeColors = listOf(
     "#CCD67A", "#EAE07C", "#EDCF65",
     "#EBC374", "#E1AD60", "#E29C4D", "#E39145",
 )
-val expenseColors1 = listOf(
+val expenseColors = listOf(
     "#4A6CC3", "#2E86C7", "#4CA1DE", "#48C2E9",
     "#6ED5EB", "#9FE7C8", "#94D3CC", "#4CB8B8",
-    "#40B98D", "#2FA488",
-)
-val expenseColors2 = listOf(
-    "#625EBA", "#817DCE",
+    "#40B98D", "#2FA488", "#625EBA", "#817DCE",
     "#9B7DCE", "#B391EB", "#D092E2", "#F1B4EF",
     "#F4AEE1", "#F396B8", "#DC5D7B", "#CB588F",
 )
