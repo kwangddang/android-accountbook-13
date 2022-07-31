@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.presenter.component.AccountBookCategory
+import com.example.android_accountbook_13.presenter.navigation.AccountBookDestination
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 
@@ -33,7 +34,7 @@ fun SettingContent(
 ) {
     Column(modifier = Modifier
         .fillMaxWidth()
-        .clickable { onClick }
+        .clickable(onClick = onClick)
         .padding(start = 16.dp, end = 16.dp, top = 8.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -71,7 +72,7 @@ fun SettingFooter(
 ) {
     Column(modifier = Modifier
         .fillMaxWidth()
-        .clickable { onClick }
+        .clickable(onClick = onClick)
         .padding(top = 8.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp)) {
