@@ -145,7 +145,7 @@ class LocalDataSourceImpl @Inject constructor(
     override fun getAccountBook(year: Int, month: Int): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
-                "SELECT * FROM history h INNER JOIN category c ON h.category_id = c.id INNER JOIN method m ON h.method_id = m.id WHERE h.month = ${month} AND h.year = ${year};", null
+                "SELECT * FROM history h INNER JOIN category c ON h.category_id = c.id INNER JOIN method m ON h.method_id = m.id WHERE h.month = ${month} AND h.year = ${year} ORDER By day;", null
             )
         }
 }
