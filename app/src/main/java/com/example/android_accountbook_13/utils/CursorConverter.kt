@@ -1,6 +1,7 @@
 package com.example.android_accountbook_13.utils
 
 import android.database.Cursor
+import android.util.Log
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
@@ -10,7 +11,8 @@ fun getHistoryFromCursor(cursor: Cursor,startIndex: Int): History {
     val id = cursor.getInt(index++)
     val categoryId = cursor.getInt(index++)
     val methodId = cursor.getInt(index++)
-    val name = cursor.getString(index++)
+    var name = cursor.getString(index++)
+    if(name.isEmpty()) name = "미내용"
     val methodType = cursor.getInt(index++)
     val money = cursor.getLong(index++)
     val year = cursor.getInt(index++)
@@ -33,6 +35,5 @@ fun getMethodFromCursor(cursor: Cursor,startIndex: Int): Method {
     var index = startIndex
     val id = cursor.getInt(index++)
     val name = cursor.getString(index++)
-
     return Method(id,name)
 }

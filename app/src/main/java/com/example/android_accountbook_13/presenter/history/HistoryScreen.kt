@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.history
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,27 +19,32 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.presenter.component.*
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.utils.decreaseDate
-import com.example.android_accountbook_13.utils.getDateString
+import com.example.android_accountbook_13.utils.getYearMonthString
 import com.example.android_accountbook_13.utils.increaseDate
 
 @Composable
 fun HistoryScreen(
+    navHostController: NavHostController,
     historyViewModel: HistoryViewModel = hiltViewModel(),
 ) {
 
     var date by historyViewModel.date
     historyViewModel.getAccountBookItems(date.year, date.month)
+    var incomeChecked by rememberSaveable { mutableStateOf(true) }
+    var expenseChecked by rememberSaveable { mutableStateOf(true) }
 
     Scaffold(
         topBar = {
             AccountBookTopAppBar(
-                title = getDateString(date),
+                title = getYearMonthString(date),
                 leftVectorResource = R.drawable.ic_left,
                 rightVectorResource = R.drawable.ic_right,
                 onLeftClick = {
@@ -50,18 +56,18 @@ fun HistoryScreen(
             )
         },
         floatingActionButton = {
-            HistoryFab(onClick = {})
+            HistoryFab(onClick = {
+                navHostController.navigate("historyAddition/" +
+                        "${if((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 0 else 1},-1")
+            })
         },
         backgroundColor = MaterialTheme.colors.background
     ) {
         val checkedItems by historyViewModel.checkedItems.collectAsState()
-        var incomeChecked by rememberSaveable { mutableStateOf(true) }
-        var expenseChecked by rememberSaveable { mutableStateOf(true) }
         val incomeMoney by historyViewModel.incomeMoney.collectAsState()
         val expenseMoney by historyViewModel.expenseMoney.collectAsState()
-        historyViewModel.getCheckedItems(incomeChecked,expenseChecked)
+        historyViewModel.getCheckedItems(incomeChecked, expenseChecked)
         val group = checkedItems.groupBy { it.history.day }
-
         Column {
             AccountBookFilterButton(
                 incomeChecked = incomeChecked,
@@ -106,7 +112,9 @@ fun HistoryScreen(
                         items(accountBookItems) { item ->
                             AccountBookItemContent(
                                 item,
-                                onClick = { /*TODO*/ }) {
+                                onClick = {
+                                    navHostController.navigate("historyAddition/${item.history.methodType},${item.history.id}")
+                                }) {
                                 true
                             }
                             Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp))
@@ -115,7 +123,9 @@ fun HistoryScreen(
                         item {
                             AccountBookItemContent(
                                 lastAccountBookItem,
-                                onClick = { /*TODO*/ }) {
+                                onClick = {
+                                    navHostController.navigate("historyAddition/${lastAccountBookItem.history.methodType},${lastAccountBookItem.history.id}")
+                                }) {
                                 true
                             }
                         }
@@ -148,5 +158,5 @@ private fun BlankScreen() {
 @Preview(showBackground = true)
 @Composable
 private fun HistoryPreview() {
-    HistoryScreen()
+    HistoryScreen(rememberNavController())
 }

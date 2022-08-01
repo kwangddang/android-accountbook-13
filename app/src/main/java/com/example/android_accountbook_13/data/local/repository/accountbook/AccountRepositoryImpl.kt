@@ -22,7 +22,7 @@ class AccountRepositoryImpl @Inject constructor(
                 AccountBookItem(
                     getHistoryFromCursor(cursor, 0),
                     getCategoryFromCursor(cursor, 9),
-                    getMethodFromCursor(cursor, 12)
+                    getMethodFromCursor(cursor, 13)
                 )
             )
         }

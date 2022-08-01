@@ -64,7 +64,7 @@ fun AccountBookSwitchButton(
     onExpenseClick: () -> Unit = {},
 ) {
     AccountBookTheme {
-        Row {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             ThinButton(
                 shape = RoundedCornerShape(
                     topStart = radiusDP.topStart,
