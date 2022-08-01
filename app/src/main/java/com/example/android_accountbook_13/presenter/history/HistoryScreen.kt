@@ -86,8 +86,8 @@ fun HistoryScreen(
 
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
-                YearMonthDayDatePicker(onDismissRequest = { isDialog = false }) { year, month, day ->
-                    date = Date(year, month, day)
+                YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->
+                    date = Date(year, month, 1)
                     isDialog = false
                 }
             }

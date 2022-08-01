@@ -39,7 +39,7 @@ fun AccountBookNavHost(
         }
 
         composable(Calendar.route) {
-            CalendarScreen()
+            CalendarScreen(historyViewModel)
         }
 
         composable(Statistic.route) {

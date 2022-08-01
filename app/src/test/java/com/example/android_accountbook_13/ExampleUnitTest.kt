@@ -14,6 +14,6 @@ import org.threeten.bp.LocalDate
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, getDayOfWeek(Date(2022,7,31)))
+        assertEquals(4, LocalDate.of(2022,2,1).lengthOfMonth())
     }
 }

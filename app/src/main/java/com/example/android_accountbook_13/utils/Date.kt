@@ -16,10 +16,14 @@ fun getCurrentDate(): Date {
 
 fun getDayOfWeek(date: Date): String {
     val dayOfWeekName = arrayOf("월요일","화요일","수요일","목요일","금요일","토요일","일요일")
+    val number = getDayOfWeekNumber(date)
+    return dayOfWeekName[number - 1]
+}
+
+fun getDayOfWeekNumber(date: Date): Int {
     val date = LocalDate.of(date.year,date.month,date.day)
     val dayOfWeek = date.dayOfWeek
-    val number = dayOfWeek.value
-    return dayOfWeekName[number - 1]
+    return dayOfWeek.value - 1
 }
 
 fun getYearMonthString(date: Date): String {
@@ -55,4 +59,8 @@ fun decreaseDate(date: Date): Date {
         newDate.year--
     }
     return newDate
+}
+
+fun getEndOfMonth(date: Date): Int {
+    return LocalDate.of(date.year,date.month,date.day).lengthOfMonth()
 }
