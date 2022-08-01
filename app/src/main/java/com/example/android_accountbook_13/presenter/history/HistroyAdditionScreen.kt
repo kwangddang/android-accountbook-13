@@ -4,6 +4,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -13,6 +14,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,7 +51,7 @@ fun HistoryAdditionScreen(
     var checkedMethod by remember { mutableStateOf(Method(null, "")) }
     var methodExpanded by rememberSaveable { mutableStateOf(false) }
 
-    var checkedCategory by remember{ mutableStateOf(Category(null,"","",-1)) }
+    var checkedCategory by remember { mutableStateOf(Category(null, "", "", -1)) }
     var categoryExpanded by rememberSaveable { mutableStateOf(false) }
 
     var isDialog by rememberSaveable { mutableStateOf(false) }
@@ -72,7 +74,8 @@ fun HistoryAdditionScreen(
         topBar = {
             AccountBookTopAppBar(
                 title = "내역 ${if (id == -1) "등록" else "수정"}",
-                leftVectorResource = R.drawable.ic_back
+                leftVectorResource = R.drawable.ic_back,
+                onLeftClick = { navHostController.popBackStack() }
             )
         },
         backgroundColor = OffWhite,
@@ -80,7 +83,7 @@ fun HistoryAdditionScreen(
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month, day ->
-                    date = Date(year,month,day)
+                    date = Date(year, month, day)
                     isDialog = false
                 }
             }
@@ -104,16 +107,22 @@ fun HistoryAdditionScreen(
             HistoryAdditionItem(title = "일자") {
 
                 Text(text = getYearMonthDayString(date),
-                modifier = Modifier
-                    .clickable { isDialog = true }
-                    .width(280.dp)
-                    .height(56.dp)
-                    .padding(start = 16.dp, top = 16.dp),
-                fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Purple)
+                    modifier = Modifier
+                        .clickable { isDialog = true }
+                        .width(280.dp)
+                        .height(56.dp)
+                        .padding(start = 16.dp, top = 16.dp),
+                    fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Purple)
             }
 
             HistoryAdditionItem(title = "금액") {
-                HistoryAdditionTextField(text = price, onValueChange = { textValue -> price = textValue })
+                HistoryAdditionTextField(
+                    text = price,
+                    onValueChange = { textValue ->
+                        if ((textValue[textValue.lastIndex] in '0'..'9')) price = textValue
+                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                )
             }
 
             HistoryAdditionItem(title = "결제 수단") {
@@ -139,7 +148,7 @@ fun HistoryAdditionScreen(
                     HistoryAdditionSpinner(
                         Modifier.Companion.align(Alignment.CenterEnd),
                         categoryExpanded,
-                        if(incomeChecked) incomeCategories else expenseCategories,
+                        if (incomeChecked) incomeCategories else expenseCategories,
                         { categoryExpanded = !categoryExpanded },
                         { category ->
                             checkedCategory = category as Category
@@ -162,14 +171,17 @@ fun HistoryAdditionScreen(
                         .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
                         .height(56.dp)
                 ) {
-                    viewModel.insertHistory(History(
-                        null,
-                        checkedCategory.id!!,
-                        checkedMethod.id!!,content,
-                        if(incomeChecked) 0 else 1,
-                        price.toLong(),
-                        date.year,date.month,date.day
-                    ))
+                    viewModel.insertHistory(
+                        History(
+                            null,
+                            checkedCategory.id ?: 3,
+                            checkedMethod.id!!, content,
+                            if (incomeChecked) 1 else 0,
+                            price.toLong(),
+                            date.year, date.month, date.day
+                        )
+                    )
+                    navHostController.popBackStack()
                 }
             }
         }
@@ -196,7 +208,7 @@ private fun HistoryAdditionSpinner(
                     .width(256.dp)
             ) {
                 items.forEach { item ->
-                    if(item is Method) {
+                    if (item is Method) {
                         DropdownMenuItem(onClick = {
                             onItemClick(item)
                         }) {
@@ -241,7 +253,8 @@ private fun HistoryAdditionTextField(
     placeHolder: String = "입력하세요",
     onValueChange: (String) -> Unit,
     readOnly: Boolean = false,
-    modifier: Modifier? = null
+    modifier: Modifier? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
     TextField(
         value = text,
@@ -255,6 +268,7 @@ private fun HistoryAdditionTextField(
         ),
         placeholder = { Text(text = placeHolder, color = LightPurple, fontWeight = FontWeight.Bold) },
         readOnly = readOnly,
-        modifier = modifier ?: Modifier
+        modifier = modifier ?: Modifier,
+        keyboardOptions = keyboardOptions
     )
 }

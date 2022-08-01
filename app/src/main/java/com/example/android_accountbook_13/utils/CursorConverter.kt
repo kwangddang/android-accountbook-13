@@ -11,7 +11,8 @@ fun getHistoryFromCursor(cursor: Cursor,startIndex: Int): History {
     val id = cursor.getInt(index++)
     val categoryId = cursor.getInt(index++)
     val methodId = cursor.getInt(index++)
-    val name = cursor.getString(index++)
+    var name = cursor.getString(index++)
+    if(name.isEmpty()) name = "미내용"
     val methodType = cursor.getInt(index++)
     val money = cursor.getLong(index++)
     val year = cursor.getInt(index++)
