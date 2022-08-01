@@ -16,6 +16,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -216,6 +217,8 @@ private fun AddingHistorySpinner(
                 modifier = Modifier
                     .border(2.dp, Purple, shape = RoundedCornerShape(12.dp))
                     .width(256.dp)
+                    .height(156.dp),
+                offset = DpOffset(0.dp,16.dp)
             ) {
                 items.forEach { item ->
                     if (item is Method) {

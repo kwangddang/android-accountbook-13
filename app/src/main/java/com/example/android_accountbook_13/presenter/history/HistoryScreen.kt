@@ -69,6 +69,7 @@ fun HistoryScreen(
                 onRightClick = {
                     if(isEditMode) {
                         historyViewModel.deleteHistory(deleteIdList)
+                        historyViewModel.getAccountBookItems()
                         isEditMode = false
                         deleteIdList.clear()
                     }
