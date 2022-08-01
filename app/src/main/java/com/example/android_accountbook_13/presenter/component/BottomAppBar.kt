@@ -24,7 +24,7 @@ import com.example.android_accountbook_13.ui.theme.White50
 private var prevScreen: AccountBookDestination = History
 
 @Composable
-fun AccountBookBottomAppBar(
+fun BottomAppBar(
     destination: AccountBookDestination?,
     backgroundColor: Color = Purple,
     elevation: Dp = 0.dp,
@@ -77,5 +77,5 @@ private fun ItemBottomAppBars(
 @Composable
 @Preview(showBackground = true)
 private fun BottomAppBarsPreview() {
-    AccountBookBottomAppBar(Calendar)
+    BottomAppBar(Calendar)
 }

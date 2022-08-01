@@ -1,31 +1,27 @@
 package com.example.android_accountbook_13.presenter.component
 
-import android.util.Log
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.TweenSpec
-import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
@@ -38,7 +34,7 @@ import com.example.android_accountbook_13.ui.theme.OffWhite
 import com.example.android_accountbook_13.ui.theme.Purple
 
 @Composable
-fun AccountBookAdditionScreen(
+fun AdditionScreen(
     navController: NavHostController,
     title: String,
     id: Int?,
@@ -65,7 +61,7 @@ fun AccountBookAdditionScreen(
 
     Scaffold(
         topBar = {
-            AccountBookTopAppBar(
+            TopAppBar(
                 title = screenTitle,
                 leftVectorResource = R.drawable.ic_back,
                 onLeftClick = { navController.popBackStack() }
@@ -119,7 +115,7 @@ fun AccountBookAdditionScreen(
             Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
 
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-                AccountBookAddingButton(
+                AddingButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
@@ -190,7 +186,7 @@ private fun ColorPalette(
 @Preview(showBackground = true)
 @Composable
 fun AdditionScreenPreview() {
-    AccountBookAdditionScreen(navController = rememberNavController(), title = "지출", id = 0, type = false)
+    AdditionScreen(navController = rememberNavController(), title = "지출", id = 0, type = false)
 }
 
 

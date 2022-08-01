@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.presenter.calendar.CalendarScreen
-import com.example.android_accountbook_13.presenter.component.AccountBookAdditionScreen
+import com.example.android_accountbook_13.presenter.component.AdditionScreen
 import com.example.android_accountbook_13.presenter.history.HistoryAdditionScreen
 import com.example.android_accountbook_13.presenter.history.HistoryScreen
 import com.example.android_accountbook_13.presenter.setting.SettingScreen
@@ -53,7 +53,7 @@ fun AccountBookNavHost(
                 navArgument("type"){ type = NavType.BoolType}
             )
         ) {
-            AccountBookAdditionScreen(
+            AdditionScreen(
                 navController,
                 title = it.arguments?.getString("title")!!,
                 id = it.arguments?.getInt("id"),

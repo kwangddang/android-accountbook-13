@@ -15,7 +15,7 @@ import com.example.android_accountbook_13.ui.theme.White
 import com.example.android_accountbook_13.ui.theme.Yellow
 
 @Composable
-fun AccountBookCategory(
+fun Category(
     title: String,
     backgroundColor: Color,
     modifier: Modifier = Modifier
@@ -39,6 +39,6 @@ fun AccountBookCategory(
 
 @Preview
 @Composable
-private fun AccountBookCategoryDefault() {
-    AccountBookCategory("문화/여가", Yellow)
+private fun CategoryPreview() {
+    Category("문화/여가", Yellow)
 }

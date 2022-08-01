@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -20,7 +19,7 @@ import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.Red
 
 @Composable
-fun AccountBookTopAppBar(
+fun TopAppBar(
     title: String,
     leftVectorResource: Int? = null,
     rightVectorResource: Int? = null,
@@ -110,23 +109,23 @@ private fun TitleTopAppBar(
 @Preview(showBackground = true)
 @Composable
 private fun BaseTopAppBarPreview() {
-    AccountBookTopAppBar(title = "Toolbar", onLeftClick = { }, onRightClick = {}){}
+    TopAppBar(title = "Toolbar", onLeftClick = { }, onRightClick = {}){}
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun BackTopAppBarPreview() {
-    AccountBookTopAppBar("설정", R.drawable.ic_back, onLeftClick = {}, onRightClick = {}){}
+    TopAppBar("설정", R.drawable.ic_back, onLeftClick = {}, onRightClick = {}){}
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun DateTopAppBarPreview() {
-    AccountBookTopAppBar("2022년 7월", R.drawable.ic_left, R.drawable.ic_right, onLeftClick = {}, onRightClick = {}){}
+    TopAppBar("2022년 7월", R.drawable.ic_left, R.drawable.ic_right, onLeftClick = {}, onRightClick = {}){}
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun TrashTopAppBarPreview() {
-    AccountBookTopAppBar("1개 선택", R.drawable.ic_back, R.drawable.ic_trash, onLeftClick = {}, onRightClick = {}){}
+    TopAppBar("1개 선택", R.drawable.ic_back, R.drawable.ic_trash, onLeftClick = {}, onRightClick = {}){}
 }

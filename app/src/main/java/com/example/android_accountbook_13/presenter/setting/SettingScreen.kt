@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.setting
 
-import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.android_accountbook_13.presenter.component.AccountBookTopAppBar
+import com.example.android_accountbook_13.presenter.component.TopAppBar
 import com.example.android_accountbook_13.presenter.setting.component.SettingContent
 import com.example.android_accountbook_13.presenter.setting.component.SettingFooter
 import com.example.android_accountbook_13.presenter.setting.component.SettingHeader
@@ -36,7 +35,7 @@ fun SettingScreen(
     val expenseCategories by viewModel.expenseCategories.collectAsState()
     Scaffold(
         topBar = {
-            AccountBookTopAppBar(
+            TopAppBar(
                 title = "설정",
             )
         },

@@ -24,9 +24,9 @@ import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
-import com.example.android_accountbook_13.presenter.component.AccountBookAddingButton
-import com.example.android_accountbook_13.presenter.component.AccountBookSwitchButton
-import com.example.android_accountbook_13.presenter.component.AccountBookTopAppBar
+import com.example.android_accountbook_13.presenter.component.AddingButton
+import com.example.android_accountbook_13.presenter.component.SwitchButton
+import com.example.android_accountbook_13.presenter.component.TopAppBar
 import com.example.android_accountbook_13.presenter.component.YearMonthDayDatePicker
 import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.ui.theme.LightPurple
@@ -70,7 +70,7 @@ fun HistoryAdditionScreen(
 
     Scaffold(
         topBar = {
-            AccountBookTopAppBar(
+            TopAppBar(
                 title = "내역 ${if (id == -1) "등록" else "수정"}",
                 leftVectorResource = R.drawable.ic_back,
                 onLeftClick = { navHostController.popBackStack() }
@@ -88,7 +88,7 @@ fun HistoryAdditionScreen(
         }
         Column {
             Spacer(modifier = Modifier.height(24.dp))
-            AccountBookSwitchButton(
+            SwitchButton(
                 incomeChecked = incomeChecked,
                 expenseChecked = expenseChecked,
                 onIncomeClick = {
@@ -161,7 +161,7 @@ fun HistoryAdditionScreen(
                 HistoryAdditionTextField(text = content, onValueChange = { textValue -> content = textValue })
             }
             Box(modifier = Modifier.fillMaxSize()) {
-                AccountBookAddingButton(
+                AddingButton(
                     enabled = (price.isNotBlank() && price.isNotEmpty() && (checkedMethod.name.isNotEmpty() && checkedMethod.name.isNotBlank())),
                     modifier = Modifier
                         .align(Alignment.BottomCenter)

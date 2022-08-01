@@ -47,7 +47,7 @@ fun HistoryScreen(
 
     Scaffold(
         topBar = {
-            AccountBookTopAppBar(
+            TopAppBar(
                 title = if (isEditMode) "다중 선택" else getYearMonthString(date),
                 titleOnClick = {if(!isEditMode) isDialog = true},
                 leftVectorResource = if (isEditMode) R.drawable.ic_back else R.drawable.ic_left,
@@ -95,7 +95,7 @@ fun HistoryScreen(
         }
 
         Column {
-            AccountBookFilterButton(
+            FilterButton(
                 incomeChecked = incomeChecked,
                 expenseChecked = expenseChecked,
                 incomeMoney = incomeMoney,
@@ -123,7 +123,7 @@ fun HistoryScreen(
                         }
 
                         item {
-                            AccountBookItemHeader(
+                            ItemHeader(
                                 date = "${date.month}월 ${day}일",
                                 income = income,
                                 expense = expense,
@@ -136,7 +136,7 @@ fun HistoryScreen(
                         val lastAccountBookItem = accountBookItems.removeLast()
 
                         items(accountBookItems) { item ->
-                            AccountBookItemContent(
+                            HistoryItemContent(
                                 item,
                                 isEditMode = isEditMode,
                                 onCheckedChange = { id ->
@@ -173,7 +173,7 @@ fun HistoryScreen(
                         }
 
                         item {
-                            AccountBookItemContent(
+                            HistoryItemContent(
                                 lastAccountBookItem,
                                 isEditMode = isEditMode,
                                 onClick = {

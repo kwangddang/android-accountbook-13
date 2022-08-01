@@ -25,7 +25,7 @@ import com.example.android_accountbook_13.utils.moneyConverter
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AccountBookItemContent(
+fun HistoryItemContent(
     accountBookItem: AccountBookItem,
     isEditMode: Boolean,
     onCheckedChange: (Int) -> Unit = {},
@@ -72,7 +72,7 @@ fun AccountBookItemContent(
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                AccountBookCategory(
+                Category(
                     title = accountBookItem.category.name,
                     backgroundColor = Color(android.graphics.Color.parseColor(accountBookItem.category.color)),
                     modifier = Modifier.align(Alignment.CenterStart)
@@ -115,7 +115,7 @@ fun AccountBookItemContent(
 }
 
 @Composable
-fun AccountBookItemHeader(
+fun ItemHeader(
     date: String,
     income: Long,
     expense: Long,
@@ -162,8 +162,8 @@ private fun HeaderText(text: String) {
 
 @Preview(showBackground = true)
 @Composable
-private fun AccountBookItemContentPreview() {
-    AccountBookItemContent(
+private fun HistoryItemContentPreview() {
+    HistoryItemContent(
         accountBookItem = AccountBookItem(
             history = History(0, 0, 0, "스트리밍 서비스 정기 결제", 1, 10900, 2022, 7, 15),
             category = Category(0, "문화/여가", "#40B98D", 0),
@@ -177,6 +177,6 @@ private fun AccountBookItemContentPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun AccountBookHistoryHeaderPreview() {
-    AccountBookItemHeader("7월 15일 금", 0, 56240, true, true)
+private fun HistoryHeaderPreview() {
+    ItemHeader("7월 15일 금", 0, 56240, true, true)
 }
