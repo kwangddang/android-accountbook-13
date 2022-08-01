@@ -15,18 +15,18 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
-import com.example.android_accountbook_13.presenter.component.AccountBookAddingButton
-import com.example.android_accountbook_13.presenter.component.AccountBookSwitchButton
-import com.example.android_accountbook_13.presenter.component.AccountBookTopAppBar
+import com.example.android_accountbook_13.presenter.component.AddingButton
+import com.example.android_accountbook_13.presenter.component.SwitchButton
+import com.example.android_accountbook_13.presenter.component.TopAppBar
 import com.example.android_accountbook_13.presenter.component.YearMonthDayDatePicker
 import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.ui.theme.LightPurple
@@ -37,12 +37,18 @@ import com.example.android_accountbook_13.utils.getCurrentDate
 import com.example.android_accountbook_13.utils.getYearMonthDayString
 
 @Composable
-fun HistoryAdditionScreen(
+fun AddingHistoryScreen(
     navHostController: NavHostController,
     method: Int,
     id: Int?,
-    viewModel: SettingViewModel = hiltViewModel()
+    historyViewModel: HistoryViewModel,
+    settingViewModel: SettingViewModel
 ) {
+    settingViewModel.run {
+        getAllMethod()
+        getIncomeCategory()
+        getExpenseCategory()
+    }
     var price by rememberSaveable { mutableStateOf("") }
     var content by rememberSaveable { mutableStateOf("") }
 
@@ -59,18 +65,13 @@ fun HistoryAdditionScreen(
     var incomeChecked by rememberSaveable { mutableStateOf(method == 0) }
     var expenseChecked by rememberSaveable { mutableStateOf(method == 1) }
 
-    viewModel.run {
-        getAllMethod()
-        getIncomeCategory()
-        getExpenseCategory()
-    }
-    val methods by viewModel.methods.collectAsState()
-    val incomeCategories by viewModel.incomeCategories.collectAsState()
-    val expenseCategories by viewModel.expenseCategories.collectAsState()
+    val methods by settingViewModel.methods.collectAsState()
+    val incomeCategories by settingViewModel.incomeCategories.collectAsState()
+    val expenseCategories by settingViewModel.expenseCategories.collectAsState()
 
     Scaffold(
         topBar = {
-            AccountBookTopAppBar(
+            TopAppBar(
                 title = "내역 ${if (id == -1) "등록" else "수정"}",
                 leftVectorResource = R.drawable.ic_back,
                 onLeftClick = { navHostController.popBackStack() }
@@ -88,7 +89,7 @@ fun HistoryAdditionScreen(
         }
         Column {
             Spacer(modifier = Modifier.height(24.dp))
-            AccountBookSwitchButton(
+            SwitchButton(
                 incomeChecked = incomeChecked,
                 expenseChecked = expenseChecked,
                 onIncomeClick = {
@@ -102,7 +103,7 @@ fun HistoryAdditionScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            HistoryAdditionItem(title = "일자") {
+            AddingHistoryItem(title = "일자") {
 
                 Text(text = getYearMonthDayString(date),
                     modifier = Modifier
@@ -113,8 +114,8 @@ fun HistoryAdditionScreen(
                     fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Purple)
             }
 
-            HistoryAdditionItem(title = "금액") {
-                HistoryAdditionTextField(
+            AddingHistoryItem(title = "금액") {
+                AddingHistoryTextField(
                     text = price,
                     onValueChange = { textValue ->
                         if ((textValue[textValue.lastIndex] in '0'..'9')) price = textValue
@@ -123,10 +124,10 @@ fun HistoryAdditionScreen(
                 )
             }
 
-            HistoryAdditionItem(title = "결제 수단") {
+            AddingHistoryItem(title = "결제 수단") {
                 Box() {
-                    HistoryAdditionTextField(checkedMethod.name, "선택하세요", {}, true)
-                    HistoryAdditionSpinner(
+                    AddingHistoryTextField(checkedMethod.name, "선택하세요", {}, true)
+                    AddingHistorySpinner(
                         Modifier.Companion.align(Alignment.CenterEnd),
                         methodExpanded,
                         methods,
@@ -135,15 +136,16 @@ fun HistoryAdditionScreen(
                             checkedMethod = method as Method
                             methodExpanded = false
                         },
+                        { navHostController.navigate("addingSetting/결제,-1,true") },
                         { methodExpanded = false }
                     )
                 }
             }
 
-            HistoryAdditionItem(title = "분류") {
+            AddingHistoryItem(title = "분류") {
                 Box() {
-                    HistoryAdditionTextField(checkedCategory.name, "선택하세요", {}, true)
-                    HistoryAdditionSpinner(
+                    AddingHistoryTextField(checkedCategory.name, "선택하세요", {}, true)
+                    AddingHistorySpinner(
                         Modifier.Companion.align(Alignment.CenterEnd),
                         categoryExpanded,
                         if (incomeChecked) incomeCategories else expenseCategories,
@@ -152,16 +154,20 @@ fun HistoryAdditionScreen(
                             checkedCategory = category as Category
                             categoryExpanded = false
                         },
+                        { navHostController.navigate(
+                            if(incomeChecked) "addingSetting/수입,-1,true"
+                            else "addingSetting/지출,-1,true")
+                        },
                         { categoryExpanded = false }
                     )
                 }
             }
 
-            HistoryAdditionItem(title = "내용") {
-                HistoryAdditionTextField(text = content, onValueChange = { textValue -> content = textValue })
+            AddingHistoryItem(title = "내용") {
+                AddingHistoryTextField(text = content, onValueChange = { textValue -> content = textValue })
             }
             Box(modifier = Modifier.fillMaxSize()) {
-                AccountBookAddingButton(
+                AddingButton(
                     enabled = (price.isNotBlank() && price.isNotEmpty() && (checkedMethod.name.isNotEmpty() && checkedMethod.name.isNotBlank())),
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
@@ -171,7 +177,7 @@ fun HistoryAdditionScreen(
                 ) {
                     if(id == -1)
                     {
-                        viewModel.insertHistory(
+                        historyViewModel.insertHistory(
                             History(
                                 null,
                                 checkedCategory.id ?: 3,
@@ -183,7 +189,7 @@ fun HistoryAdditionScreen(
                         )
                     }
                     else {
-                        viewModel.updateHistory(
+                        historyViewModel.updateHistory(
                             History(
                                 id,
                                 checkedCategory.id ?: 3,
@@ -202,12 +208,13 @@ fun HistoryAdditionScreen(
 }
 
 @Composable
-private fun HistoryAdditionSpinner(
+private fun AddingHistorySpinner(
     modifier: Modifier = Modifier,
     expended: Boolean,
     items: List<*>,
     onIconClick: () -> Unit,
     onItemClick: (Any) -> Unit,
+    onAddClick: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
     IconButton(onClick = onIconClick, modifier = modifier) {
@@ -219,6 +226,8 @@ private fun HistoryAdditionSpinner(
                 modifier = Modifier
                     .border(2.dp, Purple, shape = RoundedCornerShape(12.dp))
                     .width(256.dp)
+                    .height(156.dp),
+                offset = DpOffset(0.dp,16.dp)
             ) {
                 items.forEach { item ->
                     if (item is Method) {
@@ -233,13 +242,23 @@ private fun HistoryAdditionSpinner(
                         }
                     }
                 }
+                DropdownMenuItem(onClick = onAddClick) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        Text(text = "추가하기", modifier = Modifier.align(Alignment.CenterStart))
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus),
+                            contentDescription = "추가",
+                            modifier = Modifier.align(Alignment.CenterEnd)
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun HistoryAdditionItem(
+private fun AddingHistoryItem(
     title: String,
     content: @Composable () -> Unit
 ) {
@@ -261,7 +280,7 @@ private fun HistoryAdditionItem(
 }
 
 @Composable
-private fun HistoryAdditionTextField(
+private fun AddingHistoryTextField(
     text: String,
     placeHolder: String = "입력하세요",
     onValueChange: (String) -> Unit,

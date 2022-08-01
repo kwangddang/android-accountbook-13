@@ -1,36 +1,34 @@
-package com.example.android_accountbook_13.presenter.component
+package com.example.android_accountbook_13.presenter.common
 
 import android.util.Log
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.TweenSpec
-import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.Method
+import com.example.android_accountbook_13.presenter.component.AddingButton
 import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.presenter.setting.component.SettingHeader
 import com.example.android_accountbook_13.ui.theme.LightPurple
@@ -38,12 +36,12 @@ import com.example.android_accountbook_13.ui.theme.OffWhite
 import com.example.android_accountbook_13.ui.theme.Purple
 
 @Composable
-fun AccountBookAdditionScreen(
+fun AddingScreen(
     navController: NavHostController,
     title: String,
     id: Int?,
     type: Boolean,
-    viewModel: SettingViewModel = hiltViewModel()
+    viewModel: SettingViewModel
 ) {
     var screenTitle: String = ""
     screenTitle = if (type) {
@@ -60,12 +58,12 @@ fun AccountBookAdditionScreen(
         }
     }
     var text by rememberSaveable { mutableStateOf("") }
-    var color by rememberSaveable { mutableStateOf("") }
+    var color by rememberSaveable { mutableStateOf(if(title == "수입") incomeColors[0] else expenseColors[0]) }
     var selectedIndex by rememberSaveable { mutableStateOf(0) }
 
     Scaffold(
         topBar = {
-            AccountBookTopAppBar(
+            com.example.android_accountbook_13.presenter.component.TopAppBar(
                 title = screenTitle,
                 leftVectorResource = R.drawable.ic_back,
                 onLeftClick = { navController.popBackStack() }
@@ -119,7 +117,7 @@ fun AccountBookAdditionScreen(
             Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
 
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-                AccountBookAddingButton(
+                AddingButton(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
@@ -136,8 +134,10 @@ fun AccountBookAdditionScreen(
                         } else {
                             if (type) {
                                 if (title == "수입") {
+                                    Log.d("Test","수입 Insert")
                                     viewModel.insertCategory(Category(null, text, color, 0))
                                 } else {
+                                    Log.d("Test","지출 Insert")
                                     viewModel.insertCategory(Category(null, text, color, 1))
                                 }
                             } else {
@@ -186,13 +186,6 @@ private fun ColorPalette(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun AdditionScreenPreview() {
-    AccountBookAdditionScreen(navController = rememberNavController(), title = "지출", id = 0, type = false)
-}
-
 
 val incomeColors = listOf(
     "#9BD182", "#A3CB7A", "#B5CC7A",

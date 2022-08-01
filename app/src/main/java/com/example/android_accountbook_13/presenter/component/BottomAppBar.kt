@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.*
@@ -12,10 +13,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.android_accountbook_13.presenter.navigation.AccountBookDestination
-import com.example.android_accountbook_13.presenter.navigation.Calendar
-import com.example.android_accountbook_13.presenter.navigation.History
-import com.example.android_accountbook_13.presenter.navigation.bottomTabScreens
+import com.example.android_accountbook_13.presenter.AccountBookDestination
+import com.example.android_accountbook_13.presenter.Calendar
+import com.example.android_accountbook_13.presenter.History
+import com.example.android_accountbook_13.presenter.bottomTabScreens
 import com.example.android_accountbook_13.ui.theme.AccountBookTheme
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.White
@@ -24,7 +25,7 @@ import com.example.android_accountbook_13.ui.theme.White50
 private var prevScreen: AccountBookDestination = History
 
 @Composable
-fun AccountBookBottomAppBar(
+fun BottomAppBar(
     destination: AccountBookDestination?,
     backgroundColor: Color = Purple,
     elevation: Dp = 0.dp,
@@ -35,7 +36,7 @@ fun AccountBookBottomAppBar(
             backgroundColor = backgroundColor,
             elevation = elevation
         ) {
-            var nextScreen: AccountBookDestination = destination ?: prevScreen
+            val nextScreen: AccountBookDestination = destination ?: prevScreen
             bottomTabScreens.forEach { screen ->
                 ItemBottomAppBars(
                     screen,
@@ -45,6 +46,7 @@ fun AccountBookBottomAppBar(
                     onClick(screen)
                 }
             }
+            prevScreen = nextScreen
         }
     }
 }
@@ -56,7 +58,6 @@ private fun ItemBottomAppBars(
     color: Color,
     onClick: () -> Unit
 ) {
-    prevScreen = screen
     Box(contentAlignment = Alignment.TopCenter, modifier = modifier.fillMaxHeight()) {
         IconButton(onClick = onClick) {
             Icon(
@@ -77,5 +78,5 @@ private fun ItemBottomAppBars(
 @Composable
 @Preview(showBackground = true)
 private fun BottomAppBarsPreview() {
-    AccountBookBottomAppBar(Calendar)
+    BottomAppBar(Calendar)
 }

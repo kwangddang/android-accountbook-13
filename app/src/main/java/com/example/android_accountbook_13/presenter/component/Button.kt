@@ -25,7 +25,7 @@ data class RadiusDP(
 )
 
 @Composable
-fun AccountBookAddingButton(
+fun AddingButton(
     title: String = stringResource(id = R.string.text_btn),
     style: TextStyle = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
     modifier: Modifier = Modifier
@@ -53,7 +53,7 @@ fun AccountBookAddingButton(
 }
 
 @Composable
-fun AccountBookSwitchButton(
+fun SwitchButton(
     incomeChecked: Boolean,
     expenseChecked: Boolean,
     textColor: Color = White,
@@ -101,7 +101,7 @@ fun AccountBookSwitchButton(
 
 
 @Composable
-fun AccountBookFilterButton(
+fun FilterButton(
     incomeChecked: Boolean,
     expenseChecked: Boolean,
     incomeMoney: Long,
@@ -215,7 +215,7 @@ private fun ThinButton(
     shape: RoundedCornerShape,
     checked: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier.width(164.dp).height(32.dp),
+    modifier: Modifier = Modifier.width(164.dp).height(40.dp),
     enabledColor: Color,
     unEnabledColor: Color,
     content: @Composable RowScope.() -> Unit
@@ -232,8 +232,8 @@ private fun ThinButton(
 
 @Preview()
 @Composable
-private fun AddButtonPreview() {
-    AccountBookAddingButton(enabled = true) {
+private fun AddingButtonPreview() {
+    AddingButton(enabled = true) {
 
     }
 }
@@ -241,13 +241,13 @@ private fun AddButtonPreview() {
 @Preview()
 @Composable
 private fun SwitchButtonPreview() {
-    AccountBookSwitchButton(incomeChecked = false, expenseChecked = true)
+    SwitchButton(incomeChecked = false, expenseChecked = true)
 }
 
 @Preview()
 @Composable
 private fun FilterButtonPreview() {
-    AccountBookFilterButton(
+    FilterButton(
         incomeChecked = false,
         expenseChecked = true,
         incomeMoney = 1000,

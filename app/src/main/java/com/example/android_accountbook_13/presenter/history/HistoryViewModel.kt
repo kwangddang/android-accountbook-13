@@ -1,22 +1,17 @@
 package com.example.android_accountbook_13.presenter.history
 
-import android.util.Log
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.AccountBookItem
+import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.local.repository.accountbook.AccountRepository
 import com.example.android_accountbook_13.data.local.repository.history.HistoryRepository
 import com.example.android_accountbook_13.utils.getCurrentDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,9 +33,9 @@ class HistoryViewModel @Inject constructor(
 
     var date = mutableStateOf(getCurrentDate())
 
-    fun getAccountBookItems(year: Int, month: Int) {
+    fun getAccountBookItems() {
         viewModelScope.launch {
-            val response = accountRepository.getAccountBook(year, month)
+            val response = accountRepository.getAccountBook(date.value.year, date.value.month)
             if (response is DataResponse.Success) {
                 _accountBookItems.value = response.data!!
                 getMoney()
@@ -66,6 +61,24 @@ class HistoryViewModel @Inject constructor(
         viewModelScope.launch {
             deleteIdList.forEach{ id ->
                 historyRepository.deleteHistory(id)
+            }
+        }
+    }
+
+    fun insertHistory(history: History) {
+        viewModelScope.launch {
+            val response = historyRepository.insertHistory(history)
+            if (response is DataResponse.Error) {
+
+            }
+        }
+    }
+
+    fun updateHistory(history: History) {
+        viewModelScope.launch {
+            val response = historyRepository.updateHistory(history)
+            if (response is DataResponse.Error) {
+
             }
         }
     }

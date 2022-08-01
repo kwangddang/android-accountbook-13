@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.setting
 
-import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,10 +12,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.android_accountbook_13.presenter.component.AccountBookTopAppBar
+import com.example.android_accountbook_13.presenter.component.TopAppBar
 import com.example.android_accountbook_13.presenter.setting.component.SettingContent
 import com.example.android_accountbook_13.presenter.setting.component.SettingFooter
 import com.example.android_accountbook_13.presenter.setting.component.SettingHeader
@@ -24,19 +22,19 @@ import com.example.android_accountbook_13.presenter.setting.component.SettingHea
 @Composable
 fun SettingScreen(
     navController: NavHostController = rememberNavController(),
-    viewModel: SettingViewModel = hiltViewModel()
+    settingViewModel: SettingViewModel
 ) {
-    viewModel.run {
+    settingViewModel.run {
         getAllMethod()
         getIncomeCategory()
         getExpenseCategory()
     }
-    val methods by viewModel.methods.collectAsState()
-    val incomeCategories by viewModel.incomeCategories.collectAsState()
-    val expenseCategories by viewModel.expenseCategories.collectAsState()
+    val methods by settingViewModel.methods.collectAsState()
+    val incomeCategories by settingViewModel.incomeCategories.collectAsState()
+    val expenseCategories by settingViewModel.expenseCategories.collectAsState()
     Scaffold(
         topBar = {
-            AccountBookTopAppBar(
+            TopAppBar(
                 title = "설정",
             )
         },
@@ -51,7 +49,7 @@ fun SettingScreen(
                 SettingContent(
                     title = method.name,
                     onClick = {
-                        navController.navigate("settingAddition/결제,${method.id},false")
+                        navController.navigate("addingSetting/결제,${method.id},false")
                     }
                 )
             }
@@ -60,7 +58,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "결제수단 추가하기",
                     onClick = {
-                        navController.navigate("settingAddition/결제,-1,true")
+                        navController.navigate("addingSetting/결제,-1,true")
                     }
                 )
             }
@@ -74,7 +72,7 @@ fun SettingScreen(
                     title = category.name,
                     category = category,
                     onClick = {
-                        navController.navigate("settingAddition/지출,${category.id},false")
+                        navController.navigate("addingSetting/지출,${category.id},false")
                     }
                 )
             }
@@ -83,7 +81,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "지출 카테고리 추가하기",
                     onClick = {
-                        navController.navigate("settingAddition/지출,-1,true")
+                        navController.navigate("addingSetting/지출,-1,true")
                     }
                 )
             }
@@ -97,7 +95,7 @@ fun SettingScreen(
                     title = category.name,
                     category = category,
                     onClick = {
-                        navController.navigate("settingAddition/수입,${category.id},false")
+                        navController.navigate("addingSetting/수입,${category.id},false")
                     }
                 )
             }
@@ -106,7 +104,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "수입 카테고리 추가하기",
                     onClick = {
-                        navController.navigate("settingAddition/수입,-1,true")
+                        navController.navigate("addingSetting/수입,-1,true")
                     }
                 )
             }

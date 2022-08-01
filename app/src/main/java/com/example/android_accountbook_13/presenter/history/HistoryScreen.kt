@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.history
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,11 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.presenter.component.*
+import com.example.android_accountbook_13.presenter.history.component.HistoryFab
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.utils.Date
@@ -33,21 +32,20 @@ import com.example.android_accountbook_13.utils.increaseDate
 @Composable
 fun HistoryScreen(
     navHostController: NavHostController,
-    historyViewModel: HistoryViewModel = hiltViewModel(),
+    historyViewModel: HistoryViewModel,
 ) {
+    historyViewModel.getAccountBookItems()
 
     var date by historyViewModel.date
-    historyViewModel.getAccountBookItems(date.year, date.month)
     var incomeChecked by rememberSaveable { mutableStateOf(true) }
     var expenseChecked by rememberSaveable { mutableStateOf(true) }
-
     var isEditMode by rememberSaveable { mutableStateOf(false) }
     val deleteIdList = rememberSaveable { mutableListOf<Int>()}
     var isDialog by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
-            AccountBookTopAppBar(
+            TopAppBar(
                 title = if (isEditMode) "다중 선택" else getYearMonthString(date),
                 titleOnClick = {if(!isEditMode) isDialog = true},
                 leftVectorResource = if (isEditMode) R.drawable.ic_back else R.drawable.ic_left,
@@ -62,6 +60,7 @@ fun HistoryScreen(
                 onRightClick = {
                     if(isEditMode) {
                         historyViewModel.deleteHistory(deleteIdList)
+                        historyViewModel.getAccountBookItems()
                         isEditMode = false
                         deleteIdList.clear()
                     }
@@ -72,7 +71,7 @@ fun HistoryScreen(
         floatingActionButton = {
             HistoryFab(onClick = {
                 navHostController.navigate(
-                    "historyAddition/" +
+                    "addingHistory/" +
                             "${if ((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 0 else 1},-1"
                 )
             })
@@ -95,7 +94,7 @@ fun HistoryScreen(
         }
 
         Column {
-            AccountBookFilterButton(
+            FilterButton(
                 incomeChecked = incomeChecked,
                 expenseChecked = expenseChecked,
                 incomeMoney = incomeMoney,
@@ -123,7 +122,7 @@ fun HistoryScreen(
                         }
 
                         item {
-                            AccountBookItemHeader(
+                            ItemHeader(
                                 date = "${date.month}월 ${day}일",
                                 income = income,
                                 expense = expense,
@@ -136,7 +135,7 @@ fun HistoryScreen(
                         val lastAccountBookItem = accountBookItems.removeLast()
 
                         items(accountBookItems) { item ->
-                            AccountBookItemContent(
+                            HistoryItemContent(
                                 item,
                                 isEditMode = isEditMode,
                                 onCheckedChange = { id ->
@@ -146,10 +145,9 @@ fun HistoryScreen(
                                     }
                                     else
                                         deleteIdList.add(id)
-                                    Log.d("Test",deleteIdList.toString())
                                 },
                                 onClick = {
-                                    navHostController.navigate("historyAddition/${item.history.methodType},${item.history.id}")
+                                    navHostController.navigate("addingHistory/${item.history.methodType},${item.history.id}")
                                 },
                                 onCheckClick = { id ->
                                     if(deleteIdList.contains(id)) {
@@ -173,11 +171,11 @@ fun HistoryScreen(
                         }
 
                         item {
-                            AccountBookItemContent(
+                            HistoryItemContent(
                                 lastAccountBookItem,
                                 isEditMode = isEditMode,
                                 onClick = {
-                                    navHostController.navigate("historyAddition/${lastAccountBookItem.history.methodType},${lastAccountBookItem.history.id}")
+                                    navHostController.navigate("addingHistory/${lastAccountBookItem.history.methodType},${lastAccountBookItem.history.id}")
                                 },
                                 onCheckClick = { id ->
                                     if(deleteIdList.contains(id)) {

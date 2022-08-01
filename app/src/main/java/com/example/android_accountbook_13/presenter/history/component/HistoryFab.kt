@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter.component
+package com.example.android_accountbook_13.presenter.history.component
 
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon

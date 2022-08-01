@@ -20,8 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
-import com.example.android_accountbook_13.presenter.component.AccountBookCategory
-import com.example.android_accountbook_13.presenter.navigation.AccountBookDestination
+import com.example.android_accountbook_13.presenter.component.Category
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 
@@ -46,7 +45,7 @@ fun SettingContent(
                 modifier = Modifier.align(Alignment.CenterStart)
             )
             if (category != null) {
-                AccountBookCategory(
+                Category(
                     title = category.name,
                     backgroundColor = Color(android.graphics.Color.parseColor(category.color)),
                     modifier = Modifier.align(Alignment.CenterEnd)

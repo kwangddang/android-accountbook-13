@@ -41,7 +41,7 @@ fun YearMonthDayDatePicker(
                     DatePicker(num = day, startNum = 1, lastNum = 31, onValueChange = { it -> day = it })
                     Text(text = "일", modifier = Modifier.padding(4.dp))
                 }
-                AccountBookAddingButton(
+                AddingButton(
                     enabled = true, modifier = Modifier.fillMaxWidth(),
                     onClick = { onClick(year, month, day) })
             }
@@ -69,7 +69,7 @@ fun YearMonthDatePicker(
                     DatePicker(num = month, startNum = 1, lastNum = 12, onValueChange = { it -> month = it })
                     Text(text = "월", modifier = Modifier.padding(4.dp))
                 }
-                AccountBookAddingButton(
+                AddingButton(
                     enabled = true, modifier = Modifier.fillMaxWidth(),
                     onClick = { onClick(year, month) })
             }
