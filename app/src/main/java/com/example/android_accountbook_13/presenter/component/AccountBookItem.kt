@@ -1,6 +1,6 @@
 package com.example.android_accountbook_13.presenter.component
 
-import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -17,7 +17,10 @@ import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
-import com.example.android_accountbook_13.ui.theme.*
+import com.example.android_accountbook_13.ui.theme.Green6
+import com.example.android_accountbook_13.ui.theme.LightPurple
+import com.example.android_accountbook_13.ui.theme.Purple
+import com.example.android_accountbook_13.ui.theme.Red
 import com.example.android_accountbook_13.utils.moneyConverter
 
 @Composable
@@ -30,6 +33,7 @@ fun AccountBookItemContent(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+            .clickable { onClick() }
     ) {
         Box(
             modifier = Modifier.fillMaxWidth()

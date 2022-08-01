@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.history
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,11 +15,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.presenter.component.*
@@ -153,10 +150,4 @@ private fun BlankScreen() {
             modifier = Modifier.padding(bottom = 16.dp)
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun HistoryPreview() {
-    HistoryScreen(rememberNavController())
 }

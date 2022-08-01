@@ -171,16 +171,31 @@ fun HistoryAdditionScreen(
                         .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
                         .height(56.dp)
                 ) {
-                    viewModel.insertHistory(
-                        History(
-                            null,
-                            checkedCategory.id ?: 3,
-                            checkedMethod.id!!, content,
-                            if (incomeChecked) 1 else 0,
-                            price.toLong(),
-                            date.year, date.month, date.day
+                    if(id == -1)
+                    {
+                        viewModel.insertHistory(
+                            History(
+                                null,
+                                checkedCategory.id ?: 3,
+                                checkedMethod.id!!, content,
+                                if (incomeChecked) 1 else 0,
+                                price.toLong(),
+                                date.year, date.month, date.day
+                            )
                         )
-                    )
+                    }
+                    else {
+                        viewModel.updateHistory(
+                            History(
+                                id,
+                                checkedCategory.id ?: 3,
+                                checkedMethod.id!!, content,
+                                if (incomeChecked) 1 else 0,
+                                price.toLong(),
+                                date.year, date.month, date.day
+                            )
+                        )
+                    }
                     navHostController.popBackStack()
                 }
             }
