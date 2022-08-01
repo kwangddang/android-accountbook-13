@@ -155,7 +155,7 @@ fun HistoryAdditionScreen(
             }
             Box(modifier = Modifier.fillMaxSize()) {
                 AccountBookAddingButton(
-                    enabled = true,
+                    enabled = (price.isNotBlank() && price.isNotEmpty() && (checkedMethod.name.isNotEmpty() && checkedMethod.name.isNotBlank())),
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .fillMaxWidth()
@@ -257,10 +257,4 @@ private fun HistoryAdditionTextField(
         readOnly = readOnly,
         modifier = modifier ?: Modifier
     )
-}
-
-@Composable
-@Preview(showBackground = true)
-fun HistoryAdditionScreenPreview() {
-    HistoryAdditionScreen(rememberNavController(),0,-1)
 }
