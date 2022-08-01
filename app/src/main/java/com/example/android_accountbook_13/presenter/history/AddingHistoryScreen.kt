@@ -45,7 +45,6 @@ fun AddingHistoryScreen(
     historyViewModel: HistoryViewModel,
     settingViewModel: SettingViewModel
 ) {
-    Log.d("Test",settingViewModel.toString())
     var price by rememberSaveable { mutableStateOf("") }
     var content by rememberSaveable { mutableStateOf("") }
 

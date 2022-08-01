@@ -153,7 +153,6 @@ fun HistoryScreen(
                                     }
                                     else
                                         deleteIdList.add(id)
-                                    Log.d("Test",deleteIdList.toString())
                                 },
                                 onClick = {
                                     navHostController.navigate("addingHistory/${item.history.methodType},${item.history.id}")

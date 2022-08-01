@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.*
@@ -35,7 +36,7 @@ fun BottomAppBar(
             backgroundColor = backgroundColor,
             elevation = elevation
         ) {
-            var nextScreen: AccountBookDestination = destination ?: prevScreen
+            val nextScreen: AccountBookDestination = destination ?: prevScreen
             bottomTabScreens.forEach { screen ->
                 ItemBottomAppBars(
                     screen,
@@ -45,6 +46,7 @@ fun BottomAppBar(
                     onClick(screen)
                 }
             }
+            prevScreen = nextScreen
         }
     }
 }
@@ -56,7 +58,6 @@ private fun ItemBottomAppBars(
     color: Color,
     onClick: () -> Unit
 ) {
-    prevScreen = screen
     Box(contentAlignment = Alignment.TopCenter, modifier = modifier.fillMaxHeight()) {
         IconButton(onClick = onClick) {
             Icon(
