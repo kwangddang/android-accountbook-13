@@ -12,8 +12,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.presenter.calendar.CalendarScreen
-import com.example.android_accountbook_13.presenter.component.AdditionScreen
-import com.example.android_accountbook_13.presenter.history.HistoryAdditionScreen
+import com.example.android_accountbook_13.presenter.common.AddingScreen
+import com.example.android_accountbook_13.presenter.history.AddingHistoryScreen
 import com.example.android_accountbook_13.presenter.history.HistoryScreen
 import com.example.android_accountbook_13.presenter.setting.SettingScreen
 import com.example.android_accountbook_13.presenter.statistic.StatisticScreen
@@ -46,14 +46,14 @@ fun AccountBookNavHost(
         }
 
         composable(
-            route = SettingAddition.route,
+            route = AddingSetting.route,
             arguments = listOf(
                 navArgument("title") { type = NavType.StringType},
                 navArgument("id") { type = NavType.IntType},
                 navArgument("type"){ type = NavType.BoolType}
             )
         ) {
-            AdditionScreen(
+            AddingScreen(
                 navController,
                 title = it.arguments?.getString("title")!!,
                 id = it.arguments?.getInt("id"),
@@ -62,13 +62,13 @@ fun AccountBookNavHost(
         }
 
         composable(
-            route = HistoryAddition.route,
+            route = AddingHistory.route,
             arguments = listOf(
                 navArgument("method") { type = NavType.IntType},
                 navArgument("id") { type = NavType.IntType},
             )
         ) {
-            HistoryAdditionScreen(
+            AddingHistoryScreen(
                 navController,
                 method = it.arguments?.getInt("method")!!,
                 id = it.arguments?.getInt("id"),
@@ -107,14 +107,14 @@ object Setting : AccountBookDestination {
     override val vectorResource = R.drawable.ic_setting
 }
 
-object SettingAddition : AccountBookDestination {
-    override val route: String = "settingAddition/{title},{id},{type}"
+object AddingSetting : AccountBookDestination {
+    override val route: String = "addingSetting/{title},{id},{type}"
     override val content: String = "추가"
     override val vectorResource: Int = 0
 }
 
-object HistoryAddition : AccountBookDestination {
-    override val route: String = "historyAddition/{method},{id}"
+object AddingHistory : AccountBookDestination {
+    override val route: String = "addingHistory/{method},{id}"
     override val content: String = "추가"
     override val vectorResource: Int = 0
 }

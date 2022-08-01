@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter.component
+package com.example.android_accountbook_13.presenter.common
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.TweenSpec
@@ -27,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.Method
+import com.example.android_accountbook_13.presenter.component.AddingButton
 import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.presenter.setting.component.SettingHeader
 import com.example.android_accountbook_13.ui.theme.LightPurple
@@ -34,7 +35,7 @@ import com.example.android_accountbook_13.ui.theme.OffWhite
 import com.example.android_accountbook_13.ui.theme.Purple
 
 @Composable
-fun AdditionScreen(
+fun AddingScreen(
     navController: NavHostController,
     title: String,
     id: Int?,
@@ -61,7 +62,7 @@ fun AdditionScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            com.example.android_accountbook_13.presenter.component.TopAppBar(
                 title = screenTitle,
                 leftVectorResource = R.drawable.ic_back,
                 onLeftClick = { navController.popBackStack() }
@@ -186,7 +187,7 @@ private fun ColorPalette(
 @Preview(showBackground = true)
 @Composable
 fun AdditionScreenPreview() {
-    AdditionScreen(navController = rememberNavController(), title = "지출", id = 0, type = false)
+    AddingScreen(navController = rememberNavController(), title = "지출", id = 0, type = false)
 }
 
 

@@ -37,7 +37,7 @@ import com.example.android_accountbook_13.utils.getCurrentDate
 import com.example.android_accountbook_13.utils.getYearMonthDayString
 
 @Composable
-fun HistoryAdditionScreen(
+fun AddingHistoryScreen(
     navHostController: NavHostController,
     method: Int,
     id: Int?,
@@ -102,7 +102,7 @@ fun HistoryAdditionScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            HistoryAdditionItem(title = "일자") {
+            AddingHistoryItem(title = "일자") {
 
                 Text(text = getYearMonthDayString(date),
                     modifier = Modifier
@@ -113,8 +113,8 @@ fun HistoryAdditionScreen(
                     fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Purple)
             }
 
-            HistoryAdditionItem(title = "금액") {
-                HistoryAdditionTextField(
+            AddingHistoryItem(title = "금액") {
+                AddingHistoryTextField(
                     text = price,
                     onValueChange = { textValue ->
                         if ((textValue[textValue.lastIndex] in '0'..'9')) price = textValue
@@ -123,10 +123,10 @@ fun HistoryAdditionScreen(
                 )
             }
 
-            HistoryAdditionItem(title = "결제 수단") {
+            AddingHistoryItem(title = "결제 수단") {
                 Box() {
-                    HistoryAdditionTextField(checkedMethod.name, "선택하세요", {}, true)
-                    HistoryAdditionSpinner(
+                    AddingHistoryTextField(checkedMethod.name, "선택하세요", {}, true)
+                    AddingHistorySpinner(
                         Modifier.Companion.align(Alignment.CenterEnd),
                         methodExpanded,
                         methods,
@@ -140,10 +140,10 @@ fun HistoryAdditionScreen(
                 }
             }
 
-            HistoryAdditionItem(title = "분류") {
+            AddingHistoryItem(title = "분류") {
                 Box() {
-                    HistoryAdditionTextField(checkedCategory.name, "선택하세요", {}, true)
-                    HistoryAdditionSpinner(
+                    AddingHistoryTextField(checkedCategory.name, "선택하세요", {}, true)
+                    AddingHistorySpinner(
                         Modifier.Companion.align(Alignment.CenterEnd),
                         categoryExpanded,
                         if (incomeChecked) incomeCategories else expenseCategories,
@@ -157,8 +157,8 @@ fun HistoryAdditionScreen(
                 }
             }
 
-            HistoryAdditionItem(title = "내용") {
-                HistoryAdditionTextField(text = content, onValueChange = { textValue -> content = textValue })
+            AddingHistoryItem(title = "내용") {
+                AddingHistoryTextField(text = content, onValueChange = { textValue -> content = textValue })
             }
             Box(modifier = Modifier.fillMaxSize()) {
                 AddingButton(
@@ -202,7 +202,7 @@ fun HistoryAdditionScreen(
 }
 
 @Composable
-private fun HistoryAdditionSpinner(
+private fun AddingHistorySpinner(
     modifier: Modifier = Modifier,
     expended: Boolean,
     items: List<*>,
@@ -239,7 +239,7 @@ private fun HistoryAdditionSpinner(
 }
 
 @Composable
-private fun HistoryAdditionItem(
+private fun AddingHistoryItem(
     title: String,
     content: @Composable () -> Unit
 ) {
@@ -261,7 +261,7 @@ private fun HistoryAdditionItem(
 }
 
 @Composable
-private fun HistoryAdditionTextField(
+private fun AddingHistoryTextField(
     text: String,
     placeHolder: String = "입력하세요",
     onValueChange: (String) -> Unit,

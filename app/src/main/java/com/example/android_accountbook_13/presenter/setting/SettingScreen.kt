@@ -50,7 +50,7 @@ fun SettingScreen(
                 SettingContent(
                     title = method.name,
                     onClick = {
-                        navController.navigate("settingAddition/결제,${method.id},false")
+                        navController.navigate("addingSetting/결제,${method.id},false")
                     }
                 )
             }
@@ -59,7 +59,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "결제수단 추가하기",
                     onClick = {
-                        navController.navigate("settingAddition/결제,-1,true")
+                        navController.navigate("addingSetting/결제,-1,true")
                     }
                 )
             }
@@ -73,7 +73,7 @@ fun SettingScreen(
                     title = category.name,
                     category = category,
                     onClick = {
-                        navController.navigate("settingAddition/지출,${category.id},false")
+                        navController.navigate("addingSetting/지출,${category.id},false")
                     }
                 )
             }
@@ -82,7 +82,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "지출 카테고리 추가하기",
                     onClick = {
-                        navController.navigate("settingAddition/지출,-1,true")
+                        navController.navigate("addingSetting/지출,-1,true")
                     }
                 )
             }
@@ -96,7 +96,7 @@ fun SettingScreen(
                     title = category.name,
                     category = category,
                     onClick = {
-                        navController.navigate("settingAddition/수입,${category.id},false")
+                        navController.navigate("addingSetting/수입,${category.id},false")
                     }
                 )
             }
@@ -105,7 +105,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "수입 카테고리 추가하기",
                     onClick = {
-                        navController.navigate("settingAddition/수입,-1,true")
+                        navController.navigate("addingSetting/수입,-1,true")
                     }
                 )
             }

@@ -73,7 +73,7 @@ fun HistoryScreen(
         floatingActionButton = {
             HistoryFab(onClick = {
                 navHostController.navigate(
-                    "historyAddition/" +
+                    "addingHistory/" +
                             "${if ((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 0 else 1},-1"
                 )
             })
@@ -150,7 +150,7 @@ fun HistoryScreen(
                                     Log.d("Test",deleteIdList.toString())
                                 },
                                 onClick = {
-                                    navHostController.navigate("historyAddition/${item.history.methodType},${item.history.id}")
+                                    navHostController.navigate("addingHistory/${item.history.methodType},${item.history.id}")
                                 },
                                 onCheckClick = { id ->
                                     if(deleteIdList.contains(id)) {
@@ -178,7 +178,7 @@ fun HistoryScreen(
                                 lastAccountBookItem,
                                 isEditMode = isEditMode,
                                 onClick = {
-                                    navHostController.navigate("historyAddition/${lastAccountBookItem.history.methodType},${lastAccountBookItem.history.id}")
+                                    navHostController.navigate("addingHistory/${lastAccountBookItem.history.methodType},${lastAccountBookItem.history.id}")
                                 },
                                 onCheckClick = { id ->
                                     if(deleteIdList.contains(id)) {

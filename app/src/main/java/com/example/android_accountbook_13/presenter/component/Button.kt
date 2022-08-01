@@ -215,7 +215,7 @@ private fun ThinButton(
     shape: RoundedCornerShape,
     checked: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier.width(164.dp).height(32.dp),
+    modifier: Modifier = Modifier.width(164.dp).height(40.dp),
     enabledColor: Color,
     unEnabledColor: Color,
     content: @Composable RowScope.() -> Unit
