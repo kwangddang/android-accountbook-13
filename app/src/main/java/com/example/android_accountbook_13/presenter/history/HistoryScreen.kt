@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.history
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,13 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.presenter.component.*
 import com.example.android_accountbook_13.presenter.history.component.HistoryFab
-import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.utils.Date
@@ -36,14 +33,8 @@ import com.example.android_accountbook_13.utils.increaseDate
 fun HistoryScreen(
     navHostController: NavHostController,
     historyViewModel: HistoryViewModel,
-    settingViewModel: SettingViewModel
 ) {
     historyViewModel.getAccountBookItems()
-    settingViewModel.run {
-        getAllMethod()
-        getIncomeCategory()
-        getExpenseCategory()
-    }
 
     var date by historyViewModel.date
     var incomeChecked by rememberSaveable { mutableStateOf(true) }

@@ -35,7 +35,7 @@ fun AccountBookNavHost(
         modifier = Modifier.padding(innerPaddingModifier)
     ) {
         composable(History.route) {
-            HistoryScreen(navController,historyViewModel,settingViewModel)
+            HistoryScreen(navController,historyViewModel)
         }
 
         composable(Calendar.route) {

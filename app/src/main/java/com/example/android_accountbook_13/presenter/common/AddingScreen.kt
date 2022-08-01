@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.common
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -133,8 +134,10 @@ fun AddingScreen(
                         } else {
                             if (type) {
                                 if (title == "수입") {
+                                    Log.d("Test","수입 Insert")
                                     viewModel.insertCategory(Category(null, text, color, 0))
                                 } else {
+                                    Log.d("Test","지출 Insert")
                                     viewModel.insertCategory(Category(null, text, color, 1))
                                 }
                             } else {

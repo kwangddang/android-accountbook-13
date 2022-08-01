@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.history
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,7 +19,6 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
@@ -46,6 +44,11 @@ fun AddingHistoryScreen(
     historyViewModel: HistoryViewModel,
     settingViewModel: SettingViewModel
 ) {
+    settingViewModel.run {
+        getAllMethod()
+        getIncomeCategory()
+        getExpenseCategory()
+    }
     var price by rememberSaveable { mutableStateOf("") }
     var content by rememberSaveable { mutableStateOf("") }
 
@@ -133,6 +136,7 @@ fun AddingHistoryScreen(
                             checkedMethod = method as Method
                             methodExpanded = false
                         },
+                        { navHostController.navigate("addingSetting/결제,-1,true") },
                         { methodExpanded = false }
                     )
                 }
@@ -149,6 +153,10 @@ fun AddingHistoryScreen(
                         { category ->
                             checkedCategory = category as Category
                             categoryExpanded = false
+                        },
+                        { navHostController.navigate(
+                            if(incomeChecked) "addingSetting/수입,-1,true"
+                            else "addingSetting/지출,-1,true")
                         },
                         { categoryExpanded = false }
                     )
@@ -206,6 +214,7 @@ private fun AddingHistorySpinner(
     items: List<*>,
     onIconClick: () -> Unit,
     onItemClick: (Any) -> Unit,
+    onAddClick: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
     IconButton(onClick = onIconClick, modifier = modifier) {
@@ -231,6 +240,16 @@ private fun AddingHistorySpinner(
                         DropdownMenuItem(onClick = { onItemClick(item) }) {
                             Text(text = item.name)
                         }
+                    }
+                }
+                DropdownMenuItem(onClick = onAddClick) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        Text(text = "추가하기", modifier = Modifier.align(Alignment.CenterStart))
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus),
+                            contentDescription = "추가",
+                            modifier = Modifier.align(Alignment.CenterEnd)
+                        )
                     }
                 }
             }
