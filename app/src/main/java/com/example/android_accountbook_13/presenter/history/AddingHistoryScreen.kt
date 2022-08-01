@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.history
 
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -41,8 +42,10 @@ fun AddingHistoryScreen(
     navHostController: NavHostController,
     method: Int,
     id: Int?,
-    viewModel: SettingViewModel = hiltViewModel()
+    historyViewModel: HistoryViewModel,
+    settingViewModel: SettingViewModel
 ) {
+    Log.d("Test",settingViewModel.toString())
     var price by rememberSaveable { mutableStateOf("") }
     var content by rememberSaveable { mutableStateOf("") }
 
@@ -59,14 +62,9 @@ fun AddingHistoryScreen(
     var incomeChecked by rememberSaveable { mutableStateOf(method == 0) }
     var expenseChecked by rememberSaveable { mutableStateOf(method == 1) }
 
-    viewModel.run {
-        getAllMethod()
-        getIncomeCategory()
-        getExpenseCategory()
-    }
-    val methods by viewModel.methods.collectAsState()
-    val incomeCategories by viewModel.incomeCategories.collectAsState()
-    val expenseCategories by viewModel.expenseCategories.collectAsState()
+    val methods by settingViewModel.methods.collectAsState()
+    val incomeCategories by settingViewModel.incomeCategories.collectAsState()
+    val expenseCategories by settingViewModel.expenseCategories.collectAsState()
 
     Scaffold(
         topBar = {
@@ -171,7 +169,7 @@ fun AddingHistoryScreen(
                 ) {
                     if(id == -1)
                     {
-                        viewModel.insertHistory(
+                        historyViewModel.insertHistory(
                             History(
                                 null,
                                 checkedCategory.id ?: 3,
@@ -183,7 +181,7 @@ fun AddingHistoryScreen(
                         )
                     }
                     else {
-                        viewModel.updateHistory(
+                        historyViewModel.updateHistory(
                             History(
                                 id,
                                 checkedCategory.id ?: 3,

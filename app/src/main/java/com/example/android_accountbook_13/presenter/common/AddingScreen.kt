@@ -40,7 +40,7 @@ fun AddingScreen(
     title: String,
     id: Int?,
     type: Boolean,
-    viewModel: SettingViewModel = hiltViewModel()
+    viewModel: SettingViewModel
 ) {
     var screenTitle: String = ""
     screenTitle = if (type) {
@@ -57,7 +57,7 @@ fun AddingScreen(
         }
     }
     var text by rememberSaveable { mutableStateOf("") }
-    var color by rememberSaveable { mutableStateOf("") }
+    var color by rememberSaveable { mutableStateOf(if(title == "수입") incomeColors[0] else expenseColors[0]) }
     var selectedIndex by rememberSaveable { mutableStateOf(0) }
 
     Scaffold(
@@ -183,13 +183,6 @@ private fun ColorPalette(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun AdditionScreenPreview() {
-    AddingScreen(navController = rememberNavController(), title = "지출", id = 0, type = false)
-}
-
 
 val incomeColors = listOf(
     "#9BD182", "#A3CB7A", "#B5CC7A",

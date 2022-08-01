@@ -24,6 +24,7 @@ import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.presenter.component.*
 import com.example.android_accountbook_13.presenter.history.component.HistoryFab
+import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.utils.Date
@@ -34,14 +35,19 @@ import com.example.android_accountbook_13.utils.increaseDate
 @Composable
 fun HistoryScreen(
     navHostController: NavHostController,
-    historyViewModel: HistoryViewModel = hiltViewModel(),
+    historyViewModel: HistoryViewModel,
+    settingViewModel: SettingViewModel
 ) {
+    historyViewModel.getAccountBookItems()
+    settingViewModel.run {
+        getAllMethod()
+        getIncomeCategory()
+        getExpenseCategory()
+    }
 
     var date by historyViewModel.date
-    historyViewModel.getAccountBookItems(date.year, date.month)
     var incomeChecked by rememberSaveable { mutableStateOf(true) }
     var expenseChecked by rememberSaveable { mutableStateOf(true) }
-
     var isEditMode by rememberSaveable { mutableStateOf(false) }
     val deleteIdList = rememberSaveable { mutableListOf<Int>()}
     var isDialog by rememberSaveable { mutableStateOf(false) }

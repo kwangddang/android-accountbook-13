@@ -25,7 +25,9 @@ fun AccountBookApp() {
             AccountBookNavHost(
                 appState.navController,
                 innerPadding,
-                History.route
+                History.route,
+                appState.historyViewModel,
+                appState.settingViewModel
             )
         }
     }

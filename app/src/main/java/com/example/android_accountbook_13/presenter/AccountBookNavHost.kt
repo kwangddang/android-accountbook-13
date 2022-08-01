@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -15,14 +16,18 @@ import com.example.android_accountbook_13.presenter.calendar.CalendarScreen
 import com.example.android_accountbook_13.presenter.common.AddingScreen
 import com.example.android_accountbook_13.presenter.history.AddingHistoryScreen
 import com.example.android_accountbook_13.presenter.history.HistoryScreen
+import com.example.android_accountbook_13.presenter.history.HistoryViewModel
 import com.example.android_accountbook_13.presenter.setting.SettingScreen
+import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.presenter.statistic.StatisticScreen
 
 @Composable
 fun AccountBookNavHost(
     navController: NavHostController,
     innerPaddingModifier: PaddingValues,
-    startDestination: String = History.route
+    startDestination: String = History.route,
+    historyViewModel: HistoryViewModel,
+    settingViewModel: SettingViewModel
 ) {
     NavHost(
         navController = navController,
@@ -30,7 +35,7 @@ fun AccountBookNavHost(
         modifier = Modifier.padding(innerPaddingModifier)
     ) {
         composable(History.route) {
-            HistoryScreen(navController)
+            HistoryScreen(navController,historyViewModel,settingViewModel)
         }
 
         composable(Calendar.route) {
@@ -42,7 +47,7 @@ fun AccountBookNavHost(
         }
 
         composable(Setting.route) {
-            SettingScreen(navController)
+            SettingScreen(navController, settingViewModel)
         }
 
         composable(
@@ -57,7 +62,8 @@ fun AccountBookNavHost(
                 navController,
                 title = it.arguments?.getString("title")!!,
                 id = it.arguments?.getInt("id"),
-                type = it.arguments?.getBoolean("type")!!
+                type = it.arguments?.getBoolean("type")!!,
+                settingViewModel
             )
         }
 
@@ -72,6 +78,8 @@ fun AccountBookNavHost(
                 navController,
                 method = it.arguments?.getInt("method")!!,
                 id = it.arguments?.getInt("id"),
+                historyViewModel,
+                settingViewModel
             )
         }
     }
