@@ -1,6 +1,8 @@
 package com.example.android_accountbook_13.presenter.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -23,17 +25,21 @@ import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.Red
 import com.example.android_accountbook_13.utils.moneyConverter
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AccountBookItemContent(
     accountBookItem: AccountBookItem,
     onClick: () -> Unit,
-    onLongClick: () -> Boolean
+    onLongClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 8.dp, start = 16.dp, end = 16.dp)
-            .clickable { onClick() }
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick
+            )
     ) {
         Box(
             modifier = Modifier.fillMaxWidth()

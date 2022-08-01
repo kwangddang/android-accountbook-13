@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.history
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -112,7 +113,7 @@ fun HistoryScreen(
                                 onClick = {
                                     navHostController.navigate("historyAddition/${item.history.methodType},${item.history.id}")
                                 }) {
-                                true
+                                Log.d("Test","long click")
                             }
                             Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp))
                         }
@@ -123,7 +124,6 @@ fun HistoryScreen(
                                 onClick = {
                                     navHostController.navigate("historyAddition/${lastAccountBookItem.history.methodType},${lastAccountBookItem.history.id}")
                                 }) {
-                                true
                             }
                         }
 
