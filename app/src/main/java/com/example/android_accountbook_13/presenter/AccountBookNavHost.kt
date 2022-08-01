@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter.navigation
+package com.example.android_accountbook_13.presenter
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding

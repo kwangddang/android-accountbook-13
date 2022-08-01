@@ -9,8 +9,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.android_accountbook_13.presenter.navigation.AccountBookDestination
-import com.example.android_accountbook_13.presenter.navigation.bottomTabScreens
 
 @Composable
 fun rememberAccountBookAppState(

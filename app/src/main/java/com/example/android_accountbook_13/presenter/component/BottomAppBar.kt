@@ -12,10 +12,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.android_accountbook_13.presenter.navigation.AccountBookDestination
-import com.example.android_accountbook_13.presenter.navigation.Calendar
-import com.example.android_accountbook_13.presenter.navigation.History
-import com.example.android_accountbook_13.presenter.navigation.bottomTabScreens
+import com.example.android_accountbook_13.presenter.AccountBookDestination
+import com.example.android_accountbook_13.presenter.Calendar
+import com.example.android_accountbook_13.presenter.History
+import com.example.android_accountbook_13.presenter.bottomTabScreens
 import com.example.android_accountbook_13.ui.theme.AccountBookTheme
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.White
