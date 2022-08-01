@@ -39,24 +39,38 @@ fun HistoryScreen(
     var incomeChecked by rememberSaveable { mutableStateOf(true) }
     var expenseChecked by rememberSaveable { mutableStateOf(true) }
 
+    var isEditMode by rememberSaveable { mutableStateOf(false) }
+    val deleteIdList = rememberSaveable { mutableListOf<Int>()}
+
     Scaffold(
         topBar = {
             AccountBookTopAppBar(
-                title = getYearMonthString(date),
-                leftVectorResource = R.drawable.ic_left,
-                rightVectorResource = R.drawable.ic_right,
+                title = if (isEditMode) "다중 선택" else getYearMonthString(date),
+                leftVectorResource = if (isEditMode) R.drawable.ic_back else R.drawable.ic_left,
+                rightVectorResource = if (isEditMode) R.drawable.ic_trash else R.drawable.ic_right,
                 onLeftClick = {
-                    date = decreaseDate(date)
+                    if(isEditMode) {
+                        isEditMode = false
+                        deleteIdList.clear()
+                    }
+                    else date = decreaseDate(date)
                 },
                 onRightClick = {
-                    date = increaseDate(date)
+                    if(isEditMode) {
+                        historyViewModel.deleteHistory(deleteIdList)
+                        isEditMode = false
+                        deleteIdList.clear()
+                    }
+                    else date = increaseDate(date)
                 }
             )
         },
         floatingActionButton = {
             HistoryFab(onClick = {
-                navHostController.navigate("historyAddition/" +
-                        "${if((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 0 else 1},-1")
+                navHostController.navigate(
+                    "historyAddition/" +
+                            "${if ((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 0 else 1},-1"
+                )
             })
         },
         backgroundColor = MaterialTheme.colors.background
@@ -110,21 +124,73 @@ fun HistoryScreen(
                         items(accountBookItems) { item ->
                             AccountBookItemContent(
                                 item,
+                                isEditMode = isEditMode,
+                                onCheckedChange = { id ->
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                    Log.d("Test",deleteIdList.toString())
+                                },
                                 onClick = {
                                     navHostController.navigate("historyAddition/${item.history.methodType},${item.history.id}")
-                                }) {
-                                Log.d("Test","long click")
-                            }
+                                },
+                                onCheckClick = { id ->
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                },
+                                onLongClick = { id ->
+                                    isEditMode = true
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                }
+                            )
                             Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp))
                         }
 
                         item {
                             AccountBookItemContent(
                                 lastAccountBookItem,
+                                isEditMode = isEditMode,
                                 onClick = {
                                     navHostController.navigate("historyAddition/${lastAccountBookItem.history.methodType},${lastAccountBookItem.history.id}")
-                                }) {
-                            }
+                                },
+                                onCheckClick = { id ->
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                },
+                                onCheckedChange = { id ->
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                },
+                                onLongClick = { id ->
+                                    isEditMode = true
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                }
+                            )
                         }
 
                         item {
