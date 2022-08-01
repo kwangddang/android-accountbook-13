@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
@@ -24,6 +25,7 @@ import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.presenter.component.*
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
+import com.example.android_accountbook_13.utils.Date
 import com.example.android_accountbook_13.utils.decreaseDate
 import com.example.android_accountbook_13.utils.getYearMonthString
 import com.example.android_accountbook_13.utils.increaseDate
@@ -41,11 +43,13 @@ fun HistoryScreen(
 
     var isEditMode by rememberSaveable { mutableStateOf(false) }
     val deleteIdList = rememberSaveable { mutableListOf<Int>()}
+    var isDialog by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             AccountBookTopAppBar(
                 title = if (isEditMode) "다중 선택" else getYearMonthString(date),
+                titleOnClick = {if(!isEditMode) isDialog = true},
                 leftVectorResource = if (isEditMode) R.drawable.ic_back else R.drawable.ic_left,
                 rightVectorResource = if (isEditMode) R.drawable.ic_trash else R.drawable.ic_right,
                 onLeftClick = {
@@ -80,6 +84,16 @@ fun HistoryScreen(
         val expenseMoney by historyViewModel.expenseMoney.collectAsState()
         historyViewModel.getCheckedItems(incomeChecked, expenseChecked)
         val group = checkedItems.groupBy { it.history.day }
+
+        if (isDialog) {
+            Dialog(onDismissRequest = { isDialog = false }) {
+                YearMonthDayDatePicker(onDismissRequest = { isDialog = false }) { year, month, day ->
+                    date = Date(year, month, day)
+                    isDialog = false
+                }
+            }
+        }
+
         Column {
             AccountBookFilterButton(
                 incomeChecked = incomeChecked,

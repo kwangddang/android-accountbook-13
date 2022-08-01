@@ -15,13 +15,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
@@ -29,7 +27,7 @@ import com.example.android_accountbook_13.data.dto.Method
 import com.example.android_accountbook_13.presenter.component.AccountBookAddingButton
 import com.example.android_accountbook_13.presenter.component.AccountBookSwitchButton
 import com.example.android_accountbook_13.presenter.component.AccountBookTopAppBar
-import com.example.android_accountbook_13.presenter.component.YearMonthDatePicker
+import com.example.android_accountbook_13.presenter.component.YearMonthDayDatePicker
 import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.OffWhite
@@ -82,7 +80,7 @@ fun HistoryAdditionScreen(
     ) {
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
-                YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month, day ->
+                YearMonthDayDatePicker(onDismissRequest = { isDialog = false }) { year, month, day ->
                     date = Date(year, month, day)
                     isDialog = false
                 }

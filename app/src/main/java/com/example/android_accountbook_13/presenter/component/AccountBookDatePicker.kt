@@ -16,11 +16,10 @@ import androidx.compose.ui.window.Dialog
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.example.android_accountbook_13.ui.theme.White
 import com.example.android_accountbook_13.ui.theme.Yellow
-import com.example.android_accountbook_13.utils.Date
 import com.example.android_accountbook_13.utils.getCurrentDate
 
 @Composable
-fun YearMonthDatePicker(
+fun YearMonthDayDatePicker(
     onDismissRequest: () -> Unit,
     onClick: (Int, Int, Int) -> Unit
 ) {
@@ -51,6 +50,35 @@ fun YearMonthDatePicker(
 }
 
 @Composable
+fun YearMonthDatePicker(
+    onDismissRequest: () -> Unit,
+    onClick: (Int, Int) -> Unit
+) {
+    val date = getCurrentDate()
+    var year by remember { mutableStateOf(date.year) }
+    var month by remember { mutableStateOf(date.month) }
+    Dialog(onDismissRequest = onDismissRequest) {
+        Surface(
+            shape = RoundedCornerShape(16.dp),
+            color = White
+        ) {
+            Column(Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    DatePicker(num = year, startNum = 1997, lastNum = date.year, onValueChange = { it -> year = it })
+                    Text(text = "년", modifier = Modifier.padding(4.dp))
+                    DatePicker(num = month, startNum = 1, lastNum = 12, onValueChange = { it -> month = it })
+                    Text(text = "월", modifier = Modifier.padding(4.dp))
+                }
+                AccountBookAddingButton(
+                    enabled = true, modifier = Modifier.fillMaxWidth(),
+                    onClick = { onClick(year, month) })
+            }
+        }
+    }
+}
+
+
+@Composable
 private fun DatePicker(
     num: Int,
     startNum: Int,
@@ -70,7 +98,7 @@ private fun DatePicker(
 @Preview(showBackground = true)
 @Composable
 private fun YearMonthDatePickerPreview() {
-    YearMonthDatePicker({}) { a,b,c ->
+    YearMonthDayDatePicker({}) { a, b, c ->
 
     }
 }
