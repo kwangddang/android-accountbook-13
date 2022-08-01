@@ -62,6 +62,14 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
+    fun deleteHistory(deleteIdList: List<Int>) {
+        viewModelScope.launch {
+            deleteIdList.forEach{ id ->
+                historyRepository.deleteHistory(id)
+            }
+        }
+    }
+
     private fun getMoney() {
         _expenseMoney.value = 0L
         _incomeMoney.value = 0L

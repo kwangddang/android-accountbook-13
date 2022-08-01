@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -29,13 +30,16 @@ fun AccountBookTopAppBar(
     leftDescription: String = "",
     rightDescription: String = "",
     onLeftClick: () -> Unit = {},
-    onRightClick: () -> Unit = {}
-) {
+    onRightClick: () -> Unit = {},
+    titleOnClick: () -> Unit = {},
+
+    ) {
     AccountBookTheme() {
         TopAppBar(
             backgroundColor = backgroundColor,
             contentColor = contentColor,
-            elevation = elevation
+            elevation = elevation,
+            modifier = Modifier.clickable { titleOnClick() }
         ) {
             Box() {
                 if (leftVectorResource != null) {
@@ -106,23 +110,23 @@ private fun TitleTopAppBar(
 @Preview(showBackground = true)
 @Composable
 private fun BaseTopAppBarPreview() {
-    AccountBookTopAppBar(title = "Toolbar", onLeftClick = { }, onRightClick = {})
+    AccountBookTopAppBar(title = "Toolbar", onLeftClick = { }, onRightClick = {}){}
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun BackTopAppBarPreview() {
-    AccountBookTopAppBar("설정", R.drawable.ic_back, onLeftClick = {}, onRightClick = {})
+    AccountBookTopAppBar("설정", R.drawable.ic_back, onLeftClick = {}, onRightClick = {}){}
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun DateTopAppBarPreview() {
-    AccountBookTopAppBar("2022년 7월", R.drawable.ic_left, R.drawable.ic_right, onLeftClick = {}, onRightClick = {})
+    AccountBookTopAppBar("2022년 7월", R.drawable.ic_left, R.drawable.ic_right, onLeftClick = {}, onRightClick = {}){}
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun TrashTopAppBarPreview() {
-    AccountBookTopAppBar("1개 선택", R.drawable.ic_back, R.drawable.ic_trash, onLeftClick = {}, onRightClick = {})
+    AccountBookTopAppBar("1개 선택", R.drawable.ic_back, R.drawable.ic_trash, onLeftClick = {}, onRightClick = {}){}
 }

@@ -16,16 +16,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.presenter.component.*
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
+import com.example.android_accountbook_13.utils.Date
 import com.example.android_accountbook_13.utils.decreaseDate
 import com.example.android_accountbook_13.utils.getYearMonthString
 import com.example.android_accountbook_13.utils.increaseDate
@@ -41,24 +41,40 @@ fun HistoryScreen(
     var incomeChecked by rememberSaveable { mutableStateOf(true) }
     var expenseChecked by rememberSaveable { mutableStateOf(true) }
 
+    var isEditMode by rememberSaveable { mutableStateOf(false) }
+    val deleteIdList = rememberSaveable { mutableListOf<Int>()}
+    var isDialog by rememberSaveable { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             AccountBookTopAppBar(
-                title = getYearMonthString(date),
-                leftVectorResource = R.drawable.ic_left,
-                rightVectorResource = R.drawable.ic_right,
+                title = if (isEditMode) "다중 선택" else getYearMonthString(date),
+                titleOnClick = {if(!isEditMode) isDialog = true},
+                leftVectorResource = if (isEditMode) R.drawable.ic_back else R.drawable.ic_left,
+                rightVectorResource = if (isEditMode) R.drawable.ic_trash else R.drawable.ic_right,
                 onLeftClick = {
-                    date = decreaseDate(date)
+                    if(isEditMode) {
+                        isEditMode = false
+                        deleteIdList.clear()
+                    }
+                    else date = decreaseDate(date)
                 },
                 onRightClick = {
-                    date = increaseDate(date)
+                    if(isEditMode) {
+                        historyViewModel.deleteHistory(deleteIdList)
+                        isEditMode = false
+                        deleteIdList.clear()
+                    }
+                    else date = increaseDate(date)
                 }
             )
         },
         floatingActionButton = {
             HistoryFab(onClick = {
-                navHostController.navigate("historyAddition/" +
-                        "${if((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 0 else 1},-1")
+                navHostController.navigate(
+                    "historyAddition/" +
+                            "${if ((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 0 else 1},-1"
+                )
             })
         },
         backgroundColor = MaterialTheme.colors.background
@@ -68,6 +84,16 @@ fun HistoryScreen(
         val expenseMoney by historyViewModel.expenseMoney.collectAsState()
         historyViewModel.getCheckedItems(incomeChecked, expenseChecked)
         val group = checkedItems.groupBy { it.history.day }
+
+        if (isDialog) {
+            Dialog(onDismissRequest = { isDialog = false }) {
+                YearMonthDayDatePicker(onDismissRequest = { isDialog = false }) { year, month, day ->
+                    date = Date(year, month, day)
+                    isDialog = false
+                }
+            }
+        }
+
         Column {
             AccountBookFilterButton(
                 incomeChecked = incomeChecked,
@@ -112,22 +138,73 @@ fun HistoryScreen(
                         items(accountBookItems) { item ->
                             AccountBookItemContent(
                                 item,
+                                isEditMode = isEditMode,
+                                onCheckedChange = { id ->
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                    Log.d("Test",deleteIdList.toString())
+                                },
                                 onClick = {
                                     navHostController.navigate("historyAddition/${item.history.methodType},${item.history.id}")
-                                }) {
-                                true
-                            }
+                                },
+                                onCheckClick = { id ->
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                },
+                                onLongClick = { id ->
+                                    isEditMode = true
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                }
+                            )
                             Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp))
                         }
 
                         item {
                             AccountBookItemContent(
                                 lastAccountBookItem,
+                                isEditMode = isEditMode,
                                 onClick = {
                                     navHostController.navigate("historyAddition/${lastAccountBookItem.history.methodType},${lastAccountBookItem.history.id}")
-                                }) {
-                                true
-                            }
+                                },
+                                onCheckClick = { id ->
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                },
+                                onCheckedChange = { id ->
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                },
+                                onLongClick = { id ->
+                                    isEditMode = true
+                                    if(deleteIdList.contains(id)) {
+                                        deleteIdList.remove(id)
+                                        if(deleteIdList.isEmpty()) isEditMode = false
+                                    }
+                                    else
+                                        deleteIdList.add(id)
+                                }
+                            )
                         }
 
                         item {
@@ -153,10 +230,4 @@ private fun BlankScreen() {
             modifier = Modifier.padding(bottom = 16.dp)
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun HistoryPreview() {
-    HistoryScreen(rememberNavController())
 }
