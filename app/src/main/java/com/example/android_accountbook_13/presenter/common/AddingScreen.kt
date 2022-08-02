@@ -134,10 +134,8 @@ fun AddingScreen(
                         } else {
                             if (type) {
                                 if (title == "수입") {
-                                    Log.d("Test","수입 Insert")
                                     viewModel.insertCategory(Category(null, text, color, 0))
                                 } else {
-                                    Log.d("Test","지출 Insert")
                                     viewModel.insertCategory(Category(null, text, color, 1))
                                 }
                             } else {

@@ -26,12 +26,15 @@ class HistoryViewModel @Inject constructor(
     val checkedItems: StateFlow<List<AccountBookItem>> get() = _checkedItems
 
     private val _incomeMoney = MutableStateFlow<Long>(0L)
-    val incomeMoney: StateFlow<Long> get() = _incomeMoney
+    val     incomeMoney: StateFlow<Long> get() = _incomeMoney
 
     private val _expenseMoney = MutableStateFlow<Long>(0L)
     val expenseMoney: StateFlow<Long> get() = _expenseMoney
 
     var date = mutableStateOf(getCurrentDate())
+
+    val incomeMoneyOfDay = mutableMapOf<Int,Long>()
+    val expenseMoneyOfDay = mutableMapOf<Int,Long>()
 
     fun getAccountBookItems() {
         viewModelScope.launch {
@@ -54,6 +57,22 @@ class HistoryViewModel @Inject constructor(
             } else {
                 false
             }
+        }
+        val group = _checkedItems.value.groupBy { it.history.day }
+        incomeMoneyOfDay.clear()
+        expenseMoneyOfDay.clear()
+        group.forEach{ (day, historyList) ->
+            var income = 0L
+            var expense = 0L
+            for (item in historyList) {
+                if (item.history.methodType == 1) {
+                    income += item.history.money
+                } else {
+                    expense += item.history.money
+                }
+            }
+            incomeMoneyOfDay[day] = income
+            expenseMoneyOfDay[day] = expense
         }
     }
 
