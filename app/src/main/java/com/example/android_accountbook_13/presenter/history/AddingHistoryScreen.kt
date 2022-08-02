@@ -118,7 +118,8 @@ fun AddingHistoryScreen(
                 AddingHistoryTextField(
                     text = price,
                     onValueChange = { textValue ->
-                        if ((textValue[textValue.lastIndex] in '0'..'9')) price = textValue
+                        if(textValue.isEmpty()) price = ""
+                        else if ((textValue[textValue.lastIndex] in '0'..'9')) price = textValue
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
                 )

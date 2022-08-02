@@ -1,10 +1,13 @@
 package com.example.android_accountbook_13.presenter.statistic
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.util.Log
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -18,27 +21,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.example.android_accountbook_13.R
+import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.presenter.calendar.BothText
+import com.example.android_accountbook_13.presenter.component.Category
 import com.example.android_accountbook_13.presenter.component.TopAppBar
 import com.example.android_accountbook_13.presenter.component.YearMonthDatePicker
 import com.example.android_accountbook_13.presenter.history.HistoryViewModel
+import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.Red
 import com.example.android_accountbook_13.utils.*
+import com.example.android_accountbook_13.utils.Date
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import java.util.*
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun StatisticScreen(
     historyViewModel: HistoryViewModel
 ) {
+    historyViewModel.getAccountBookItems()
     var date by historyViewModel.date
     var isDialog by rememberSaveable { mutableStateOf(false) }
-
+    var totalMoney = historyViewModel.expenseMoney
     Scaffold(
         topBar = {
             TopAppBar(
@@ -64,11 +73,94 @@ fun StatisticScreen(
                 }
             }
         }
+        val list = getPairList(historyViewModel)
+
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             item {
-                BothText(leftText = "이번 달 총 지출 금액", rightText = moneyConverter(historyViewModel.expenseMoney.value), textColor = Red)
+                BothText(leftText = "이번 달 총 지출 금액", rightText = moneyConverter(totalMoney.value), textColor = Red)
                 Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))   
+            }
+            item{
+                AndroidView(factory = {
+                    val pieChart = PieChart(it)
+                    pieChart.setTouchEnabled(false)
+                    pieChart.description.isEnabled = false
+                    pieChart.legend.isEnabled = false
+                    pieChart.setHoleColor(0)
+
+                    val colorList = mutableListOf<Int>()
+                    val pieEntryList = mutableListOf<PieEntry>().apply {
+                        for(pair in list) {
+                            this.add(
+                                PieEntry(pair.first.toFloat(), pair.first / totalMoney.value.toFloat())
+                            )
+                            colorList.add(Color.parseColor(pair.second.color))
+                        }
+                    }
+                    val dataSet = PieDataSet(pieEntryList,"expense")
+                    dataSet.setDrawValues(false)
+                    dataSet.colors = colorList
+                    dataSet.sliceSpace = 1f
+                    val pieData = PieData(dataSet)
+                    pieChart.data = pieData
+                    pieChart.animateY(1000, Easing.EaseInBack)
+                    pieChart
+                },
+                    update = {
+                        val colorList = mutableListOf<Int>()
+                        val pieEntryList = mutableListOf<PieEntry>().apply {
+                            for(pair in list) {
+                                this.add(
+                                    PieEntry(pair.first.toFloat(), pair.first / totalMoney.value.toFloat())
+                                )
+                                colorList.add(Color.parseColor(pair.second.color))
+                            }
+                        }
+                        val dataSet = PieDataSet(pieEntryList,"expense")
+                        dataSet.colors = colorList
+                        dataSet.sliceSpace = 1f
+                        dataSet.setDrawValues(false)
+                        val pieData = PieData(dataSet)
+                        it.data = pieData
+                        it.animateY(1000, Easing.EaseInBack)
+                    },
+
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp))
+            }
+            items(list) { pair ->
+                Row(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp)) {
+                    Category(
+                        title = pair.second.name,
+                        backgroundColor = androidx.compose.ui.graphics.Color(Color.parseColor(pair.second.color)),
+                        modifier = Modifier.padding(top = 10.dp)
+                    )
+                    BothText(leftText = moneyConverter(pair.first), rightText = "${pair.first * 100 / totalMoney.value}%", textColor = Purple)
+                }
+                Divider(Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp), color = LightPurple)
             }
         }
     }
+}
+
+private fun getPairList(historyViewModel: HistoryViewModel): List<Pair<Long,Category>> {
+    val expenseHistory = historyViewModel.accountBookItems.value.filter { item ->
+        item.history.methodType == 0
+    }
+
+    val group = expenseHistory.groupBy { item ->
+        item.history.categoryId
+    }
+    val pair = arrayListOf<Pair<Long,Category>>()
+    group.forEach{ (categoryId, list) ->
+        var money = 0L
+        list.forEach { item ->
+            money += item.history.money
+        }
+        pair.add(Pair(money,list[0].category))
+    }
+    pair.sortWith { o1, o2 -> (o2.first - o1.first).toInt() }
+
+    return pair
 }

@@ -21,20 +21,21 @@ class HistoryViewModel @Inject constructor(
     private val historyRepository: HistoryRepository
 ) : ViewModel() {
     private val _accountBookItems = MutableStateFlow<List<AccountBookItem>>(emptyList())
+    val accountBookItems: StateFlow<List<AccountBookItem>> get() = _accountBookItems
 
     private val _checkedItems = MutableStateFlow<List<AccountBookItem>>(emptyList())
     val checkedItems: StateFlow<List<AccountBookItem>> get() = _checkedItems
 
     private val _incomeMoney = MutableStateFlow<Long>(0L)
-    val     incomeMoney: StateFlow<Long> get() = _incomeMoney
+    val incomeMoney: StateFlow<Long> get() = _incomeMoney
 
     private val _expenseMoney = MutableStateFlow<Long>(0L)
     val expenseMoney: StateFlow<Long> get() = _expenseMoney
 
     var date = mutableStateOf(getCurrentDate())
 
-    val incomeMoneyOfDay = mutableMapOf<Int,Long>()
-    val expenseMoneyOfDay = mutableMapOf<Int,Long>()
+    val incomeMoneyOfDay = mutableMapOf<Int, Long>()
+    val expenseMoneyOfDay = mutableMapOf<Int, Long>()
 
     fun getAccountBookItems() {
         viewModelScope.launch {
@@ -52,7 +53,7 @@ class HistoryViewModel @Inject constructor(
                 true
             } else if (incomeChecked) {
                 it.history.methodType == 1
-            } else if(expenseChecked) {
+            } else if (expenseChecked) {
                 it.history.methodType == 0
             } else {
                 false
@@ -61,7 +62,7 @@ class HistoryViewModel @Inject constructor(
         val group = _checkedItems.value.groupBy { it.history.day }
         incomeMoneyOfDay.clear()
         expenseMoneyOfDay.clear()
-        group.forEach{ (day, historyList) ->
+        group.forEach { (day, historyList) ->
             var income = 0L
             var expense = 0L
             for (item in historyList) {
@@ -78,7 +79,7 @@ class HistoryViewModel @Inject constructor(
 
     fun deleteHistory(deleteIdList: List<Int>) {
         viewModelScope.launch {
-            deleteIdList.forEach{ id ->
+            deleteIdList.forEach { id ->
                 historyRepository.deleteHistory(id)
             }
         }
