@@ -17,7 +17,7 @@ fun getCurrentDate(): Date {
 fun getDayOfWeek(date: Date): String {
     val dayOfWeekName = arrayOf("월요일","화요일","수요일","목요일","금요일","토요일","일요일")
     val number = getDayOfWeekNumber(date)
-    return dayOfWeekName[number - 1]
+    return dayOfWeekName[number]
 }
 
 fun getDayOfWeekNumber(date: Date): Int {

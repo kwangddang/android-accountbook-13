@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.history
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -83,7 +84,6 @@ fun HistoryScreen(
         val expenseMoney by historyViewModel.expenseMoney.collectAsState()
         historyViewModel.getCheckedItems(incomeChecked, expenseChecked)
         val group = checkedItems.groupBy { it.history.day }
-
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->
@@ -111,21 +111,11 @@ fun HistoryScreen(
             if (checkedItems.isNotEmpty()) {
                 LazyColumn {
                     group.forEach { (day, historyList) ->
-                        var income = 0L
-                        var expense = 0L
-                        for (item in historyList) {
-                            if (item.history.methodType == 1) {
-                                income += item.history.money
-                            } else {
-                                expense += item.history.money
-                            }
-                        }
-
                         item {
                             ItemHeader(
                                 date = "${date.month}월 ${day}일",
-                                income = income,
-                                expense = expense,
+                                income = historyViewModel.incomeMoneyOfDay[day] ?: 0,
+                                expense = historyViewModel.expenseMoneyOfDay[day] ?: 0,
                                 incomeChecked,
                                 expenseChecked
                             )
