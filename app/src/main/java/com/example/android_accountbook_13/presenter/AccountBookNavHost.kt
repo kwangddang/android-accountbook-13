@@ -43,7 +43,7 @@ fun AccountBookNavHost(
         }
 
         composable(Statistic.route) {
-            StatisticScreen()
+            StatisticScreen(historyViewModel)
         }
 
         composable(Setting.route) {

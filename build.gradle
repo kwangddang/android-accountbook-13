@@ -5,6 +5,7 @@ buildscript {
         hilt_navigation_version = '1.0.0'
         hilt_version = "2.38.1"
         number_picker_version = "1.0.3"
+        mp_android_chart_version = "v3.1.0"
     }
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"

@@ -144,7 +144,7 @@ fun Calendar(
 }
 
 @Composable
-private fun BothText(
+fun BothText(
     leftText: String,
     rightText: String,
     textColor: Color
