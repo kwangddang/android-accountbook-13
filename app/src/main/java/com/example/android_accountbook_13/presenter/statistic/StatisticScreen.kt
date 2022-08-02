@@ -1,9 +1,9 @@
 package com.example.android_accountbook_13.presenter.statistic
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.LinearLayout
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -15,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.presenter.calendar.BothText
@@ -24,6 +25,11 @@ import com.example.android_accountbook_13.presenter.history.HistoryViewModel
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.Red
 import com.example.android_accountbook_13.utils.*
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -61,7 +67,7 @@ fun StatisticScreen(
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             item {
                 BothText(leftText = "이번 달 총 지출 금액", rightText = moneyConverter(historyViewModel.expenseMoney.value), textColor = Red)
-                Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
+                Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))   
             }
         }
     }
