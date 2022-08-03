@@ -9,7 +9,7 @@ interface LocalDataSource {
     fun getHistory(year: Int, month: Int): Result<Cursor>
     fun insertHistory(history: History): Result<Unit>
     fun updateHistory(history: History): Result<Unit>
-    fun deleteHistory(historyId: Int): Result<Unit>
+    fun deleteHistory(historyIds: List<Int>): Result<Unit>
 
     fun getAllCategory(): Result<Cursor>
     fun getIncomeCategory(): Result<Cursor>

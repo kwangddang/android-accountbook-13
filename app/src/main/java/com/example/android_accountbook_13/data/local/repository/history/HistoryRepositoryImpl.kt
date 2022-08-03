@@ -30,8 +30,8 @@ private val localDataSource: LocalDataSourceImpl
         return DataResponse.Success(Unit)
     }
 
-    override fun deleteHistory(historyId: Int): DataResponse<Unit> {
-        if(localDataSource.deleteHistory(historyId).getOrNull() == null)
+    override fun deleteHistory(historyIds: List<Int>): DataResponse<Unit> {
+        if(localDataSource.deleteHistory(historyIds).getOrNull() == null)
             return DataResponse.Error()
         return DataResponse.Success(Unit)
     }

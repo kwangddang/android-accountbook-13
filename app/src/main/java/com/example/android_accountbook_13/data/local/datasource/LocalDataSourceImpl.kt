@@ -1,7 +1,9 @@
 package com.example.android_accountbook_13.data.local.datasource
 
 import android.database.Cursor
+import android.text.TextUtils
 import android.util.Log
+import androidx.compose.ui.unit.TextUnit
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
@@ -46,10 +48,10 @@ class LocalDataSourceImpl @Inject constructor(
             )
         }
 
-    override fun deleteHistory(historyId: Int): Result<Unit> =
+    override fun deleteHistory(historyIds: List<Int>): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
-                "DELETE FROM history WHERE id = ${historyId};"
+                "DELETE FROM history WHERE id IN (${TextUtils.join(",",historyIds)});"
             )
         }
 

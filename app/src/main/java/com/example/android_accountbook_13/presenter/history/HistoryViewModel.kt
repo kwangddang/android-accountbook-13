@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.history
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -84,11 +83,9 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    fun deleteHistory(deleteIdList: List<Int>) {
+    fun deleteHistory(historyIds: List<Int>) {
         viewModelScope.launch {
-            deleteIdList.forEach { id ->
-                historyRepository.deleteHistory(id)
-            }
+            historyRepository.deleteHistory(historyIds)
         }
     }
 
