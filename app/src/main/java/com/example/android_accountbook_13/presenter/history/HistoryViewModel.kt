@@ -8,6 +8,7 @@ import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.local.repository.accountbook.AccountRepository
 import com.example.android_accountbook_13.data.local.repository.history.HistoryRepository
+import com.example.android_accountbook_13.utils.Event
 import com.example.android_accountbook_13.utils.getCurrentDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,6 +37,9 @@ class HistoryViewModel @Inject constructor(
 
     val incomeMoneyOfDay = mutableMapOf<Int, Long>()
     val expenseMoneyOfDay = mutableMapOf<Int, Long>()
+
+    var isSuccess = mutableStateOf(Event(DataResponse.Empty))
+
 
     fun getAccountBookItems() {
         viewModelScope.launch {
@@ -77,29 +81,21 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    fun deleteHistory(deleteIdList: List<Int>) {
+    fun deleteHistory(historyIds: List<Int>) {
         viewModelScope.launch {
-            deleteIdList.forEach { id ->
-                historyRepository.deleteHistory(id)
-            }
+            isSuccess.value = Event(historyRepository.deleteHistory(historyIds))
         }
     }
 
     fun insertHistory(history: History) {
         viewModelScope.launch {
-            val response = historyRepository.insertHistory(history)
-            if (response is DataResponse.Error) {
-
-            }
+            isSuccess.value = Event(historyRepository.insertHistory(history))
         }
     }
 
     fun updateHistory(history: History) {
         viewModelScope.launch {
-            val response = historyRepository.updateHistory(history)
-            if (response is DataResponse.Error) {
-
-            }
+            isSuccess.value = Event(historyRepository.updateHistory(history))
         }
     }
 

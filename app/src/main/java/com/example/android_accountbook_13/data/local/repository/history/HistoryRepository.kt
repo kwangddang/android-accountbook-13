@@ -7,5 +7,5 @@ interface HistoryRepository {
     fun getHistory(year: Int, month: Int): DataResponse<List<History>>
     fun insertHistory(history: History): DataResponse<Unit>
     fun updateHistory(history: History): DataResponse<Unit>
-    fun deleteHistory(historyId: Int): DataResponse<Unit>
+    fun deleteHistory(historyIds: List<Int>): DataResponse<Unit>
 }

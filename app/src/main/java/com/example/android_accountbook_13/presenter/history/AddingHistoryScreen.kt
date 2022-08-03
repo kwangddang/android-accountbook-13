@@ -11,6 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
+import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
@@ -36,6 +38,7 @@ import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.utils.Date
 import com.example.android_accountbook_13.utils.getCurrentDate
 import com.example.android_accountbook_13.utils.getYearMonthDayString
+import com.example.android_accountbook_13.utils.showToast
 
 @Composable
 fun AddingHistoryScreen(
@@ -69,6 +72,17 @@ fun AddingHistoryScreen(
     val methods by settingViewModel.methods.collectAsState()
     val incomeCategories by settingViewModel.incomeCategories.collectAsState()
     val expenseCategories by settingViewModel.expenseCategories.collectAsState()
+
+    var isHistorySuccess by historyViewModel.isSuccess
+
+    if(isHistorySuccess.event is DataResponse.Success) {
+        historyViewModel.getAccountBookItems()
+        isHistorySuccess(DataResponse.Empty)
+        navHostController.popBackStack()
+    } else if(isHistorySuccess.event is DataResponse.Error) {
+        showToast(LocalContext.current, (isHistorySuccess.event as DataResponse.Error<*>).errorMessage)
+        isHistorySuccess(DataResponse.Empty)
+    }
 
     Scaffold(
         topBar = {
@@ -202,7 +216,6 @@ fun AddingHistoryScreen(
                             )
                         )
                     }
-                    navHostController.popBackStack()
                 }
             }
         }

@@ -15,7 +15,7 @@ class AccountRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSourceImpl
 ) : AccountRepository {
     override fun getAccountBook(year: Int, month: Int): DataResponse<List<AccountBookItem>> {
-        val cursor = localDataSource.getAccountBook(year, month).getOrNull() ?: return DataResponse.Error()
+        val cursor = localDataSource.getAccountBook(year, month).getOrNull() ?: return DataResponse.Error("내역을 불러오지 못 했습니다.")
         val itemList = mutableListOf<AccountBookItem>()
         while (cursor.moveToNext()) {
             itemList.add(
