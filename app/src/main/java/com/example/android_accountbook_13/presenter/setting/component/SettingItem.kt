@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,7 +59,9 @@ fun SettingContent(
 
 @Composable
 fun SettingHeader(title: String) {
-    Column(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 24.dp)) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(start = 16.dp, end = 16.dp, top = 24.dp)) {
         Text(text = title, fontSize = 18.sp, color = LightPurple)
         Divider(color = LightPurple, modifier = Modifier.padding(top = 8.dp))
     }
@@ -74,7 +77,9 @@ fun SettingFooter(
         .clickable(onClick = onClick)
         .padding(top = 8.dp)
     ) {
-        Box(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp)) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp)) {
             Text(
                 text = title,
                 fontSize = 16.sp,
@@ -83,7 +88,7 @@ fun SettingFooter(
                 modifier = Modifier.align(Alignment.CenterStart)
             )
             Icon(
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus), contentDescription = "추가",
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus), contentDescription = stringResource(id = R.string.add),
                 modifier = Modifier.align(Alignment.CenterEnd), tint = Purple
             )
         }

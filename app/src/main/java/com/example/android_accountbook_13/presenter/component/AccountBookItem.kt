@@ -9,10 +9,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
@@ -137,11 +139,11 @@ fun ItemHeader(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 if (incomeChecked) {
-                    HeaderText("수입")
+                    HeaderText(stringResource(id = R.string.income))
                     HeaderText(moneyConverter(income))
                 }
                 if (expenseChecked) {
-                    HeaderText("지출")
+                    HeaderText(stringResource(id = R.string.expense))
                     HeaderText(moneyConverter(expense))
                 }
             }

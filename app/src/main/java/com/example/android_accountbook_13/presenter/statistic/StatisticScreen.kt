@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
@@ -77,7 +78,7 @@ fun StatisticScreen(
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             item {
-                BothText(leftText = "이번 달 총 지출 금액", rightText = moneyConverter(totalMoney.value), textColor = Red)
+                BothText(leftText = stringResource(id = R.string.total_payment_of_month), rightText = moneyConverter(totalMoney.value), textColor = Red)
                 Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))   
             }
             item{
@@ -130,7 +131,9 @@ fun StatisticScreen(
                         .height(300.dp))
             }
             items(list) { pair ->
-                Row(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp)) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp)) {
                     Category(
                         title = pair.second.name,
                         backgroundColor = androidx.compose.ui.graphics.Color(Color.parseColor(pair.second.color)),

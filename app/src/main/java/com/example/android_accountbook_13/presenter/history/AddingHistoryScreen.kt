@@ -11,6 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -72,7 +73,7 @@ fun AddingHistoryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = "내역 ${if (id == -1) "등록" else "수정"}",
+                title = "${stringResource(id = R.string.history)} ${if (id == -1) stringResource(id = R.string.add) else stringResource(id = R.string.edit)}",
                 leftVectorResource = R.drawable.ic_back,
                 onLeftClick = { navHostController.popBackStack() }
             )
@@ -103,7 +104,7 @@ fun AddingHistoryScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            AddingHistoryItem(title = "일자") {
+            AddingHistoryItem(title = stringResource(id = R.string.date)) {
 
                 Text(text = getYearMonthDayString(date),
                     modifier = Modifier
@@ -114,7 +115,7 @@ fun AddingHistoryScreen(
                     fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Purple)
             }
 
-            AddingHistoryItem(title = "금액") {
+            AddingHistoryItem(title = stringResource(id = R.string.price)) {
                 AddingHistoryTextField(
                     text = price,
                     onValueChange = { textValue ->
@@ -125,9 +126,9 @@ fun AddingHistoryScreen(
                 )
             }
 
-            AddingHistoryItem(title = "결제 수단") {
+            AddingHistoryItem(title = stringResource(id = R.string.payment_method)) {
                 Box() {
-                    AddingHistoryTextField(checkedMethod.name, "선택하세요", {}, true)
+                    AddingHistoryTextField(checkedMethod.name, stringResource(id = R.string.placeholder), {}, true)
                     AddingHistorySpinner(
                         Modifier.Companion.align(Alignment.CenterEnd),
                         methodExpanded,
@@ -145,7 +146,7 @@ fun AddingHistoryScreen(
 
             AddingHistoryItem(title = "분류") {
                 Box() {
-                    AddingHistoryTextField(checkedCategory.name, "선택하세요", {}, true)
+                    AddingHistoryTextField(checkedCategory.name, stringResource(id = R.string.placeholder), {}, true)
                     AddingHistorySpinner(
                         Modifier.Companion.align(Alignment.CenterEnd),
                         categoryExpanded,
@@ -164,7 +165,7 @@ fun AddingHistoryScreen(
                 }
             }
 
-            AddingHistoryItem(title = "내용") {
+            AddingHistoryItem(title = stringResource(id = R.string.content)) {
                 AddingHistoryTextField(text = content, onValueChange = { textValue -> content = textValue })
             }
             Box(modifier = Modifier.fillMaxSize()) {
@@ -245,10 +246,10 @@ private fun AddingHistorySpinner(
                 }
                 DropdownMenuItem(onClick = onAddClick) {
                     Box(modifier = Modifier.fillMaxWidth()) {
-                        Text(text = "추가하기", modifier = Modifier.align(Alignment.CenterStart))
+                        Text(text = stringResource(id = R.string.add_item), modifier = Modifier.align(Alignment.CenterStart))
                         Icon(
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus),
-                            contentDescription = "추가",
+                            contentDescription = stringResource(id = R.string.add_item),
                             modifier = Modifier.align(Alignment.CenterEnd)
                         )
                     }

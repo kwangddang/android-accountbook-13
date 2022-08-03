@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.chargemap.compose.numberpicker.NumberPicker
+import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.ui.theme.White
 import com.example.android_accountbook_13.ui.theme.Yellow
 import com.example.android_accountbook_13.utils.getCurrentDate
@@ -35,11 +37,11 @@ fun YearMonthDayDatePicker(
             Column(Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     DatePicker(num = year, startNum = 1997, lastNum = date.year, onValueChange = { it -> year = it })
-                    Text(text = "년", modifier = Modifier.padding(4.dp))
+                    Text(text = stringResource(id = R.string.year), modifier = Modifier.padding(4.dp))
                     DatePicker(num = month, startNum = 1, lastNum = 12, onValueChange = { it -> month = it })
-                    Text(text = "월", modifier = Modifier.padding(4.dp))
+                    Text(text = stringResource(id = R.string.month), modifier = Modifier.padding(4.dp))
                     DatePicker(num = day, startNum = 1, lastNum = 31, onValueChange = { it -> day = it })
-                    Text(text = "일", modifier = Modifier.padding(4.dp))
+                    Text(text = stringResource(id = R.string.day), modifier = Modifier.padding(4.dp))
                 }
                 AddingButton(
                     enabled = true, modifier = Modifier.fillMaxWidth(),
@@ -65,9 +67,9 @@ fun YearMonthDatePicker(
             Column(Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     DatePicker(num = year, startNum = 1997, lastNum = date.year, onValueChange = { it -> year = it })
-                    Text(text = "년", modifier = Modifier.padding(4.dp))
+                    Text(text = stringResource(id = R.string.year), modifier = Modifier.padding(4.dp))
                     DatePicker(num = month, startNum = 1, lastNum = 12, onValueChange = { it -> month = it })
-                    Text(text = "월", modifier = Modifier.padding(4.dp))
+                    Text(text = stringResource(id = R.string.month), modifier = Modifier.padding(4.dp))
                 }
                 AddingButton(
                     enabled = true, modifier = Modifier.fillMaxWidth(),

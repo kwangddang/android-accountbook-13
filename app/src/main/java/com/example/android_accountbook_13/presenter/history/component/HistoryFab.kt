@@ -24,7 +24,7 @@ fun HistoryFab(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_plus), 
-                contentDescription = stringResource(id = R.string.content_fab))
+                contentDescription = stringResource(id = R.string.fab))
         }
     }
 }

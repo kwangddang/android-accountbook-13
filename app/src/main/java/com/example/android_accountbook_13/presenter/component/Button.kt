@@ -26,7 +26,7 @@ data class RadiusDP(
 
 @Composable
 fun AddingButton(
-    title: String = stringResource(id = R.string.text_btn),
+    title: String = stringResource(id = R.string.btn_add),
     style: TextStyle = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold),
     modifier: Modifier = Modifier
         .width(328.dp)
@@ -76,7 +76,7 @@ fun SwitchButton(
                 unEnabledColor = unEnabledColor
             ) {
                 Text(
-                    text = stringResource(id = R.string.text_income),
+                    text = stringResource(id = R.string.income),
                     color = textColor
                 )
             }
@@ -91,7 +91,7 @@ fun SwitchButton(
                 unEnabledColor = unEnabledColor
             ) {
                 Text(
-                    text = stringResource(id = R.string.text_expense),
+                    text = stringResource(id = R.string.expense),
                     color = textColor
                 )
             }
@@ -137,7 +137,7 @@ fun FilterButton(
             ) {
                 Row(modifier = modifier.fillMaxWidth()) {
                     CheckedText(
-                        title = stringResource(id = R.string.text_income),
+                        title = stringResource(id = R.string.income),
                         money = incomeMoney,
                         checked = incomeChecked,
                         modifier = Modifier.align(Alignment.CenterVertically),
@@ -162,7 +162,7 @@ fun FilterButton(
             ) {
                 Row(modifier = modifier.fillMaxWidth()) {
                     CheckedText(
-                        title = stringResource(id = R.string.text_expense),
+                        title = stringResource(id = R.string.expense),
                         money = expenseMoney,
                         checked = expenseChecked,
                         modifier = Modifier.align(Alignment.CenterVertically),
