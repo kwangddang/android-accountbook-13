@@ -32,6 +32,12 @@ class SettingViewModel @Inject constructor(
     var isMethodSuccess = mutableStateOf(Event(DataResponse.Empty))
     var isCategorySuccess = mutableStateOf(Event(DataResponse.Empty))
 
+    init {
+        getAllMethod()
+        getIncomeCategory()
+        getExpenseCategory()
+    }
+
     fun getAllMethod() {
         viewModelScope.launch {
             val response = methodRepository.getAllMethod()

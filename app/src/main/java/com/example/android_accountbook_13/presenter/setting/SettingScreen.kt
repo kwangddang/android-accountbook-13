@@ -26,11 +26,7 @@ fun SettingScreen(
     navController: NavHostController = rememberNavController(),
     settingViewModel: SettingViewModel
 ) {
-    settingViewModel.run {
-        if(methods.value.isEmpty()) getAllMethod()
-        if(incomeCategories.value.isEmpty()) getIncomeCategory()
-        if(expenseCategories.value.isEmpty()) getExpenseCategory()
-    }
+
     val methods by settingViewModel.methods.collectAsState()
     val incomeCategories by settingViewModel.incomeCategories.collectAsState()
     val expenseCategories by settingViewModel.expenseCategories.collectAsState()

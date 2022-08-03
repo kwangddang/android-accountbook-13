@@ -48,11 +48,6 @@ fun AddingHistoryScreen(
     historyViewModel: HistoryViewModel,
     settingViewModel: SettingViewModel
 ) {
-    settingViewModel.run {
-        if(methods.value.isEmpty()) getAllMethod()
-        if(incomeCategories.value.isEmpty()) getIncomeCategory()
-        if(expenseCategories.value.isEmpty()) getExpenseCategory()
-    }
 
     var price by rememberSaveable { mutableStateOf("") }
     var content by rememberSaveable { mutableStateOf("") }
