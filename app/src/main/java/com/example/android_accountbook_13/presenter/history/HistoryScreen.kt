@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -47,7 +48,7 @@ fun HistoryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = if (isEditMode) "다중 선택" else getYearMonthString(date),
+                title = if (isEditMode) stringResource(id = R.string.multiple_selection) else getYearMonthString(date),
                 titleOnClick = {if(!isEditMode) isDialog = true},
                 leftVectorResource = if (isEditMode) R.drawable.ic_back else R.drawable.ic_left,
                 rightVectorResource = if (isEditMode) R.drawable.ic_trash else R.drawable.ic_right,
@@ -212,7 +213,7 @@ fun HistoryScreen(
 private fun BlankScreen() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(
-            text = "내역이 없습니다.",
+            text = stringResource(id = R.string.no_history),
             style = MaterialTheme.typography.h5,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 16.dp)

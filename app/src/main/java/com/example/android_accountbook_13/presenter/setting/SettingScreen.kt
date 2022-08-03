@@ -11,9 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.presenter.component.TopAppBar
 import com.example.android_accountbook_13.presenter.setting.component.SettingContent
 import com.example.android_accountbook_13.presenter.setting.component.SettingFooter
@@ -35,14 +37,14 @@ fun SettingScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = "설정",
+                title = stringResource(id = R.string.setting),
             )
         },
         backgroundColor = MaterialTheme.colors.background
     ) {
         LazyColumn {
             item {
-                SettingHeader(title = "결제수단")
+                SettingHeader(title = stringResource(id = R.string.payment_method))
             }
 
             items(methods) { method ->
@@ -56,7 +58,7 @@ fun SettingScreen(
 
             item {
                 SettingFooter(
-                    title = "결제수단 추가하기",
+                    title = "${stringResource(id = R.string.payment_method)} ${stringResource(id = R.string.add_item)}",
                     onClick = {
                         navController.navigate("addingSetting/결제,-1,true")
                     }
@@ -64,7 +66,7 @@ fun SettingScreen(
             }
 
             item {
-                SettingHeader(title = "지출 카테고리")
+                SettingHeader(title = stringResource(id = R.string.category_expense))
             }
 
             items(expenseCategories) { category ->
@@ -79,7 +81,7 @@ fun SettingScreen(
 
             item {
                 SettingFooter(
-                    title = "지출 카테고리 추가하기",
+                    title = "${stringResource(id = R.string.category_expense)} ${stringResource(id = R.string.add_item)}",
                     onClick = {
                         navController.navigate("addingSetting/지출,-1,true")
                     }
@@ -87,7 +89,7 @@ fun SettingScreen(
             }
 
             item {
-                SettingHeader(title = "수입 카테고리")
+                SettingHeader(title = stringResource(id = R.string.category_income))
             }
 
             items(incomeCategories) { category ->
@@ -102,7 +104,7 @@ fun SettingScreen(
 
             item {
                 SettingFooter(
-                    title = "수입 카테고리 추가하기",
+                    title = "${stringResource(id = R.string.category_income)} ${stringResource(id = R.string.add_item)}",
                     onClick = {
                         navController.navigate("addingSetting/수입,-1,true")
                     }

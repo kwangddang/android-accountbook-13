@@ -1,24 +1,45 @@
 <resources>
     <string name="app_name">android-accountbook-13</string>
-    <string name="desc_back">back</string>
-    <string name="desc_left">left</string>
-    <string name="desc_right">right</string>
-    <string name="desc_trash">trash</string>
+    <string name="back">back</string>
+    <string name="left">left</string>
+    <string name="right">right</string>
+    <string name="trash">trash</string>
 
-    <string name="text_btn">등록하기</string>
-    <string name="text_income">수입</string>
-    <string name="text_expense">지출</string>
+    <string name="btn_add">등록하기</string>
+    <string name="btn_edit">수정하기</string>
 
-    <string name="content_history">내역</string>
-    <string name="content_calendar">달력</string>
-    <string name="content_statistic">통계</string>
-    <string name="content_setting">설정</string>
-    <string name="content_fab">추가</string>
+    <string name="income">수입</string>
+    <string name="expense">지출</string>
+    <string name="total">총합</string>
+    <string name="payment">결제</string>
+    <string name="name">이름</string>
+    <string name="colors">색</string>
+    <string name="year">년</string>
+    <string name="month">월</string>
+    <string name="day">일</string>
+    <string name="add">등록</string>
+    <string name="edit">수</string>
+    <string name="date">일</string>
+    <string name="price">금액</string>
+    <string name="content">내용</string>
+    <string name="payment_method">결제 수단</string>
+    <string name="multiple_selection">다중 선택</string>
+    <string name="placeholder">선택하세요</string>
+    <string name="category_expense">지출 카테고리</string>
+    <string name="category_income">수입 카테고리</string>
 
-    <string name="nav_history">history</string>
-    <string name="nav_calendar">calendar</string>
-    <string name="nav_statistic">statistic</string>
-    <string name="nav_setting">setting</string>
+    <string name="add_item">추가하기</string>
+    <string name="add_payment">결제 수단 추가</string>
+    <string name="add_category">카테고리 추가</string>
+    <string name="edit_payment">결제 수단 수정</string>
+    <string name="edit_category">카테고리 수정</string>
+    <string name="input_placeholder">입력하세요</string>
+    <string name="no_history">내역이 없습니다.</string>
+    <string name="total_payment_of_month">이번 달 총 지출 금액</string>
 
-
+    <string name="history">내역</string>
+    <string name="calendar">달력</string>
+    <string name="statistic">통계</string>
+    <string name="setting">설정</string>
+    <string name="fab">추가</string>
 </resources>

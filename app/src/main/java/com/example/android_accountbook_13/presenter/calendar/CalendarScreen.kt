@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -71,11 +72,11 @@ fun CalendarScreen(
         }
         Column(modifier = Modifier.fillMaxSize()) {
             Calendar(date, historyViewModel)
-            BothText("수입", moneyConverter(historyViewModel.incomeMoney.value), Green6)
+            BothText(stringResource(id = R.string.income), moneyConverter(historyViewModel.incomeMoney.value), Green6)
             Divider(modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp), color = LightPurple)
-            BothText("지출", "-"  + moneyConverter(historyViewModel.expenseMoney.value), Red)
+            BothText(stringResource(id = R.string.expense), "-"  + moneyConverter(historyViewModel.expenseMoney.value), Red)
             Divider(modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp), color = LightPurple)
-            BothText("총합", moneyConverter(historyViewModel.incomeMoney.value - historyViewModel.expenseMoney.value), Purple)
+            BothText(stringResource(id = R.string.total), moneyConverter(historyViewModel.incomeMoney.value - historyViewModel.expenseMoney.value), Purple)
             Divider(modifier = Modifier.padding(top = 8.dp), color = Purple)
         }
     }
