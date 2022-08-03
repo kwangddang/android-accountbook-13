@@ -1,5 +1,7 @@
 package com.example.android_accountbook_13.presenter
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ import com.example.android_accountbook_13.presenter.setting.SettingScreen
 import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.presenter.statistic.StatisticScreen
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun AccountBookNavHost(
     navController: NavHostController,
@@ -35,7 +38,7 @@ fun AccountBookNavHost(
         modifier = Modifier.padding(innerPaddingModifier)
     ) {
         composable(History.route) {
-            HistoryScreen(navController,historyViewModel)
+            HistoryScreen(navController, historyViewModel)
         }
 
         composable(Calendar.route) {
@@ -53,14 +56,19 @@ fun AccountBookNavHost(
         composable(
             route = AddingSetting.route,
             arguments = listOf(
-                navArgument("title") { type = NavType.StringType},
-                navArgument("id") { type = NavType.IntType},
-                navArgument("type"){ type = NavType.BoolType}
+                navArgument("title") { type = NavType.StringType },
+                navArgument("name") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+                navArgument("id") { type = NavType.IntType },
+                navArgument("type") { type = NavType.BoolType }
             )
         ) {
             AddingScreen(
                 navController,
                 title = it.arguments?.getString("title")!!,
+                name = it.arguments?.getString("name")!!,
                 id = it.arguments?.getInt("id"),
                 type = it.arguments?.getBoolean("type")!!,
                 settingViewModel
@@ -70,14 +78,12 @@ fun AccountBookNavHost(
         composable(
             route = AddingHistory.route,
             arguments = listOf(
-                navArgument("method") { type = NavType.IntType},
-                navArgument("id") { type = NavType.IntType},
+                navArgument("method") { type = NavType.IntType },
             )
         ) {
             AddingHistoryScreen(
                 navController,
                 method = it.arguments?.getInt("method")!!,
-                id = it.arguments?.getInt("id"),
                 historyViewModel,
                 settingViewModel
             )
@@ -116,13 +122,13 @@ object Setting : AccountBookDestination {
 }
 
 object AddingSetting : AccountBookDestination {
-    override val route: String = "addingSetting/{title},{id},{type}"
+    override val route: String = "addingSetting?title={title}&name={name}&id={id}&type={type}"
     override val content: String = "추가"
     override val vectorResource: Int = 0
 }
 
 object AddingHistory : AccountBookDestination {
-    override val route: String = "addingHistory/{method},{id}"
+    override val route: String = "addingHistory/{method}"
     override val content: String = "추가"
     override val vectorResource: Int = 0
 }

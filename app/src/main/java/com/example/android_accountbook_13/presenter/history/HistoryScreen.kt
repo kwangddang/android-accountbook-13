@@ -83,10 +83,7 @@ fun HistoryScreen(
         },
         floatingActionButton = {
             HistoryFab(onClick = {
-                navHostController.navigate(
-                    "addingHistory/" +
-                            "${if ((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 0 else 1},-1"
-                )
+                navHostController.navigate("addingHistory/${if ((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 1 else 0}")
             })
         },
         backgroundColor = MaterialTheme.colors.background
@@ -147,7 +144,8 @@ fun HistoryScreen(
                                         deleteIdList.add(id)
                                 },
                                 onClick = {
-                                    navHostController.navigate("addingHistory/${item.history.methodType},${item.history.id}")
+                                    historyViewModel.navItem = item
+                                    navHostController.navigate("addingHistory/${item.history.methodType}")
                                 },
                                 onCheckClick = { id ->
                                     if(deleteIdList.contains(id)) {
@@ -175,7 +173,10 @@ fun HistoryScreen(
                                 lastAccountBookItem,
                                 isEditMode = isEditMode,
                                 onClick = {
-                                    navHostController.navigate("addingHistory/${lastAccountBookItem.history.methodType},${lastAccountBookItem.history.id}")
+                                    Log.d("Test",lastAccountBookItem.toString())
+                                    historyViewModel.navItem = lastAccountBookItem
+                                    Log.d("Test",historyViewModel.navItem.toString())
+                                    navHostController.navigate("addingHistory/${lastAccountBookItem.history.methodType}")
                                 },
                                 onCheckClick = { id ->
                                     if(deleteIdList.contains(id)) {
