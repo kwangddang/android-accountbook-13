@@ -61,15 +61,27 @@ fun AddingScreen(
     var color by rememberSaveable { mutableStateOf(if(title == "수입") incomeColors[0] else expenseColors[0]) }
     var selectedIndex by rememberSaveable { mutableStateOf(0) }
 
-    var isSuccess by viewModel.isSuccess
+    val isMethodSuccess by viewModel.isMethodSuccess
+    val isCategorySuccess by viewModel.isCategorySuccess
 
-    if(isSuccess.event is DataResponse.Success) {
-        isSuccess(DataResponse.Empty)
+    if(isMethodSuccess.event is DataResponse.Success) {
+        isMethodSuccess(DataResponse.Empty)
+        viewModel.getAllMethod()
         navController.popBackStack()
-    } else if(isSuccess.event is DataResponse.Error) {
-        showToast(LocalContext.current, (isSuccess.event as DataResponse.Error<*>).errorMessage)
-        isSuccess(DataResponse.Empty)
+    } else if(isMethodSuccess.event is DataResponse.Error) {
+        showToast(LocalContext.current, (isMethodSuccess.event as DataResponse.Error<*>).errorMessage)
+        isMethodSuccess(DataResponse.Empty)
     }
+
+    if(isCategorySuccess.event is DataResponse.Success) {
+        isCategorySuccess(DataResponse.Empty)
+        viewModel.getAllCategory()
+        navController.popBackStack()
+    } else if(isCategorySuccess.event is DataResponse.Error) {
+        showToast(LocalContext.current, (isCategorySuccess.event as DataResponse.Error<*>).errorMessage)
+        isCategorySuccess(DataResponse.Empty)
+    }
+
 
     Scaffold(
         topBar = {
