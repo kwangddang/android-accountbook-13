@@ -37,7 +37,7 @@ fun HistoryScreen(
     navHostController: NavHostController,
     historyViewModel: HistoryViewModel,
 ) {
-    var date by historyViewModel.date
+    val date by historyViewModel.date
     var incomeChecked by rememberSaveable { mutableStateOf(true) }
     var expenseChecked by rememberSaveable { mutableStateOf(true) }
     var isEditMode by rememberSaveable { mutableStateOf(false) }
@@ -66,8 +66,7 @@ fun HistoryScreen(
                         deleteIdList.clear()
                     }
                     else {
-                        date = decreaseDate(date)
-                        historyViewModel.getAccountBookItems()
+                        historyViewModel.decreaseDate()
                     }
                 },
                 onRightClick = {
@@ -77,8 +76,7 @@ fun HistoryScreen(
                         deleteIdList.clear()
                     }
                     else {
-                        date = increaseDate(date)
-                        historyViewModel.getAccountBookItems()
+                        historyViewModel.increaseDate()
                     }
                 }
             )
@@ -94,14 +92,14 @@ fun HistoryScreen(
         backgroundColor = MaterialTheme.colors.background
     ) {
         val checkedItems by historyViewModel.checkedItems.collectAsState()
-        val incomeMoney by historyViewModel.incomeMoney.collectAsState()
-        val expenseMoney by historyViewModel.expenseMoney.collectAsState()
+        val incomeMoney by historyViewModel.incomeMoney
+        val expenseMoney by historyViewModel.expenseMoney
         historyViewModel.getCheckedItems(incomeChecked, expenseChecked)
         val group = checkedItems.groupBy { it.history.day }
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->
-                    date = Date(year, month, 1)
+                    historyViewModel.changeDate(year,month)
                     isDialog = false
                 }
             }

@@ -41,7 +41,7 @@ import com.example.android_accountbook_13.utils.*
 fun CalendarScreen(
     historyViewModel: HistoryViewModel
 ) {
-    var date by historyViewModel.date
+    val date by historyViewModel.date
     var isDialog by rememberSaveable { mutableStateOf(false) }
     Scaffold(
         topBar = {
@@ -50,14 +50,8 @@ fun CalendarScreen(
                 titleOnClick = { isDialog = true },
                 leftVectorResource = R.drawable.ic_left,
                 rightVectorResource = R.drawable.ic_right,
-                onLeftClick = {
-                    date = decreaseDate(date)
-                    historyViewModel.getAccountBookItems()
-                },
-                onRightClick = {
-                    date = increaseDate(date)
-                    historyViewModel.getAccountBookItems()
-                }
+                onLeftClick = historyViewModel::decreaseDate,
+                onRightClick = historyViewModel::increaseDate
             )
         },
         backgroundColor = MaterialTheme.colors.background
@@ -66,7 +60,7 @@ fun CalendarScreen(
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->
-                    date = Date(year, month, 1)
+                    historyViewModel.changeDate(year,month)
                     isDialog = false
                 }
             }

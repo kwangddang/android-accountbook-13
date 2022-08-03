@@ -42,9 +42,9 @@ import java.util.*
 fun StatisticScreen(
     historyViewModel: HistoryViewModel
 ) {
-    var date by historyViewModel.date
+    val date by historyViewModel.date
     var isDialog by rememberSaveable { mutableStateOf(false) }
-    val totalMoney = historyViewModel.expenseMoney.collectAsState()
+    val totalMoney = historyViewModel.expenseMoney
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,12 +53,10 @@ fun StatisticScreen(
                 leftVectorResource = R.drawable.ic_left,
                 rightVectorResource = R.drawable.ic_right,
                 onLeftClick = {
-                    date = decreaseDate(date)
-                    historyViewModel.getAccountBookItems()
+                    historyViewModel.decreaseDate()
                 },
                 onRightClick = {
-                    date = increaseDate(date)
-                    historyViewModel.getAccountBookItems()
+                    historyViewModel.increaseDate()
                 }
             )
         },
@@ -67,7 +65,7 @@ fun StatisticScreen(
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->
-                    date = Date(year, month, 1)
+                    historyViewModel.changeDate(year,month)
                     isDialog = false
                 }
             }
