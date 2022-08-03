@@ -77,8 +77,8 @@ fun AddingHistoryScreen(
 
     if(isHistorySuccess.event is DataResponse.Success) {
         historyViewModel.getAccountBookItems()
-        navHostController.popBackStack()
         isHistorySuccess(DataResponse.Empty)
+        navHostController.popBackStack()
     } else if(isHistorySuccess.event is DataResponse.Error) {
         showToast(LocalContext.current, (isHistorySuccess.event as DataResponse.Error<*>).errorMessage)
         isHistorySuccess(DataResponse.Empty)

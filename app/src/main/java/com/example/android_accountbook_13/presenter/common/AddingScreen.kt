@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
+import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.Method
 import com.example.android_accountbook_13.presenter.component.AddingButton
@@ -31,6 +33,7 @@ import com.example.android_accountbook_13.presenter.setting.component.SettingHea
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.OffWhite
 import com.example.android_accountbook_13.ui.theme.Purple
+import com.example.android_accountbook_13.utils.showToast
 
 @Composable
 fun AddingScreen(
@@ -57,6 +60,16 @@ fun AddingScreen(
     var text by rememberSaveable { mutableStateOf("") }
     var color by rememberSaveable { mutableStateOf(if(title == "수입") incomeColors[0] else expenseColors[0]) }
     var selectedIndex by rememberSaveable { mutableStateOf(0) }
+
+    var isSuccess by viewModel.isSuccess
+
+    if(isSuccess.event is DataResponse.Success) {
+        isSuccess(DataResponse.Empty)
+        navController.popBackStack()
+    } else if(isSuccess.event is DataResponse.Error) {
+        showToast(LocalContext.current, (isSuccess.event as DataResponse.Error<*>).errorMessage)
+        isSuccess(DataResponse.Empty)
+    }
 
     Scaffold(
         topBar = {
@@ -143,7 +156,6 @@ fun AddingScreen(
                                 }
                             }
                         }
-                        navController.popBackStack()
                     }
                 )
             }
