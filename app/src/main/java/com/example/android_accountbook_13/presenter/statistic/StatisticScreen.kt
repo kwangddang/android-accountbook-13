@@ -42,9 +42,9 @@ import java.util.*
 fun StatisticScreen(
     historyViewModel: HistoryViewModel
 ) {
-    var date by historyViewModel.date
+    val date by historyViewModel.date
     var isDialog by rememberSaveable { mutableStateOf(false) }
-    val totalMoney = historyViewModel.expenseMoney.collectAsState()
+    val totalMoney by historyViewModel.expenseMoney
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,12 +53,10 @@ fun StatisticScreen(
                 leftVectorResource = R.drawable.ic_left,
                 rightVectorResource = R.drawable.ic_right,
                 onLeftClick = {
-                    date = decreaseDate(date)
-                    historyViewModel.getAccountBookItems()
+                    historyViewModel.decreaseDate()
                 },
                 onRightClick = {
-                    date = increaseDate(date)
-                    historyViewModel.getAccountBookItems()
+                    historyViewModel.increaseDate()
                 }
             )
         },
@@ -67,16 +65,16 @@ fun StatisticScreen(
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->
-                    date = Date(year, month, 1)
+                    historyViewModel.changeDate(year,month)
                     isDialog = false
                 }
             }
         }
-        val list = if(totalMoney.value > 0 )getPairList(historyViewModel) else emptyList()
+        val list = if(totalMoney > 0 ) historyViewModel.getPairList() else emptyList()
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             item {
-                BothText(leftText = stringResource(id = R.string.total_payment_of_month), rightText = moneyConverter(totalMoney.value), textColor = Red)
+                BothText(leftText = stringResource(id = R.string.total_payment_of_month), rightText = moneyConverter(totalMoney), textColor = Red)
                 Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
             }
             item{
@@ -91,7 +89,7 @@ fun StatisticScreen(
                     val pieEntryList = mutableListOf<PieEntry>().apply {
                         for(pair in list) {
                             this.add(
-                                PieEntry(pair.first.toFloat(), pair.first / totalMoney.value.toFloat())
+                                PieEntry(pair.first.toFloat(), pair.first / totalMoney.toFloat())
                             )
                             colorList.add(Color.parseColor(pair.second.color))
                         }
@@ -110,7 +108,7 @@ fun StatisticScreen(
                         val pieEntryList = mutableListOf<PieEntry>().apply {
                             for(pair in list) {
                                 this.add(
-                                    PieEntry(pair.first.toFloat(), pair.first / totalMoney.value.toFloat())
+                                    PieEntry(pair.first.toFloat(), pair.first / totalMoney.toFloat())
                                 )
                                 colorList.add(Color.parseColor(pair.second.color))
                             }
@@ -137,31 +135,10 @@ fun StatisticScreen(
                         backgroundColor = androidx.compose.ui.graphics.Color(Color.parseColor(pair.second.color)),
                         modifier = Modifier.padding(top = 10.dp)
                     )
-                    BothText(leftText = moneyConverter(pair.first), rightText = "${pair.first * 100 / totalMoney.value}%", textColor = Purple)
+                    BothText(leftText = moneyConverter(pair.first), rightText = "${pair.first * 100 / totalMoney}%", textColor = Purple)
                 }
                 Divider(Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp), color = LightPurple)
             }
         }
     }
-}
-
-private fun getPairList(historyViewModel: HistoryViewModel): List<Pair<Long,Category>> {
-    val expenseHistory = historyViewModel.accountBookItems.value.filter { item ->
-        item.history.methodType == 0
-    }
-
-    val group = expenseHistory.groupBy { item ->
-        item.history.categoryId
-    }
-    val pair = arrayListOf<Pair<Long,Category>>()
-    group.forEach{ (categoryId, list) ->
-        var money = 0L
-        list.forEach { item ->
-            money += item.history.money
-        }
-        pair.add(Pair(money,list[0].category))
-    }
-    pair.sortWith { o1, o2 -> (o2.first - o1.first).toInt() }
-
-    return pair
 }

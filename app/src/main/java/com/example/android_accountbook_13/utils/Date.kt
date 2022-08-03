@@ -1,12 +1,15 @@
 package com.example.android_accountbook_13.utils
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import org.threeten.bp.LocalDate
 
+@Parcelize
 data class Date(
     var year : Int,
     var month : Int,
     var day : Int
-)
+): Parcelable
 
 fun getCurrentDate(): Date {
     val current = LocalDate.now().toString()

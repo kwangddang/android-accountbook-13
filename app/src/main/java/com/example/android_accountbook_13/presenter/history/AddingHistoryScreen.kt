@@ -49,18 +49,15 @@ fun AddingHistoryScreen(
     settingViewModel: SettingViewModel
 ) {
 
+    var date by rememberSaveable { mutableStateOf(getCurrentDate()) }
     var price by rememberSaveable { mutableStateOf("") }
+    var checkedMethod by remember { mutableStateOf(Method(null, "")) }
+    var checkedCategory by remember { mutableStateOf(Category(null, "", "", -1)) }
     var content by rememberSaveable { mutableStateOf("") }
 
-    var checkedMethod by remember { mutableStateOf(Method(null, "")) }
     var methodExpanded by rememberSaveable { mutableStateOf(false) }
-
-    var checkedCategory by remember { mutableStateOf(Category(null, "", "", -1)) }
     var categoryExpanded by rememberSaveable { mutableStateOf(false) }
-
     var isDialog by rememberSaveable { mutableStateOf(false) }
-
-    var date by remember { mutableStateOf(getCurrentDate()) }
 
     var incomeChecked by rememberSaveable { mutableStateOf(method == 0) }
     var expenseChecked by rememberSaveable { mutableStateOf(method == 1) }
