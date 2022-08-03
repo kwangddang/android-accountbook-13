@@ -1,6 +1,9 @@
 package com.example.android_accountbook_13.presenter.history
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_accountbook_13.data.DataResponse
@@ -8,6 +11,7 @@ import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.local.repository.accountbook.AccountRepository
 import com.example.android_accountbook_13.data.local.repository.history.HistoryRepository
+import com.example.android_accountbook_13.utils.Event
 import com.example.android_accountbook_13.utils.getCurrentDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,6 +40,9 @@ class HistoryViewModel @Inject constructor(
 
     val incomeMoneyOfDay = mutableMapOf<Int, Long>()
     val expenseMoneyOfDay = mutableMapOf<Int, Long>()
+
+    var isSuccess by mutableStateOf(Event(DataResponse.Empty))
+
 
     fun getAccountBookItems() {
         viewModelScope.launch {

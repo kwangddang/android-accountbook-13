@@ -44,7 +44,6 @@ fun HistoryScreen(
     var isEditMode by rememberSaveable { mutableStateOf(false) }
     val deleteIdList = rememberSaveable { mutableListOf<Int>()}
     var isDialog by rememberSaveable { mutableStateOf(false) }
-
     Scaffold(
         topBar = {
             TopAppBar(
