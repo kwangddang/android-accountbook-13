@@ -91,11 +91,10 @@ fun HistoryScreen(
         },
         backgroundColor = MaterialTheme.colors.background
     ) {
-        val checkedItems by historyViewModel.checkedItems.collectAsState()
+        historyViewModel.getCheckedItems(incomeChecked, expenseChecked)
         val incomeMoney by historyViewModel.incomeMoney
         val expenseMoney by historyViewModel.expenseMoney
-        historyViewModel.getCheckedItems(incomeChecked, expenseChecked)
-        val group = checkedItems.groupBy { it.history.day }
+        val group = historyViewModel.checkedItems.value.groupBy { it.history.day }
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->
@@ -119,7 +118,7 @@ fun HistoryScreen(
                 onIncomeCheckedChange = { incomeChecked = !incomeChecked },
                 onExpenseCheckedChange = { expenseChecked = !expenseChecked },
             )
-            if (checkedItems.isNotEmpty()) {
+            if (group.isNotEmpty()) {
                 LazyColumn {
                     group.forEach { (day, historyList) ->
                         item {

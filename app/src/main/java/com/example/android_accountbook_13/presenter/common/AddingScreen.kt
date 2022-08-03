@@ -208,12 +208,12 @@ private fun ColorPalette(
     }
 }
 
-val incomeColors = listOf(
+private val incomeColors = listOf(
     "#9BD182", "#A3CB7A", "#B5CC7A",
     "#CCD67A", "#EAE07C", "#EDCF65",
     "#EBC374", "#E1AD60", "#E29C4D", "#E39145",
 )
-val expenseColors = listOf(
+private val expenseColors = listOf(
     "#4A6CC3", "#2E86C7", "#4CA1DE", "#48C2E9",
     "#6ED5EB", "#9FE7C8", "#94D3CC", "#4CB8B8",
     "#40B98D", "#2FA488", "#625EBA", "#817DCE",
