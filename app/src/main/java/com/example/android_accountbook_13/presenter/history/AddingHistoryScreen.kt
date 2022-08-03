@@ -149,7 +149,7 @@ fun AddingHistoryScreen(
                             checkedMethod = method as Method
                             methodExpanded = false
                         },
-                        { navHostController.navigate("addingSetting/결제,-1,true") },
+                        { navHostController.navigate("addingSetting?title=결제&id=-1&type=true") },
                         { methodExpanded = false }
                     )
                 }
@@ -169,8 +169,8 @@ fun AddingHistoryScreen(
                         },
                         {
                             navHostController.navigate(
-                                if (incomeChecked) "addingSetting/수입,-1,true"
-                                else "addingSetting/지출,-1,true"
+                                if (incomeChecked) "addingSetting?title=수입&id=-1&type=true"
+                                else "addingSetting?title=지출&id=-1&type=true"
                             )
                         },
                         { categoryExpanded = false }

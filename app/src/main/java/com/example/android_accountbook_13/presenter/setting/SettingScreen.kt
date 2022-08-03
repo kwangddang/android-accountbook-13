@@ -47,7 +47,7 @@ fun SettingScreen(
                 SettingContent(
                     title = method.name,
                     onClick = {
-                        navController.navigate("addingSetting/결제,${method.id},false")
+                        navController.navigate("addingSetting?title=결제&name=${method.name}&id=${method.id}&type=false")
                     }
                 )
             }
@@ -56,7 +56,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "${stringResource(id = R.string.payment_method)} ${stringResource(id = R.string.add_item)}",
                     onClick = {
-                        navController.navigate("addingSetting/결제,-1,true")
+                        navController.navigate("addingSetting?title=결제&id=-1&type=true")
                     }
                 )
             }
@@ -70,7 +70,7 @@ fun SettingScreen(
                     title = category.name,
                     category = category,
                     onClick = {
-                        navController.navigate("addingSetting/지출,${category.id},false")
+                        navController.navigate("addingSetting?title=지출&name=${category.name}&id=${category.id}&type=false")
                     }
                 )
             }
@@ -79,7 +79,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "${stringResource(id = R.string.category_expense)} ${stringResource(id = R.string.add_item)}",
                     onClick = {
-                        navController.navigate("addingSetting/지출,-1,true")
+                        navController.navigate("addingSetting?title=지출&id=-1&type=true")
                     }
                 )
             }
@@ -93,7 +93,7 @@ fun SettingScreen(
                     title = category.name,
                     category = category,
                     onClick = {
-                        navController.navigate("addingSetting/수입,${category.id},false")
+                        navController.navigate("addingSetting?title=수입&name=${category.name}&id=${category.id}&type=false")
                     }
                 )
             }
@@ -102,7 +102,7 @@ fun SettingScreen(
                 SettingFooter(
                     title = "${stringResource(id = R.string.category_income)} ${stringResource(id = R.string.add_item)}",
                     onClick = {
-                        navController.navigate("addingSetting/수입,-1,true")
+                        navController.navigate("addingSetting?title=수입&id=-1&type=true")
                     }
                 )
             }

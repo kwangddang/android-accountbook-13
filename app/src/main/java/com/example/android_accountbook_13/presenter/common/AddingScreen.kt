@@ -39,6 +39,7 @@ import com.example.android_accountbook_13.utils.showToast
 fun AddingScreen(
     navController: NavHostController,
     title: String,
+    name: String,
     id: Int?,
     type: Boolean,
     viewModel: SettingViewModel
@@ -57,7 +58,7 @@ fun AddingScreen(
             "$title ${stringResource(id = R.string.edit_category)}"
         }
     }
-    var text by rememberSaveable { mutableStateOf("") }
+    var text by rememberSaveable { mutableStateOf(name) }
     var color by rememberSaveable { mutableStateOf(if(title == "수입") incomeColors[0] else expenseColors[0]) }
     var selectedIndex by rememberSaveable { mutableStateOf(0) }
 
