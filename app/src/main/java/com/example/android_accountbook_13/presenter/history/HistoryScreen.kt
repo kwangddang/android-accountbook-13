@@ -1,6 +1,6 @@
 package com.example.android_accountbook_13.presenter.history
 
-import android.util.Log
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,35 +15,46 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
+import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.presenter.component.*
 import com.example.android_accountbook_13.presenter.history.component.HistoryFab
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
-import com.example.android_accountbook_13.utils.Date
-import com.example.android_accountbook_13.utils.decreaseDate
-import com.example.android_accountbook_13.utils.getYearMonthString
-import com.example.android_accountbook_13.utils.increaseDate
+import com.example.android_accountbook_13.utils.*
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun HistoryScreen(
     navHostController: NavHostController,
     historyViewModel: HistoryViewModel,
 ) {
-    historyViewModel.getAccountBookItems()
-
+    if(historyViewModel.accountBookItems.value.isEmpty()) {
+        historyViewModel.getAccountBookItems()
+    }
     var date by historyViewModel.date
     var incomeChecked by rememberSaveable { mutableStateOf(true) }
     var expenseChecked by rememberSaveable { mutableStateOf(true) }
     var isEditMode by rememberSaveable { mutableStateOf(false) }
     val deleteIdList = rememberSaveable { mutableListOf<Int>()}
     var isDialog by rememberSaveable { mutableStateOf(false) }
+    var isSuccess by historyViewModel.isSuccess
+
+    if(isSuccess.event is DataResponse.Success) {
+        historyViewModel.getAccountBookItems()
+        isSuccess(DataResponse.Empty)
+    } else if(isSuccess.event is DataResponse.Error) {
+        showToast(LocalContext.current, (isSuccess.event as DataResponse.Error<*>).errorMessage)
+        isSuccess(DataResponse.Empty)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -61,7 +72,6 @@ fun HistoryScreen(
                 onRightClick = {
                     if(isEditMode) {
                         historyViewModel.deleteHistory(deleteIdList)
-                        historyViewModel.getAccountBookItems()
                         isEditMode = false
                         deleteIdList.clear()
                     }

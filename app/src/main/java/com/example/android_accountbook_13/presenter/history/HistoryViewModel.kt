@@ -1,8 +1,6 @@
 package com.example.android_accountbook_13.presenter.history
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_accountbook_13.data.DataResponse
@@ -40,7 +38,7 @@ class HistoryViewModel @Inject constructor(
     val incomeMoneyOfDay = mutableMapOf<Int, Long>()
     val expenseMoneyOfDay = mutableMapOf<Int, Long>()
 
-    var isSuccess by mutableStateOf(Event(DataResponse.Empty))
+    var isSuccess = mutableStateOf(Event(DataResponse.Empty))
 
 
     fun getAccountBookItems() {
@@ -85,25 +83,19 @@ class HistoryViewModel @Inject constructor(
 
     fun deleteHistory(historyIds: List<Int>) {
         viewModelScope.launch {
-            historyRepository.deleteHistory(historyIds)
+            isSuccess.value = Event(historyRepository.deleteHistory(historyIds))
         }
     }
 
     fun insertHistory(history: History) {
         viewModelScope.launch {
-            val response = historyRepository.insertHistory(history)
-            if (response is DataResponse.Error) {
-
-            }
+            isSuccess.value = Event(historyRepository.insertHistory(history))
         }
     }
 
     fun updateHistory(history: History) {
         viewModelScope.launch {
-            val response = historyRepository.updateHistory(history)
-            if (response is DataResponse.Error) {
-
-            }
+            isSuccess.value = Event(historyRepository.updateHistory(history))
         }
     }
 
