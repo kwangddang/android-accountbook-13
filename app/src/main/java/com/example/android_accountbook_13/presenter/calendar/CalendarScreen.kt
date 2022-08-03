@@ -41,8 +41,6 @@ import com.example.android_accountbook_13.utils.*
 fun CalendarScreen(
     historyViewModel: HistoryViewModel
 ) {
-    historyViewModel.getAccountBookItems()
-    historyViewModel.getCheckedItems(true,true)
     var date by historyViewModel.date
     var isDialog by rememberSaveable { mutableStateOf(false) }
     Scaffold(
@@ -54,14 +52,17 @@ fun CalendarScreen(
                 rightVectorResource = R.drawable.ic_right,
                 onLeftClick = {
                     date = decreaseDate(date)
+                    historyViewModel.getAccountBookItems()
                 },
                 onRightClick = {
                     date = increaseDate(date)
+                    historyViewModel.getAccountBookItems()
                 }
             )
         },
         backgroundColor = MaterialTheme.colors.background
     ) {
+        historyViewModel.getCheckedItems(true,true)
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->

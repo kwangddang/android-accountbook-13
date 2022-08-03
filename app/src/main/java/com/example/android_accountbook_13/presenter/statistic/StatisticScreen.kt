@@ -11,11 +11,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -45,10 +42,9 @@ import java.util.*
 fun StatisticScreen(
     historyViewModel: HistoryViewModel
 ) {
-    historyViewModel.getAccountBookItems()
     var date by historyViewModel.date
     var isDialog by rememberSaveable { mutableStateOf(false) }
-    var totalMoney = historyViewModel.expenseMoney
+    val totalMoney = historyViewModel.expenseMoney.collectAsState()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -58,9 +54,11 @@ fun StatisticScreen(
                 rightVectorResource = R.drawable.ic_right,
                 onLeftClick = {
                     date = decreaseDate(date)
+                    historyViewModel.getAccountBookItems()
                 },
                 onRightClick = {
                     date = increaseDate(date)
+                    historyViewModel.getAccountBookItems()
                 }
             )
         },
@@ -74,12 +72,12 @@ fun StatisticScreen(
                 }
             }
         }
-        val list = getPairList(historyViewModel)
+        val list = if(totalMoney.value > 0 )getPairList(historyViewModel) else emptyList()
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             item {
                 BothText(leftText = stringResource(id = R.string.total_payment_of_month), rightText = moneyConverter(totalMoney.value), textColor = Red)
-                Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))   
+                Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
             }
             item{
                 AndroidView(factory = {
