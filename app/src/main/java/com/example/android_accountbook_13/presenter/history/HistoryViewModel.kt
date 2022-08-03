@@ -41,6 +41,10 @@ class HistoryViewModel @Inject constructor(
 
     var isSuccess = mutableStateOf(Event(DataResponse.Empty))
 
+    init {
+        getAccountBookItems()
+    }
+
 
     fun getAccountBookItems() {
         viewModelScope.launch {

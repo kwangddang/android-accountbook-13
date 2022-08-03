@@ -37,11 +37,7 @@ fun HistoryScreen(
     navHostController: NavHostController,
     historyViewModel: HistoryViewModel,
 ) {
-    if(historyViewModel.accountBookItems.value.isEmpty()) {
-        historyViewModel.getAccountBookItems()
-    }
     var date by historyViewModel.date
-
     var incomeChecked by rememberSaveable { mutableStateOf(true) }
     var expenseChecked by rememberSaveable { mutableStateOf(true) }
     var isEditMode by rememberSaveable { mutableStateOf(false) }
