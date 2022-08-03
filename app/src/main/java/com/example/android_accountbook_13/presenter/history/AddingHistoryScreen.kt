@@ -55,8 +55,8 @@ fun AddingHistoryScreen(
         )
     }
     var price by rememberSaveable { mutableStateOf(navItem?.history?.money?.toString() ?: "") }
-    var checkedMethod by remember { mutableStateOf(navItem?.method ?: Method(null, "")) }
-    var checkedCategory by remember { mutableStateOf(navItem?.category ?: Category(null, "", "", -1)) }
+    var checkedMethod by rememberSaveable { mutableStateOf(navItem?.method ?: Method(null, "")) }
+    var checkedCategory by rememberSaveable { mutableStateOf(navItem?.category ?: Category(null, "", "", -1)) }
     var content by rememberSaveable { mutableStateOf(navItem?.history?.name ?: "") }
 
     var methodExpanded by rememberSaveable { mutableStateOf(false) }
