@@ -107,13 +107,13 @@ fun HistoryScreen(
                 incomeMoney = incomeMoney,
                 expenseMoney = expenseMoney,
                 onIncomeClick = {
-                    incomeChecked = !incomeChecked
+                    if(!isEditMode) incomeChecked = !incomeChecked
                 },
                 onExpenseClick = {
-                    expenseChecked = !expenseChecked
+                    if(!isEditMode) expenseChecked = !expenseChecked
                 },
-                onIncomeCheckedChange = { incomeChecked = !incomeChecked },
-                onExpenseCheckedChange = { expenseChecked = !expenseChecked },
+                onIncomeCheckedChange = { if(!isEditMode) incomeChecked = !incomeChecked },
+                onExpenseCheckedChange = { if(!isEditMode) expenseChecked = !expenseChecked },
             )
             if (group.isNotEmpty()) {
                 LazyColumn {
