@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.history
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -47,6 +48,11 @@ fun AddingHistoryScreen(
     historyViewModel: HistoryViewModel,
     settingViewModel: SettingViewModel
 ) {
+    BackHandler() {
+        historyViewModel.navItem = null
+        navHostController.popBackStack()
+    }
+
     val navItem = historyViewModel.navItem
     var date by rememberSaveable {
         mutableStateOf(
@@ -73,6 +79,7 @@ fun AddingHistoryScreen(
     val isHistorySuccess by historyViewModel.isSuccess
 
     if (isHistorySuccess.event is DataResponse.Success) {
+        historyViewModel.navItem = null
         historyViewModel.getAccountBookItems()
         isHistorySuccess(DataResponse.Empty)
         navHostController.popBackStack()
@@ -86,7 +93,10 @@ fun AddingHistoryScreen(
             TopAppBar(
                 title = "${stringResource(id = R.string.history)} ${if (navItem == null) stringResource(id = R.string.add) else stringResource(id = R.string.edit)}",
                 leftVectorResource = R.drawable.ic_back,
-                onLeftClick = { navHostController.popBackStack() }
+                onLeftClick = {
+                    historyViewModel.navItem = null
+                    navHostController.popBackStack()
+                }
             )
         },
         backgroundColor = OffWhite,

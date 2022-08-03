@@ -170,9 +170,7 @@ fun HistoryScreen(
                                 lastAccountBookItem,
                                 isEditMode = isEditMode,
                                 onClick = {
-                                    Log.d("Test",lastAccountBookItem.toString())
                                     historyViewModel.navItem = lastAccountBookItem
-                                    Log.d("Test",historyViewModel.navItem.toString())
                                     navHostController.navigate("addingHistory/${lastAccountBookItem.history.methodType}")
                                 },
                                 onCheckClick = { id ->
