@@ -49,10 +49,11 @@ fun AddingHistoryScreen(
     settingViewModel: SettingViewModel
 ) {
     settingViewModel.run {
-        getAllMethod()
-        getIncomeCategory()
-        getExpenseCategory()
+        if(methods.value.isEmpty()) getAllMethod()
+        if(incomeCategories.value.isEmpty()) getIncomeCategory()
+        if(expenseCategories.value.isEmpty()) getExpenseCategory()
     }
+
     var price by rememberSaveable { mutableStateOf("") }
     var content by rememberSaveable { mutableStateOf("") }
 
@@ -73,7 +74,7 @@ fun AddingHistoryScreen(
     val incomeCategories by settingViewModel.incomeCategories.collectAsState()
     val expenseCategories by settingViewModel.expenseCategories.collectAsState()
 
-    var isHistorySuccess by historyViewModel.isSuccess
+    val isHistorySuccess by historyViewModel.isSuccess
 
     if(isHistorySuccess.event is DataResponse.Success) {
         historyViewModel.getAccountBookItems()

@@ -27,9 +27,9 @@ fun SettingScreen(
     settingViewModel: SettingViewModel
 ) {
     settingViewModel.run {
-        getAllMethod()
-        getIncomeCategory()
-        getExpenseCategory()
+        if(methods.value.isEmpty()) getAllMethod()
+        if(incomeCategories.value.isEmpty()) getIncomeCategory()
+        if(expenseCategories.value.isEmpty()) getExpenseCategory()
     }
     val methods by settingViewModel.methods.collectAsState()
     val incomeCategories by settingViewModel.incomeCategories.collectAsState()

@@ -29,7 +29,8 @@ class SettingViewModel @Inject constructor(
     private val _expenseCategories = MutableStateFlow<List<Category>>(emptyList())
     val expenseCategories: StateFlow<List<Category>> get() = _expenseCategories
 
-    var isSuccess = mutableStateOf(Event(DataResponse.Empty))
+    var isMethodSuccess = mutableStateOf(Event(DataResponse.Empty))
+    var isCategorySuccess = mutableStateOf(Event(DataResponse.Empty))
 
     fun getAllMethod() {
         viewModelScope.launch {
@@ -38,6 +39,11 @@ class SettingViewModel @Inject constructor(
                 _methods.value = response.data!!
             }
         }
+    }
+
+    fun getAllCategory() {
+        getIncomeCategory()
+        getExpenseCategory()
     }
 
     fun getIncomeCategory() {
@@ -60,25 +66,25 @@ class SettingViewModel @Inject constructor(
 
     fun insertMethod(method: Method) {
         viewModelScope.launch {
-            isSuccess.value = Event(methodRepository.insertMethod(method))
+            isMethodSuccess.value = Event(methodRepository.insertMethod(method))
         }
     }
 
     fun insertCategory(category: Category) {
         viewModelScope.launch {
-            isSuccess.value = Event(categoryRepository.insertCategory(category))
+            isCategorySuccess.value = Event(categoryRepository.insertCategory(category))
         }
     }
 
     fun updateCategory(category: Category) {
         viewModelScope.launch {
-            isSuccess.value = Event(categoryRepository.updateCategory(category))
+            isCategorySuccess.value = Event(categoryRepository.updateCategory(category))
         }
     }
 
     fun updateMethod(method: Method) {
         viewModelScope.launch {
-            isSuccess.value = Event(methodRepository.updateMethod(method))
+            isMethodSuccess.value = Event(methodRepository.updateMethod(method))
         }
     }
 }

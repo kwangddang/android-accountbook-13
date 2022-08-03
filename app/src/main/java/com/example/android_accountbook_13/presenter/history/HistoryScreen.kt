@@ -1,6 +1,7 @@
 package com.example.android_accountbook_13.presenter.history
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,12 +41,13 @@ fun HistoryScreen(
         historyViewModel.getAccountBookItems()
     }
     var date by historyViewModel.date
+
     var incomeChecked by rememberSaveable { mutableStateOf(true) }
     var expenseChecked by rememberSaveable { mutableStateOf(true) }
     var isEditMode by rememberSaveable { mutableStateOf(false) }
     val deleteIdList = rememberSaveable { mutableListOf<Int>()}
     var isDialog by rememberSaveable { mutableStateOf(false) }
-    var isSuccess by historyViewModel.isSuccess
+    val isSuccess by historyViewModel.isSuccess
 
     if(isSuccess.event is DataResponse.Success) {
         historyViewModel.getAccountBookItems()
@@ -67,7 +69,10 @@ fun HistoryScreen(
                         isEditMode = false
                         deleteIdList.clear()
                     }
-                    else date = decreaseDate(date)
+                    else {
+                        date = decreaseDate(date)
+                        historyViewModel.getAccountBookItems()
+                    }
                 },
                 onRightClick = {
                     if(isEditMode) {
@@ -75,7 +80,10 @@ fun HistoryScreen(
                         isEditMode = false
                         deleteIdList.clear()
                     }
-                    else date = increaseDate(date)
+                    else {
+                        date = increaseDate(date)
+                        historyViewModel.getAccountBookItems()
+                    }
                 }
             )
         },
@@ -102,7 +110,6 @@ fun HistoryScreen(
                 }
             }
         }
-
         Column {
             FilterButton(
                 incomeChecked = incomeChecked,
