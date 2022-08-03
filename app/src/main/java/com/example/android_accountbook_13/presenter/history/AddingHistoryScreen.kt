@@ -44,23 +44,27 @@ import com.example.android_accountbook_13.utils.showToast
 fun AddingHistoryScreen(
     navHostController: NavHostController,
     method: Int,
-    id: Int?,
     historyViewModel: HistoryViewModel,
     settingViewModel: SettingViewModel
 ) {
-
-    var date by rememberSaveable { mutableStateOf(getCurrentDate()) }
-    var price by rememberSaveable { mutableStateOf("") }
-    var checkedMethod by remember { mutableStateOf(Method(null, "")) }
-    var checkedCategory by remember { mutableStateOf(Category(null, "", "", -1)) }
-    var content by rememberSaveable { mutableStateOf("") }
+    val navItem = historyViewModel.navItem
+    var date by rememberSaveable {
+        mutableStateOf(
+            if (navItem == null) getCurrentDate()
+            else Date(navItem.history.year, navItem.history.month, navItem.history.day)
+        )
+    }
+    var price by rememberSaveable { mutableStateOf(navItem?.history?.money?.toString() ?: "") }
+    var checkedMethod by remember { mutableStateOf(navItem?.method ?: Method(null, "")) }
+    var checkedCategory by remember { mutableStateOf(navItem?.category ?: Category(null, "", "", -1)) }
+    var content by rememberSaveable { mutableStateOf(navItem?.history?.name ?: "") }
 
     var methodExpanded by rememberSaveable { mutableStateOf(false) }
     var categoryExpanded by rememberSaveable { mutableStateOf(false) }
     var isDialog by rememberSaveable { mutableStateOf(false) }
 
-    var incomeChecked by rememberSaveable { mutableStateOf(method == 0) }
-    var expenseChecked by rememberSaveable { mutableStateOf(method == 1) }
+    var incomeChecked by rememberSaveable { mutableStateOf(method == 1) }
+    var expenseChecked by rememberSaveable { mutableStateOf(method == 0) }
 
     val methods by settingViewModel.methods.collectAsState()
     val incomeCategories by settingViewModel.incomeCategories.collectAsState()
@@ -68,11 +72,11 @@ fun AddingHistoryScreen(
 
     val isHistorySuccess by historyViewModel.isSuccess
 
-    if(isHistorySuccess.event is DataResponse.Success) {
+    if (isHistorySuccess.event is DataResponse.Success) {
         historyViewModel.getAccountBookItems()
         isHistorySuccess(DataResponse.Empty)
         navHostController.popBackStack()
-    } else if(isHistorySuccess.event is DataResponse.Error) {
+    } else if (isHistorySuccess.event is DataResponse.Error) {
         showToast(LocalContext.current, (isHistorySuccess.event as DataResponse.Error<*>).errorMessage)
         isHistorySuccess(DataResponse.Empty)
     }
@@ -80,7 +84,7 @@ fun AddingHistoryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = "${stringResource(id = R.string.history)} ${if (id == -1) stringResource(id = R.string.add) else stringResource(id = R.string.edit)}",
+                title = "${stringResource(id = R.string.history)} ${if (navItem == null) stringResource(id = R.string.add) else stringResource(id = R.string.edit)}",
                 leftVectorResource = R.drawable.ic_back,
                 onLeftClick = { navHostController.popBackStack() }
             )
@@ -126,7 +130,7 @@ fun AddingHistoryScreen(
                 AddingHistoryTextField(
                     text = price,
                     onValueChange = { textValue ->
-                        if(textValue.isEmpty()) price = ""
+                        if (textValue.isEmpty()) price = ""
                         else if ((textValue[textValue.lastIndex] in '0'..'9')) price = textValue
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
@@ -163,9 +167,11 @@ fun AddingHistoryScreen(
                             checkedCategory = category as Category
                             categoryExpanded = false
                         },
-                        { navHostController.navigate(
-                            if(incomeChecked) "addingSetting/수입,-1,true"
-                            else "addingSetting/지출,-1,true")
+                        {
+                            navHostController.navigate(
+                                if (incomeChecked) "addingSetting/수입,-1,true"
+                                else "addingSetting/지출,-1,true"
+                            )
                         },
                         { categoryExpanded = false }
                     )
@@ -184,8 +190,7 @@ fun AddingHistoryScreen(
                         .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
                         .height(56.dp)
                 ) {
-                    if(id == -1)
-                    {
+                    if (navItem == null) {
                         historyViewModel.insertHistory(
                             History(
                                 null,
@@ -196,11 +201,10 @@ fun AddingHistoryScreen(
                                 date.year, date.month, date.day
                             )
                         )
-                    }
-                    else {
+                    } else {
                         historyViewModel.updateHistory(
                             History(
-                                id,
+                                navItem.history.id,
                                 checkedCategory.id ?: 3,
                                 checkedMethod.id!!, content,
                                 if (incomeChecked) 1 else 0,
@@ -235,7 +239,7 @@ private fun AddingHistorySpinner(
                     .border(2.dp, Purple, shape = RoundedCornerShape(12.dp))
                     .width(256.dp)
                     .height(156.dp),
-                offset = DpOffset(0.dp,16.dp)
+                offset = DpOffset(0.dp, 16.dp)
             ) {
                 items.forEach { item ->
                     if (item is Method) {

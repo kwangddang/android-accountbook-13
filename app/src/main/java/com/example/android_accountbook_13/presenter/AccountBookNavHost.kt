@@ -1,5 +1,7 @@
 package com.example.android_accountbook_13.presenter
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ import com.example.android_accountbook_13.presenter.setting.SettingScreen
 import com.example.android_accountbook_13.presenter.setting.SettingViewModel
 import com.example.android_accountbook_13.presenter.statistic.StatisticScreen
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun AccountBookNavHost(
     navController: NavHostController,
@@ -71,13 +74,11 @@ fun AccountBookNavHost(
             route = AddingHistory.route,
             arguments = listOf(
                 navArgument("method") { type = NavType.IntType},
-                navArgument("id") { type = NavType.IntType},
             )
         ) {
             AddingHistoryScreen(
                 navController,
                 method = it.arguments?.getInt("method")!!,
-                id = it.arguments?.getInt("id"),
                 historyViewModel,
                 settingViewModel
             )
@@ -122,7 +123,7 @@ object AddingSetting : AccountBookDestination {
 }
 
 object AddingHistory : AccountBookDestination {
-    override val route: String = "addingHistory/{method},{id}"
+    override val route: String = "addingHistory/{method}"
     override val content: String = "추가"
     override val vectorResource: Int = 0
 }

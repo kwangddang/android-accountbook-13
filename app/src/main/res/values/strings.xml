@@ -18,8 +18,8 @@
     <string name="month">월</string>
     <string name="day">일자</string>
     <string name="add">등록</string>
-    <string name="edit">수</string>
-    <string name="date">일</string>
+    <string name="edit">수정</string>
+    <string name="date">일자</string>
     <string name="price">금액</string>
     <string name="content">내용</string>
     <string name="payment_method">결제 수단</string>

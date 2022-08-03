@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.history
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -16,7 +15,6 @@ import com.example.android_accountbook_13.utils.Event
 import com.example.android_accountbook_13.utils.getCurrentDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,7 +24,6 @@ class HistoryViewModel @Inject constructor(
     private val historyRepository: HistoryRepository
 ) : ViewModel() {
     private val _accountBookItems = MutableStateFlow<List<AccountBookItem>>(emptyList())
-    val accountBookItems: StateFlow<List<AccountBookItem>> get() = _accountBookItems
 
     private val _checkedItems = mutableStateOf<List<AccountBookItem>>(emptyList())
     val checkedItems: State<List<AccountBookItem>> get() = _checkedItems
@@ -42,6 +39,8 @@ class HistoryViewModel @Inject constructor(
 
     val incomeMoneyOfDay = mutableMapOf<Int, Long>()
     val expenseMoneyOfDay = mutableMapOf<Int, Long>()
+
+    var navItem: AccountBookItem? = null
 
     var isSuccess = mutableStateOf(Event(DataResponse.Empty))
 
@@ -124,7 +123,7 @@ class HistoryViewModel @Inject constructor(
     }
 
     fun getPairList(): List<Pair<Long,Category>> {
-        val expenseHistory = accountBookItems.value.filter { item ->
+        val expenseHistory = _accountBookItems.value.filter { item ->
             item.history.methodType == 0
         }
 
