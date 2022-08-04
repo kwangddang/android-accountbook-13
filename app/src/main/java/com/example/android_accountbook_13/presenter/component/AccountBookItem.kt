@@ -95,7 +95,7 @@ fun HistoryItemContent(
                 )
                 var color: Color
                 var text: String
-                if (accountBookItem.history.methodType == 1) {
+                if (accountBookItem.history.methodType == 0) {
                     color = Green6
                     text = "${longToMoneyUnit(accountBookItem.history.money)}원"
                 } else {

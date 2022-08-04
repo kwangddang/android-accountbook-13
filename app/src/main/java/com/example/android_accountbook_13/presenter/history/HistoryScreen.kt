@@ -80,7 +80,7 @@ fun HistoryScreen(
         },
         floatingActionButton = {
             HistoryFab(onClick = {
-                navHostController.navigate("addingHistory/${if ((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 1 else 0}")
+                navHostController.navigate("addingHistory/${if ((incomeChecked && expenseChecked) || (!incomeChecked && !expenseChecked) || incomeChecked) 0 else 1}")
             })
         },
         backgroundColor = MaterialTheme.colors.background

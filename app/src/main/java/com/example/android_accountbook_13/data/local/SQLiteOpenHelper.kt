@@ -33,7 +33,7 @@ class SQLiteOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
         db?.execSQL(
             "INSERT INTO category ('name','color','type') VALUES " +
                     "('미분류','#817DCE','1')," +
-                    "('미분류','#817DCE','0')," +
+                    "('미분류','#524D90','0')," +
                     "('교통','#94D3CC','1')," +
                     "('문화/여가','#D092E2','1')," +
                     "('생활','#4A6CC3','1')," +
