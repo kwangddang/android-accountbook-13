@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -20,13 +21,14 @@ import com.example.android_accountbook_13.presenter.component.TopAppBar
 import com.example.android_accountbook_13.presenter.setting.component.SettingContent
 import com.example.android_accountbook_13.presenter.setting.component.SettingFooter
 import com.example.android_accountbook_13.presenter.setting.component.SettingHeader
+import com.example.android_accountbook_13.utils.showToast
 
 @Composable
 fun SettingScreen(
     navController: NavHostController = rememberNavController(),
     settingViewModel: SettingViewModel
 ) {
-
+    val context = LocalContext.current
     val methods by settingViewModel.methods.collectAsState()
     val incomeCategories by settingViewModel.incomeCategories.collectAsState()
     val expenseCategories by settingViewModel.expenseCategories.collectAsState()
@@ -70,7 +72,8 @@ fun SettingScreen(
                     title = category.name,
                     category = category,
                     onClick = {
-                        navController.navigate("addingSetting?title=지출&name=${category.name}&id=${category.id}&type=false")
+                        if(category.id == 1) showToast(context, "미분류 카테고리는 수정할 수 없습니다.")
+                        else navController.navigate("addingSetting?title=지출&name=${category.name}&id=${category.id}&type=false")
                     }
                 )
             }
@@ -93,7 +96,8 @@ fun SettingScreen(
                     title = category.name,
                     category = category,
                     onClick = {
-                        navController.navigate("addingSetting?title=수입&name=${category.name}&id=${category.id}&type=false")
+                        if(category.id == 2) showToast(context, "미분류 카테고리는 수정할 수 없습니다.")
+                        else navController.navigate("addingSetting?title=수입&name=${category.name}&id=${category.id}&type=false")
                     }
                 )
             }
