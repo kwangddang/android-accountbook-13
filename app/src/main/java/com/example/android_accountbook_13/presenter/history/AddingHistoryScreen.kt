@@ -322,7 +322,8 @@ private fun AddingHistoryTextField(
             textColor = Purple,
             backgroundColor = OffWhite,
             focusedIndicatorColor = OffWhite,
-            unfocusedIndicatorColor = OffWhite
+            unfocusedIndicatorColor = OffWhite,
+            cursorColor = Purple
         ),
         placeholder = { Text(text = placeHolder, color = LightPurple, fontWeight = FontWeight.Bold) },
         readOnly = readOnly,

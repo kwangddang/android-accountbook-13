@@ -114,10 +114,11 @@ fun AddingScreen(
                     onValueChange = { textValue -> text = textValue },
                     textStyle = TextStyle(fontSize = 18.sp),
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = LightPurple,
+                        textColor = Purple,
                         backgroundColor = OffWhite,
                         focusedIndicatorColor = OffWhite,
-                        unfocusedIndicatorColor = OffWhite
+                        unfocusedIndicatorColor = OffWhite,
+                        cursorColor = Purple
                     ),
                     placeholder = { Text(text = stringResource(id = R.string.input_placeholder)) }
                 )
