@@ -16,14 +16,14 @@ class LocalDataSourceImpl @Inject constructor(
     /**
      * History
      */
-    override fun getHistory(year: Int, month: Int): Result<Cursor> =
+    override suspend fun getHistory(year: Int, month: Int): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
                 "SELECT * FROM history WHERE year = $year AND month = ${month};", null
             )
         }
 
-    override fun insertHistory(history: History): Result<Unit> =
+    override suspend fun insertHistory(history: History): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
                 "INSERT INTO history ('category_id','method_id','name','method_type','money','year','month','day')" +
@@ -36,7 +36,7 @@ class LocalDataSourceImpl @Inject constructor(
         }
 
 
-    override fun updateHistory(history: History): Result<Unit> =
+    override suspend fun updateHistory(history: History): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
                 "UPDATE history SET " +
@@ -48,7 +48,7 @@ class LocalDataSourceImpl @Inject constructor(
             )
         }
 
-    override fun deleteHistory(historyIds: List<Int>): Result<Unit> =
+    override suspend fun deleteHistory(historyIds: List<Int>): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
                 "DELETE FROM history WHERE id IN (${TextUtils.join(",",historyIds)});"
@@ -60,42 +60,42 @@ class LocalDataSourceImpl @Inject constructor(
      * Category
      */
 
-    override fun getAllCategory(): Result<Cursor> =
+    override suspend fun getAllCategory(): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
                 "SELECT * FROM category;", null
             )
         }
 
-    override fun getIncomeCategory(): Result<Cursor> =
+    override suspend fun getIncomeCategory(): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
                 "SELECT * FROM category WHERE type = 0;", null
             )
         }
 
-    override fun getExpenseCategory(): Result<Cursor> =
+    override suspend fun getExpenseCategory(): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
                 "SELECT * FROM category WHERE type = 1;", null
             )
         }
 
-    override fun insertCategory(category: Category): Result<Unit> =
+    override suspend fun insertCategory(category: Category): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
                 "INSERT INTO category ('name','color','type') VALUES ('${category.name}','${category.color}','${category.type}')"
             )
         }
 
-    override fun updateCategory(category: Category): Result<Unit> =
+    override suspend fun updateCategory(category: Category): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
                 "UPDATE category SET name = '${category.name}', color = '${category.color}' WHERE id = ${category.id};"
             )
         }
 
-    override fun deleteCategory(categoryId: Int): Result<Unit> =
+    override suspend fun deleteCategory(categoryId: Int): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
                 "DELETE FROM category WHERE id = ${categoryId};"
@@ -106,35 +106,35 @@ class LocalDataSourceImpl @Inject constructor(
      * Method
      */
 
-    override fun getAllMethod(): Result<Cursor> =
+    override suspend fun getAllMethod(): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
                 "SELECT * FROM method;", null
             )
         }
 
-    override fun getMethod(id: Int): Result<Cursor> =
+    override suspend fun getMethod(id: Int): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
                 "SELECT * FROM method WHERE id like ${id};", null
             )
         }
 
-    override fun insertMethod(method: Method): Result<Unit> =
+    override suspend fun insertMethod(method: Method): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
                 "INSERT INTO method ('name') VALUES ('${method.name}')"
             )
         }
 
-    override fun updateMethod(method: Method): Result<Unit> =
+    override suspend fun updateMethod(method: Method): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
                 "UPDATE method SET name = '${method.name}' WHERE id = ${method.id};"
             )
         }
 
-    override fun deleteMethod(methodId: Int): Result<Unit> =
+    override suspend fun deleteMethod(methodId: Int): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
                 "DELETE FROM method WHERE id = ${methodId};"
@@ -144,7 +144,7 @@ class LocalDataSourceImpl @Inject constructor(
     /**
      *  AccountBook
      */
-    override fun getAccountBook(year: Int, month: Int): Result<Cursor> =
+    override suspend fun getAccountBook(year: Int, month: Int): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
                 "SELECT * FROM history h INNER JOIN category c ON h.category_id = c.id INNER JOIN method m ON h.method_id = m.id WHERE h.month = ${month} AND h.year = ${year} ORDER By day;", null

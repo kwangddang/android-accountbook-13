@@ -4,8 +4,8 @@ import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.History
 
 interface HistoryRepository {
-    fun getHistory(year: Int, month: Int): DataResponse<List<History>>
-    fun insertHistory(history: History): DataResponse<Unit>
-    fun updateHistory(history: History): DataResponse<Unit>
-    fun deleteHistory(historyIds: List<Int>): DataResponse<Unit>
+    suspend fun getHistory(year: Int, month: Int): DataResponse<List<History>>
+    suspend fun insertHistory(history: History): DataResponse<Unit>
+    suspend fun updateHistory(history: History): DataResponse<Unit>
+    suspend fun deleteHistory(historyIds: List<Int>): DataResponse<Unit>
 }
