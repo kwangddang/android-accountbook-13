@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.component
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.*
@@ -13,6 +12,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.presenter.AccountBookDestination
 import com.example.android_accountbook_13.presenter.Calendar
 import com.example.android_accountbook_13.presenter.History
@@ -22,10 +23,9 @@ import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.White
 import com.example.android_accountbook_13.ui.theme.White50
 
-private var prevScreen: AccountBookDestination = History
-
 @Composable
 fun BottomAppBar(
+    navController: NavHostController,
     destination: AccountBookDestination?,
     backgroundColor: Color = Purple,
     elevation: Dp = 0.dp,
@@ -36,17 +36,17 @@ fun BottomAppBar(
             backgroundColor = backgroundColor,
             elevation = elevation
         ) {
-            val nextScreen: AccountBookDestination = destination ?: prevScreen
+            val parentDestination = navController.previousBackStackEntry?.destination?.route ?: History
+            val nextScreen = destination?.route ?: parentDestination
             bottomTabScreens.forEach { screen ->
                 ItemBottomAppBars(
                     screen,
                     Modifier.weight(1f),
-                    if (nextScreen.route == screen.route) White else White50
+                    if (nextScreen == screen.route) White else White50
                 ) {
                     onClick(screen)
                 }
             }
-            prevScreen = nextScreen
         }
     }
 }
@@ -78,5 +78,5 @@ private fun ItemBottomAppBars(
 @Composable
 @Preview(showBackground = true)
 private fun BottomAppBarsPreview() {
-    BottomAppBar(Calendar)
+    BottomAppBar(rememberNavController(),Calendar)
 }
