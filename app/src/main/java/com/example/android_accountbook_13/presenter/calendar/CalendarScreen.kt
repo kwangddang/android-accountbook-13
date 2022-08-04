@@ -2,7 +2,6 @@ package com.example.android_accountbook_13.presenter.calendar
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
@@ -67,11 +66,11 @@ fun CalendarScreen(
         }
         Column(modifier = Modifier.fillMaxSize()) {
             Calendar(date, historyViewModel)
-            BothText(stringResource(id = R.string.income), moneyConverter(historyViewModel.incomeMoney.value), Green6)
+            BothText(stringResource(id = R.string.income), longToMoneyUnit(historyViewModel.incomeMoney.value), Green6)
             Divider(modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp), color = LightPurple)
-            BothText(stringResource(id = R.string.expense), "-"  + moneyConverter(historyViewModel.expenseMoney.value), Red)
+            BothText(stringResource(id = R.string.expense), "-"  + longToMoneyUnit(historyViewModel.expenseMoney.value), Red)
             Divider(modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp), color = LightPurple)
-            BothText(stringResource(id = R.string.total), moneyConverter(historyViewModel.incomeMoney.value - historyViewModel.expenseMoney.value), Purple)
+            BothText(stringResource(id = R.string.total), longToMoneyUnit(historyViewModel.incomeMoney.value - historyViewModel.expenseMoney.value), Purple)
             Divider(modifier = Modifier.padding(top = 8.dp), color = Purple)
         }
     }
@@ -98,7 +97,7 @@ fun Calendar(
                     if (it.color == Purple) {
                         if (viewModel.incomeMoneyOfDay.containsKey(it.day) && viewModel.incomeMoneyOfDay[it.day]!! > 0L)
                             Text(
-                                text = moneyConverter(viewModel.incomeMoneyOfDay[it.day]!!),
+                                text = longToMoneyUnit(viewModel.incomeMoneyOfDay[it.day]!!),
                                 style = MaterialTheme.typography.caption,
                                 color = Green6,
                                 maxLines = 1,
@@ -106,7 +105,7 @@ fun Calendar(
                             )
                         if (viewModel.expenseMoneyOfDay.containsKey(it.day) && viewModel.expenseMoneyOfDay[it.day]!! > 0L)
                             Text(
-                                text = "-${moneyConverter(viewModel.expenseMoneyOfDay[it.day]!!)}",
+                                text = "-${longToMoneyUnit(viewModel.expenseMoneyOfDay[it.day]!!)}",
                                 style = MaterialTheme.typography.caption,
                                 color = Red,
                                 maxLines = 1,
@@ -114,7 +113,7 @@ fun Calendar(
                             )
                         if ((viewModel.incomeMoneyOfDay.getOrDefault(it.day, 0L) - viewModel.expenseMoneyOfDay.getOrDefault(it.day, 0L)) != 0L)
                             Text(
-                                text = moneyConverter(
+                                text = longToMoneyUnit(
                                     (viewModel.incomeMoneyOfDay.getOrDefault(it.day, 0L) - viewModel.expenseMoneyOfDay.getOrDefault(
                                         it.day,
                                         0L

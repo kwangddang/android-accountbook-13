@@ -2,10 +2,7 @@ package com.example.android_accountbook_13.presenter.history
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
@@ -173,9 +170,7 @@ fun HistoryScreen(
                                 lastAccountBookItem,
                                 isEditMode = isEditMode,
                                 onClick = {
-                                    Log.d("Test",lastAccountBookItem.toString())
                                     historyViewModel.navItem = lastAccountBookItem
-                                    Log.d("Test",historyViewModel.navItem.toString())
                                     navHostController.navigate("addingHistory/${lastAccountBookItem.history.methodType}")
                                 },
                                 onCheckClick = { id ->
@@ -205,11 +200,12 @@ fun HistoryScreen(
                                 }
                             )
                         }
-
                         item {
                             Divider(color = Purple, modifier = Modifier.padding(top = 8.dp))
                         }
-
+                    }
+                    item{
+                        Spacer(modifier = Modifier.size(96.dp))
                     }
                 }
             } else {

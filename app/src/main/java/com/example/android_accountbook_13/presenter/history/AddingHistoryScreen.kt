@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.history
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,6 +49,11 @@ fun AddingHistoryScreen(
     historyViewModel: HistoryViewModel,
     settingViewModel: SettingViewModel
 ) {
+    BackHandler() {
+        historyViewModel.navItem = null
+        navHostController.popBackStack()
+    }
+
     val navItem = historyViewModel.navItem
     var date by rememberSaveable {
         mutableStateOf(
@@ -55,8 +62,8 @@ fun AddingHistoryScreen(
         )
     }
     var price by rememberSaveable { mutableStateOf(navItem?.history?.money?.toString() ?: "") }
-    var checkedMethod by remember { mutableStateOf(navItem?.method ?: Method(null, "")) }
-    var checkedCategory by remember { mutableStateOf(navItem?.category ?: Category(null, "", "", -1)) }
+    var checkedMethod by rememberSaveable { mutableStateOf(navItem?.method ?: Method(null, "")) }
+    var checkedCategory by rememberSaveable { mutableStateOf(navItem?.category ?: Category(null, "", "", -1)) }
     var content by rememberSaveable { mutableStateOf(navItem?.history?.name ?: "") }
 
     var methodExpanded by rememberSaveable { mutableStateOf(false) }
@@ -73,6 +80,7 @@ fun AddingHistoryScreen(
     val isHistorySuccess by historyViewModel.isSuccess
 
     if (isHistorySuccess.event is DataResponse.Success) {
+        historyViewModel.navItem = null
         historyViewModel.getAccountBookItems()
         isHistorySuccess(DataResponse.Empty)
         navHostController.popBackStack()
@@ -86,7 +94,10 @@ fun AddingHistoryScreen(
             TopAppBar(
                 title = "${stringResource(id = R.string.history)} ${if (navItem == null) stringResource(id = R.string.add) else stringResource(id = R.string.edit)}",
                 leftVectorResource = R.drawable.ic_back,
-                onLeftClick = { navHostController.popBackStack() }
+                onLeftClick = {
+                    historyViewModel.navItem = null
+                    navHostController.popBackStack()
+                }
             )
         },
         backgroundColor = OffWhite,
@@ -133,7 +144,8 @@ fun AddingHistoryScreen(
                         if (textValue.isEmpty()) price = ""
                         else if ((textValue[textValue.lastIndex] in '0'..'9')) price = textValue
                     },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    visualTransformation = { priceVisualTransformation(price) }
                 )
             }
 
@@ -298,7 +310,8 @@ private fun AddingHistoryTextField(
     onValueChange: (String) -> Unit,
     readOnly: Boolean = false,
     modifier: Modifier? = null,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     TextField(
         value = text,
@@ -313,6 +326,7 @@ private fun AddingHistoryTextField(
         placeholder = { Text(text = placeHolder, color = LightPurple, fontWeight = FontWeight.Bold) },
         readOnly = readOnly,
         modifier = modifier ?: Modifier,
-        keyboardOptions = keyboardOptions
+        keyboardOptions = keyboardOptions,
+        visualTransformation = visualTransformation,
     )
 }
