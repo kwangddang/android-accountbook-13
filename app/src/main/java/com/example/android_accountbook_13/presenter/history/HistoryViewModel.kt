@@ -49,9 +49,11 @@ class HistoryViewModel @Inject constructor(
     }
 
 
-    fun getAccountBookItems(onSuccess: (List<AccountBookItem>) -> Unit = {}, onFailure: () -> Unit = {}) {
+    fun getAccountBookItems(onFailure: () -> Unit = {}) {
         viewModelScope.launch {
-            accountRepository.getAccountBook(date.value.year, date.value.month, onSuccess, onFailure)
+            accountRepository.getAccountBook(date.value.year, date.value.month, onFailure){
+                _accountBookItems.value = it
+            }
         }
     }
 
@@ -85,21 +87,21 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    fun deleteHistory(historyIds: List<Int>, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    fun deleteHistory(historyIds: List<Int>, onFailure: () -> Unit, onSuccess: () -> Unit) {
         viewModelScope.launch {
-            historyRepository.deleteHistory(historyIds, onSuccess, onFailure)
+            historyRepository.deleteHistory(historyIds, onFailure, onSuccess)
         }
     }
 
-    fun insertHistory(history: History, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    fun insertHistory(history: History, onFailure: () -> Unit, onSuccess: () -> Unit) {
         viewModelScope.launch {
-            historyRepository.insertHistory(history, onSuccess, onFailure)
+            historyRepository.insertHistory(history, onFailure, onSuccess)
         }
     }
 
-    fun updateHistory(history: History, onSuccess: () -> Unit, onFailure: () -> Unit) {
+    fun updateHistory(history: History, onFailure: () -> Unit, onSuccess: () -> Unit) {
         viewModelScope.launch {
-            historyRepository.updateHistory(history, onSuccess, onFailure)
+            historyRepository.updateHistory(history, onFailure, onSuccess)
         }
     }
 
