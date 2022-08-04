@@ -33,64 +33,54 @@ class SettingViewModel @Inject constructor(
     var isCategorySuccess = mutableStateOf(Event(DataResponse.Empty))
 
     init {
-        getAllMethod()
-        getIncomeCategory()
-        getExpenseCategory()
+        getAllMethod({}, {})
+        getAllCategory({}, {})
     }
 
-    fun getAllMethod() {
+    fun getAllMethod(onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            val response = methodRepository.getAllMethod()
-            if (response is DataResponse.Success) {
-                _methods.value = response.data!!
-            }
+            _methods.value = methodRepository.getAllMethod(onSuccess, onFailure)
         }
     }
 
-    fun getAllCategory() {
-        getIncomeCategory()
-        getExpenseCategory()
+    fun getAllCategory(onSuccess: () -> Unit, onFailure: () -> Unit) {
+        getIncomeCategory(onSuccess, onFailure)
+        getExpenseCategory(onSuccess, onFailure)
     }
 
-    fun getIncomeCategory() {
+    private fun getIncomeCategory(onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            val response = categoryRepository.getIncomeCategory()
-            if (response is DataResponse.Success) {
-                _incomeCategories.value = response.data!!
-            }
+            _incomeCategories.value = categoryRepository.getIncomeCategory(onSuccess, onFailure)
         }
     }
 
-    fun getExpenseCategory() {
+    private fun getExpenseCategory(onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            val response = categoryRepository.getExpenseCategory()
-            if (response is DataResponse.Success) {
-                _expenseCategories.value = response.data!!
-            }
+                _expenseCategories.value = categoryRepository.getExpenseCategory(onSuccess, onFailure)
         }
     }
 
-    fun insertMethod(method: Method) {
+    fun insertMethod(method: Method, onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            isMethodSuccess.value = Event(methodRepository.insertMethod(method))
+            methodRepository.insertMethod(method,onSuccess, onFailure)
         }
     }
 
-    fun insertCategory(category: Category) {
+    fun insertCategory(category: Category, onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            isCategorySuccess.value = Event(categoryRepository.insertCategory(category))
+            categoryRepository.insertCategory(category,onSuccess, onFailure)
         }
     }
 
-    fun updateCategory(category: Category) {
+    fun updateCategory(category: Category, onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            isCategorySuccess.value = Event(categoryRepository.updateCategory(category))
+            categoryRepository.updateCategory(category,onSuccess, onFailure)
         }
     }
 
-    fun updateMethod(method: Method) {
+    fun updateMethod(method: Method, onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            isMethodSuccess.value = Event(methodRepository.updateMethod(method))
+            methodRepository.updateMethod(method,onSuccess, onFailure)
         }
     }
 }

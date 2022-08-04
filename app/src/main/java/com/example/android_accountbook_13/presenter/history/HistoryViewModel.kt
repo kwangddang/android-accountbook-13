@@ -49,13 +49,9 @@ class HistoryViewModel @Inject constructor(
     }
 
 
-    fun getAccountBookItems() {
+    fun getAccountBookItems(onSuccess: (List<AccountBookItem>) -> Unit = {}, onFailure: () -> Unit = {}) {
         viewModelScope.launch {
-            val response = accountRepository.getAccountBook(date.value.year, date.value.month)
-            if (response is DataResponse.Success) {
-                _accountBookItems.value = response.data!!
-                getMoney()
-            }
+            accountRepository.getAccountBook(date.value.year, date.value.month, onSuccess, onFailure)
         }
     }
 
@@ -89,21 +85,21 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    fun deleteHistory(historyIds: List<Int>) {
+    fun deleteHistory(historyIds: List<Int>, onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            isSuccess.value = Event(historyRepository.deleteHistory(historyIds))
+            historyRepository.deleteHistory(historyIds, onSuccess, onFailure)
         }
     }
 
-    fun insertHistory(history: History) {
+    fun insertHistory(history: History, onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            isSuccess.value = Event(historyRepository.insertHistory(history))
+            historyRepository.insertHistory(history, onSuccess, onFailure)
         }
     }
 
-    fun updateHistory(history: History) {
+    fun updateHistory(history: History, onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            isSuccess.value = Event(historyRepository.updateHistory(history))
+            historyRepository.updateHistory(history, onSuccess, onFailure)
         }
     }
 
@@ -122,7 +118,7 @@ class HistoryViewModel @Inject constructor(
         getAccountBookItems()
     }
 
-    fun getPairList(): List<Pair<Long,Category>> {
+    fun getPairList(): List<Pair<Long, Category>> {
         val expenseHistory = _accountBookItems.value.filter { item ->
             item.history.methodType == 1
         }
@@ -130,13 +126,13 @@ class HistoryViewModel @Inject constructor(
         val group = expenseHistory.groupBy { item ->
             item.history.categoryId
         }
-        val pair = arrayListOf<Pair<Long,Category>>()
-        group.forEach{ (categoryId, list) ->
+        val pair = arrayListOf<Pair<Long, Category>>()
+        group.forEach { (categoryId, list) ->
             var money = 0L
             list.forEach { item ->
                 money += item.history.money
             }
-            pair.add(Pair(money,list[0].category))
+            pair.add(Pair(money, list[0].category))
         }
         pair.sortWith { o1, o2 -> (o2.first - o1.first).toInt() }
 
