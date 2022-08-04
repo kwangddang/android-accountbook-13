@@ -15,6 +15,7 @@ fun AccountBookApp() {
             scaffoldState = appState.scaffoldState,
             bottomBar = {
                 BottomAppBar(
+                    navController = appState.navController,
                     destination = appState.currentScreen,
                     onClick = { newScreen ->
                         appState.navController.navigateSingleTopTo(newScreen.route)
