@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.ui.theme.*
-import com.example.android_accountbook_13.utils.moneyConverter
+import com.example.android_accountbook_13.utils.longToMoneyUnit
 
 data class RadiusDP(
     val topStart: Dp = 14.dp,
@@ -203,7 +203,7 @@ private fun CheckedText(
         modifier = Modifier.size(24.dp)
     )
     Text(
-        text = "${title} ${moneyConverter(money)}",
+        text = "${title} ${longToMoneyUnit(money)}",
         modifier = modifier.padding(start = 8.dp),
         color = textColor,
         style = textStyle

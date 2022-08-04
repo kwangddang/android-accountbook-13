@@ -23,7 +23,7 @@ import com.example.android_accountbook_13.ui.theme.Green6
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.Red
-import com.example.android_accountbook_13.utils.moneyConverter
+import com.example.android_accountbook_13.utils.longToMoneyUnit
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -97,10 +97,10 @@ fun HistoryItemContent(
                 var text: String
                 if (accountBookItem.history.methodType == 1) {
                     color = Green6
-                    text = "${moneyConverter(accountBookItem.history.money)}원"
+                    text = "${longToMoneyUnit(accountBookItem.history.money)}원"
                 } else {
                     color = Red
-                    text = "-${moneyConverter(accountBookItem.history.money)}원"
+                    text = "-${longToMoneyUnit(accountBookItem.history.money)}원"
                 }
                 Text(
                     text = text,
@@ -140,11 +140,11 @@ fun ItemHeader(
             ) {
                 if (incomeChecked) {
                     HeaderText(stringResource(id = R.string.income))
-                    HeaderText(moneyConverter(income))
+                    HeaderText(longToMoneyUnit(income))
                 }
                 if (expenseChecked) {
                     HeaderText(stringResource(id = R.string.expense))
-                    HeaderText(moneyConverter(expense))
+                    HeaderText(longToMoneyUnit(expense))
                 }
             }
         }

@@ -18,6 +18,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -143,7 +144,8 @@ fun AddingHistoryScreen(
                         if (textValue.isEmpty()) price = ""
                         else if ((textValue[textValue.lastIndex] in '0'..'9')) price = textValue
                     },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    visualTransformation = { priceVisualTransformation(price) }
                 )
             }
 
@@ -308,7 +310,8 @@ private fun AddingHistoryTextField(
     onValueChange: (String) -> Unit,
     readOnly: Boolean = false,
     modifier: Modifier? = null,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     TextField(
         value = text,
@@ -323,6 +326,7 @@ private fun AddingHistoryTextField(
         placeholder = { Text(text = placeHolder, color = LightPurple, fontWeight = FontWeight.Bold) },
         readOnly = readOnly,
         modifier = modifier ?: Modifier,
-        keyboardOptions = keyboardOptions
+        keyboardOptions = keyboardOptions,
+        visualTransformation = visualTransformation,
     )
 }
