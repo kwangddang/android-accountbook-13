@@ -44,6 +44,7 @@ fun AddingScreen(
     type: Boolean,
     viewModel: SettingViewModel
 ) {
+    val context = LocalContext.current
     var screenTitle: String = ""
     screenTitle = if (type) {
         if (title == stringResource(id = R.string.payment)) {
@@ -156,10 +157,15 @@ fun AddingScreen(
                             }
                         } else {
                             if (type) {
-                                if (title == "수입") {
-                                    viewModel.insertCategory(Category(null, text, color, 0))
-                                } else {
-                                    viewModel.insertCategory(Category(null, text, color, 1))
+                                if(text.trim(' ') == "미분류") {
+                                    showToast(context,"미분류 카테고리는 생성할 수 없습니다.")
+                                }
+                                else {
+                                    if (title == "수입") {
+                                        viewModel.insertCategory(Category(null, text, color, 0))
+                                    } else {
+                                        viewModel.insertCategory(Category(null, text, color, 1))
+                                    }
                                 }
                             } else {
                                 if (title == "수입") {

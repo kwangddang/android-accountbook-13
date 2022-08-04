@@ -30,6 +30,20 @@ class SQLiteOpenHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
             "CREATE TABLE method(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "name TEXT)"
         )
+        db?.execSQL(
+            "INSERT INTO category ('name','color','type') VALUES " +
+                    "('미분류','#817DCE','1')," +
+                    "('미분류','#524D90','0')," +
+                    "('교통','#94D3CC','1')," +
+                    "('문화/여가','#D092E2','1')," +
+                    "('생활','#4A6CC3','1')," +
+                    "('쇼핑/뷰티','#4CB8B8','1')," +
+                    "('식비','#4CA1DE','1')," +
+                    "('의료/건강','#6ED5EB','1')," +
+                    "('월급','#9BD182','0')," +
+                    "('용돈','#EDCF65','0')," +
+                    "('기타','#E29C4D','0');"
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

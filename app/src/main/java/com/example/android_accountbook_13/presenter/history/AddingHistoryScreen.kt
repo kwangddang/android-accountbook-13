@@ -1,5 +1,6 @@
 package com.example.android_accountbook_13.presenter.history
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -53,7 +54,6 @@ fun AddingHistoryScreen(
         historyViewModel.navItem = null
         navHostController.popBackStack()
     }
-
     val navItem = historyViewModel.navItem
     var date by rememberSaveable {
         mutableStateOf(
@@ -70,8 +70,8 @@ fun AddingHistoryScreen(
     var categoryExpanded by rememberSaveable { mutableStateOf(false) }
     var isDialog by rememberSaveable { mutableStateOf(false) }
 
-    var incomeChecked by rememberSaveable { mutableStateOf(method == 1) }
-    var expenseChecked by rememberSaveable { mutableStateOf(method == 0) }
+    var incomeChecked by rememberSaveable { mutableStateOf(method == 0) }
+    var expenseChecked by rememberSaveable { mutableStateOf(method == 1) }
 
     val methods by settingViewModel.methods.collectAsState()
     val incomeCategories by settingViewModel.incomeCategories.collectAsState()
@@ -206,9 +206,9 @@ fun AddingHistoryScreen(
                         historyViewModel.insertHistory(
                             History(
                                 null,
-                                checkedCategory.id ?: 3,
+                                if(incomeChecked) checkedCategory.id ?: 2 else checkedCategory.id ?: 1,
                                 checkedMethod.id!!, content,
-                                if (incomeChecked) 1 else 0,
+                                if (incomeChecked) 0 else 1,
                                 price.toLong(),
                                 date.year, date.month, date.day
                             )
@@ -219,7 +219,7 @@ fun AddingHistoryScreen(
                                 navItem.history.id,
                                 checkedCategory.id ?: 3,
                                 checkedMethod.id!!, content,
-                                if (incomeChecked) 1 else 0,
+                                if (incomeChecked) 0 else 1,
                                 price.toLong(),
                                 date.year, date.month, date.day
                             )

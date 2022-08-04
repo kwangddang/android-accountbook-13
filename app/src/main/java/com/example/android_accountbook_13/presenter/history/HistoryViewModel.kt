@@ -64,9 +64,9 @@ class HistoryViewModel @Inject constructor(
             if (incomeChecked && expenseChecked) {
                 true
             } else if (incomeChecked) {
-                it.history.methodType == 1
-            } else if (expenseChecked) {
                 it.history.methodType == 0
+            } else if (expenseChecked) {
+                it.history.methodType == 1
             } else {
                 false
             }
@@ -78,7 +78,7 @@ class HistoryViewModel @Inject constructor(
             var income = 0L
             var expense = 0L
             for (item in historyList) {
-                if (item.history.methodType == 1) {
+                if (item.history.methodType == 0) {
                     income += item.history.money
                 } else {
                     expense += item.history.money
@@ -124,7 +124,7 @@ class HistoryViewModel @Inject constructor(
 
     fun getPairList(): List<Pair<Long,Category>> {
         val expenseHistory = _accountBookItems.value.filter { item ->
-            item.history.methodType == 0
+            item.history.methodType == 1
         }
 
         val group = expenseHistory.groupBy { item ->
@@ -144,15 +144,15 @@ class HistoryViewModel @Inject constructor(
     }
 
     private fun getMoney() {
-        _expenseMoney.value = 0L
         _incomeMoney.value = 0L
+        _expenseMoney.value = 0L
 
         _accountBookItems.value.forEach { item ->
             item.history.apply {
                 if (methodType == 0) {
-                    _expenseMoney.value += money
-                } else {
                     _incomeMoney.value += money
+                } else {
+                    _expenseMoney.value += money
                 }
             }
         }
