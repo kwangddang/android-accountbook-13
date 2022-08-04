@@ -131,7 +131,7 @@ fun AddingHistoryScreen(
                     text = price,
                     onValueChange = { textValue ->
                         if (textValue.isEmpty()) price = ""
-                        else if ((textValue[textValue.lastIndex] in '0'..'9')) price = textValue
+                        else if ((textValue[textValue.lastIndex] in '0'..'9' && textValue[0] != '0' && textValue.length < 11)) price = textValue
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                     visualTransformation = { priceVisualTransformation(price) }
