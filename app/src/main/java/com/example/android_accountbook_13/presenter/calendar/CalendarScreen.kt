@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.android_accountbook_13.R
@@ -98,7 +99,7 @@ fun Calendar(
                         if (viewModel.incomeMoneyOfDay.containsKey(it.day) && viewModel.incomeMoneyOfDay[it.day]!! > 0L)
                             Text(
                                 text = longToMoneyUnit(viewModel.incomeMoneyOfDay[it.day]!!),
-                                style = MaterialTheme.typography.caption,
+                                fontSize = 10.sp,
                                 color = Green6,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
@@ -106,7 +107,7 @@ fun Calendar(
                         if (viewModel.expenseMoneyOfDay.containsKey(it.day) && viewModel.expenseMoneyOfDay[it.day]!! > 0L)
                             Text(
                                 text = "-${longToMoneyUnit(viewModel.expenseMoneyOfDay[it.day]!!)}",
-                                style = MaterialTheme.typography.caption,
+                                fontSize = 10.sp,
                                 color = Red,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
@@ -119,7 +120,7 @@ fun Calendar(
                                         0L
                                     ))
                                 ),
-                                style = MaterialTheme.typography.caption,
+                                fontSize = 10.sp,
                                 color = Purple,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
