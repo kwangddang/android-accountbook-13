@@ -1,6 +1,5 @@
 package com.example.android_accountbook_13.presenter.history
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
-import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
@@ -107,10 +105,12 @@ fun AddingHistoryScreen(
                 onIncomeClick = {
                     incomeChecked = true
                     expenseChecked = false
+                    checkedCategory = Category(null,"","",0)
                 },
                 onExpenseClick = {
                     incomeChecked = false
                     expenseChecked = true
+                    checkedCategory = Category(null,"","",1)
                 }
             )
             Spacer(modifier = Modifier.height(8.dp))
