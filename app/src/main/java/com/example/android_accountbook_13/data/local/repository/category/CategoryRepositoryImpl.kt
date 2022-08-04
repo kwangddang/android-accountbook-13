@@ -10,35 +10,35 @@ class CategoryRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSourceImpl
 ) : CategoryRepository {
 
-    override suspend fun getIncomeCategory(onFailure: () -> Unit, onSuccess: (List<Category>) -> Unit) {
+    override suspend fun getIncomeCategory(onFailure: (String?) -> Unit, onSuccess: (List<Category>) -> Unit) {
         localDataSource.getIncomeCategory().onSuccess { cursor ->
             onSuccess(cursorToCategory(cursor))
         }.onFailure {
-            onFailure()
+            onFailure(it.message)
         }
     }
 
-    override suspend fun getExpenseCategory(onFailure: () -> Unit, onSuccess: (List<Category>) -> Unit) {
+    override suspend fun getExpenseCategory(onFailure: (String?) -> Unit, onSuccess: (List<Category>) -> Unit) {
         localDataSource.getExpenseCategory().onSuccess { cursor ->
             onSuccess(cursorToCategory(cursor))
         }.onFailure {
-            onFailure()
+            onFailure(it.message)
         }
     }
 
-    override suspend fun insertCategory(category: Category, onFailure: () -> Unit, onSuccess: () -> Unit) {
+    override suspend fun insertCategory(category: Category, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
         localDataSource.insertCategory(category).onSuccess {
             onSuccess()
         }.onFailure {
-            onFailure()
+            onFailure(it.message)
         }
     }
 
-    override suspend fun updateCategory(category: Category, onFailure: () -> Unit, onSuccess: () -> Unit) {
+    override suspend fun updateCategory(category: Category, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
         localDataSource.updateCategory(category).onSuccess {
             onSuccess()
         }.onFailure {
-            onFailure()
+            onFailure(it.message)
         }
     }
 

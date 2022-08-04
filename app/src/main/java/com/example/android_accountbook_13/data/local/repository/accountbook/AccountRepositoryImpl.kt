@@ -10,7 +10,7 @@ import javax.inject.Inject
 class AccountRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSourceImpl
 ) : AccountRepository {
-    override suspend fun getAccountBook(year: Int, month: Int, onFailure: () -> Unit, onSuccess: (List<AccountBookItem>) -> Unit) {
+    override suspend fun getAccountBook(year: Int, month: Int, onFailure: (String?) -> Unit, onSuccess: (List<AccountBookItem>) -> Unit) {
         localDataSource.getAccountBook(year, month).onSuccess { cursor ->
             val itemList = mutableListOf<AccountBookItem>()
             while (cursor.moveToNext()) {
@@ -24,7 +24,7 @@ class AccountRepositoryImpl @Inject constructor(
             }
             onSuccess(itemList)
         }.onFailure {
-            onFailure()
+            onFailure(it.message)
         }
     }
 }

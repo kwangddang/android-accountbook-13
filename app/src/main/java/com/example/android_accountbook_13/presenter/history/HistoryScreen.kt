@@ -34,21 +34,13 @@ fun HistoryScreen(
     navHostController: NavHostController,
     historyViewModel: HistoryViewModel,
 ) {
+    val context = LocalContext.current
     val date by historyViewModel.date
     var incomeChecked by rememberSaveable { mutableStateOf(true) }
     var expenseChecked by rememberSaveable { mutableStateOf(true) }
     var isEditMode by rememberSaveable { mutableStateOf(false) }
     val deleteIdList = rememberSaveable { mutableListOf<Int>()}
     var isDialog by rememberSaveable { mutableStateOf(false) }
-    val isSuccess by historyViewModel.isSuccess
-
-    if(isSuccess.event is DataResponse.Success) {
-        historyViewModel.getAccountBookItems()
-        isSuccess(DataResponse.Empty)
-    } else if(isSuccess.event is DataResponse.Error) {
-        showToast(LocalContext.current, (isSuccess.event as DataResponse.Error<*>).errorMessage)
-        isSuccess(DataResponse.Empty)
-    }
 
     Scaffold(
         topBar = {
@@ -68,7 +60,12 @@ fun HistoryScreen(
                 },
                 onRightClick = {
                     if(isEditMode) {
-                        historyViewModel.deleteHistory(deleteIdList)
+                        historyViewModel.deleteHistory(deleteIdList,{ message ->
+                            showToast(context, message)
+                        },{
+                            Log.d("Test","success")
+                            historyViewModel.getAccountBookItems()
+                        })
                         isEditMode = false
                         deleteIdList.clear()
                     }

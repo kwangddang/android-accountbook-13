@@ -8,7 +8,7 @@ import javax.inject.Inject
 class MethodRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSourceImpl
 ) : MethodRepository {
-    override suspend fun getAllMethod(onFailure: () -> Unit, onSuccess: (List<Method>) -> Unit) {
+    override suspend fun getAllMethod(onFailure: (String?) -> Unit, onSuccess: (List<Method>) -> Unit) {
         localDataSource.getAllMethod().onSuccess { cursor ->
             val itemList = mutableListOf<Method>()
             while (cursor.moveToNext()) {
@@ -16,23 +16,23 @@ class MethodRepositoryImpl @Inject constructor(
             }
             onSuccess(itemList)
         }.onFailure {
-            onFailure()
+            onFailure(it.message)
         }
     }
 
-    override suspend fun insertMethod(method : Method, onFailure: () -> Unit, onSuccess: () -> Unit) {
+    override suspend fun insertMethod(method : Method, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
         localDataSource.insertMethod(method).onSuccess {
             onSuccess()
         }.onFailure {
-            onFailure()
+            onFailure(it.message)
         }
     }
 
-    override suspend fun updateMethod(method : Method, onFailure: () -> Unit, onSuccess: () -> Unit) {
+    override suspend fun updateMethod(method : Method, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
         localDataSource.updateMethod(method).onSuccess {
             onSuccess()
         }.onFailure {
-            onFailure()
+            onFailure(it.message)
         }
     }
 }

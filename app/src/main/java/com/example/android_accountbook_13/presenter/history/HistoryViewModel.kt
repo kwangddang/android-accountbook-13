@@ -42,18 +42,35 @@ class HistoryViewModel @Inject constructor(
 
     var navItem: AccountBookItem? = null
 
-    var isSuccess = mutableStateOf(Event(DataResponse.Empty))
-
     init {
         getAccountBookItems()
     }
 
 
-    fun getAccountBookItems(onFailure: () -> Unit = {}) {
+    fun getAccountBookItems(onFailure: (String?) -> Unit = {}) {
         viewModelScope.launch {
             accountRepository.getAccountBook(date.value.year, date.value.month, onFailure){
                 _accountBookItems.value = it
             }
+            getMoney()
+        }
+    }
+
+    fun deleteHistory(historyIds: List<Int>, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            historyRepository.deleteHistory(historyIds, onFailure, onSuccess)
+        }
+    }
+
+    fun insertHistory(history: History, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            historyRepository.insertHistory(history, onFailure, onSuccess)
+        }
+    }
+
+    fun updateHistory(history: History, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            historyRepository.updateHistory(history, onFailure, onSuccess)
         }
     }
 
@@ -84,24 +101,6 @@ class HistoryViewModel @Inject constructor(
             }
             incomeMoneyOfDay[day] = income
             expenseMoneyOfDay[day] = expense
-        }
-    }
-
-    fun deleteHistory(historyIds: List<Int>, onFailure: () -> Unit, onSuccess: () -> Unit) {
-        viewModelScope.launch {
-            historyRepository.deleteHistory(historyIds, onFailure, onSuccess)
-        }
-    }
-
-    fun insertHistory(history: History, onFailure: () -> Unit, onSuccess: () -> Unit) {
-        viewModelScope.launch {
-            historyRepository.insertHistory(history, onFailure, onSuccess)
-        }
-    }
-
-    fun updateHistory(history: History, onFailure: () -> Unit, onSuccess: () -> Unit) {
-        viewModelScope.launch {
-            historyRepository.updateHistory(history, onFailure, onSuccess)
         }
     }
 

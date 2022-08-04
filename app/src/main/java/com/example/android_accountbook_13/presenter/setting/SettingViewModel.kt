@@ -29,15 +29,12 @@ class SettingViewModel @Inject constructor(
     private val _expenseCategories = MutableStateFlow<List<Category>>(emptyList())
     val expenseCategories: StateFlow<List<Category>> get() = _expenseCategories
 
-    var isMethodSuccess = mutableStateOf(Event(DataResponse.Empty))
-    var isCategorySuccess = mutableStateOf(Event(DataResponse.Empty))
-
     init {
         getAllMethod()
         getAllCategory()
     }
 
-    fun getAllMethod(onFailure: () -> Unit = {}) {
+    fun getAllMethod(onFailure: (String?) -> Unit = {}) {
         viewModelScope.launch {
             methodRepository.getAllMethod(onFailure) {
                 _methods.value = it
@@ -45,12 +42,12 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    fun getAllCategory(onFailure: () -> Unit = {}) {
+    fun getAllCategory(onFailure: (String?) -> Unit = {}) {
         getIncomeCategory(onFailure)
         getExpenseCategory(onFailure)
     }
 
-    private fun getIncomeCategory(onFailure: () -> Unit) {
+    private fun getIncomeCategory(onFailure: (String?) -> Unit) {
         viewModelScope.launch {
             categoryRepository.getIncomeCategory(onFailure){
                 _incomeCategories.value = it
@@ -58,7 +55,7 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    private fun getExpenseCategory(onFailure: () -> Unit) {
+    private fun getExpenseCategory(onFailure: (String?) -> Unit) {
         viewModelScope.launch {
             categoryRepository.getExpenseCategory(onFailure){
                 _expenseCategories.value = it
@@ -66,25 +63,25 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    fun insertMethod(method: Method, onFailure: () -> Unit, onSuccess: () -> Unit) {
+    fun insertMethod(method: Method, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
         viewModelScope.launch {
             methodRepository.insertMethod(method, onFailure, onSuccess)
         }
     }
 
-    fun insertCategory(category: Category, onFailure: () -> Unit, onSuccess: () -> Unit) {
+    fun insertCategory(category: Category, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
         viewModelScope.launch {
             categoryRepository.insertCategory(category, onFailure, onSuccess)
         }
     }
 
-    fun updateCategory(category: Category, onFailure: () -> Unit, onSuccess: () -> Unit) {
+    fun updateCategory(category: Category, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
         viewModelScope.launch {
             categoryRepository.updateCategory(category, onFailure, onSuccess)
         }
     }
 
-    fun updateMethod(method: Method, onFailure: () -> Unit, onSuccess: () -> Unit) {
+    fun updateMethod(method: Method, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
         viewModelScope.launch {
             methodRepository.updateMethod(method, onFailure, onSuccess)
         }
