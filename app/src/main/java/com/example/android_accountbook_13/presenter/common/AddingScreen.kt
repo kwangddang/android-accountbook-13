@@ -63,28 +63,6 @@ fun AddingScreen(
     var color by rememberSaveable { mutableStateOf(if(title == "수입") incomeColors[0] else expenseColors[0]) }
     var selectedIndex by rememberSaveable { mutableStateOf(0) }
 
-    val isMethodSuccess by viewModel.isMethodSuccess
-    val isCategorySuccess by viewModel.isCategorySuccess
-
-    if(isMethodSuccess.event is DataResponse.Success) {
-        isMethodSuccess(DataResponse.Empty)
-        viewModel.getAllMethod()
-        navController.popBackStack()
-    } else if(isMethodSuccess.event is DataResponse.Error) {
-        showToast(LocalContext.current, (isMethodSuccess.event as DataResponse.Error<*>).errorMessage)
-        isMethodSuccess(DataResponse.Empty)
-    }
-
-    if(isCategorySuccess.event is DataResponse.Success) {
-        isCategorySuccess(DataResponse.Empty)
-        viewModel.getAllCategory()
-        navController.popBackStack()
-    } else if(isCategorySuccess.event is DataResponse.Error) {
-        showToast(LocalContext.current, (isCategorySuccess.event as DataResponse.Error<*>).errorMessage)
-        isCategorySuccess(DataResponse.Empty)
-    }
-
-
     Scaffold(
         topBar = {
             com.example.android_accountbook_13.presenter.component.TopAppBar(
@@ -152,9 +130,19 @@ fun AddingScreen(
                     onClick = {
                         if (title == "결제") {
                             if (type) {
-                                viewModel.insertMethod(Method(null, text))
+                                viewModel.insertMethod(Method(null, text),{ message ->
+                                    showToast(context, message)
+                                },{
+                                    viewModel.getAllMethod()
+                                    navController.popBackStack()
+                                })
                             } else {
-                                viewModel.updateMethod(Method(id, text))
+                                viewModel.updateMethod(Method(id, text),{ message ->
+                                    showToast(context, message)
+                                },{
+                                    viewModel.getAllMethod()
+                                    navController.popBackStack()
+                                })
                             }
                         } else {
                             if (type) {
@@ -163,16 +151,36 @@ fun AddingScreen(
                                 }
                                 else {
                                     if (title == "수입") {
-                                        viewModel.insertCategory(Category(null, text, color, 0))
+                                        viewModel.insertCategory(Category(null, text, color, 0),{ message ->
+                                            showToast(context, message)
+                                        },{
+                                            viewModel.getAllCategory()
+                                            navController.popBackStack()
+                                        })
                                     } else {
-                                        viewModel.insertCategory(Category(null, text, color, 1))
+                                        viewModel.insertCategory(Category(null, text, color, 1),{ message ->
+                                            showToast(context, message)
+                                        },{
+                                            viewModel.getAllCategory()
+                                            navController.popBackStack()
+                                        })
                                     }
                                 }
                             } else {
                                 if (title == "수입") {
-                                    viewModel.updateCategory(Category(id, text, color, 0))
+                                    viewModel.updateCategory(Category(id, text, color, 0),{ message ->
+                                        showToast(context, message)
+                                    },{
+                                        viewModel.getAllCategory()
+                                        navController.popBackStack()
+                                    })
                                 } else {
-                                    viewModel.updateCategory(Category(id, text, color, 1))
+                                    viewModel.updateCategory(Category(id, text, color, 1),{ message ->
+                                        showToast(context, message)
+                                    },{
+                                        viewModel.getAllCategory()
+                                        navController.popBackStack()
+                                    })
                                 }
                             }
                         }

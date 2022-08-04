@@ -1,36 +1,39 @@
 package com.example.android_accountbook_13.data.local.repository.history
 
+import android.util.Log
 import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.local.datasource.LocalDataSourceImpl
-import com.example.android_accountbook_13.utils.getHistoryFromCursor
 import javax.inject.Inject
 
 class HistoryRepositoryImpl @Inject constructor(
 private val localDataSource: LocalDataSourceImpl
 ) : HistoryRepository {
-    override suspend fun getHistory(year: Int, month: Int): DataResponse<List<History>> {
-        val cursor = localDataSource.getHistory(year, month).getOrNull() ?: return DataResponse.Error("내역을 불러오지 못 했습니다.")
-        val itemList = mutableListOf<History>()
-        while (cursor.moveToNext()) {
-            itemList.add(getHistoryFromCursor(cursor,0))
+
+    override suspend fun insertHistory(history: History, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
+        localDataSource.insertHistory(history).onSuccess {
+            Log.d("Test","success")
+            onSuccess()
+        }.onFailure {
+            Log.d("Test","Failure")
+            onFailure(it.message)
         }
-        return DataResponse.Success(itemList)
     }
 
-    override suspend fun insertHistory(history: History): DataResponse<Unit> {
-        if(localDataSource.insertHistory(history).getOrNull() == null) return DataResponse.Error("내역을 추가하지 못 했습니다.")
-        return DataResponse.Success(Unit)
+    override suspend fun updateHistory(history: History, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
+        localDataSource.updateHistory(history).onSuccess {
+            onSuccess()
+        }.onFailure {
+            onFailure(it.message)
+        }
     }
 
-    override suspend fun updateHistory(history: History): DataResponse<Unit> {
-        if(localDataSource.updateHistory(history).getOrNull() == null) return DataResponse.Error("내역을 수정하지 못 했습니다.")
-        return DataResponse.Success(Unit)
-    }
-
-    override suspend fun deleteHistory(historyIds: List<Int>): DataResponse<Unit> {
-        if(localDataSource.deleteHistory(historyIds).getOrNull() == null) return DataResponse.Error("내역을 삭제하지 못 했습니다.")
-        return DataResponse.Success(Unit)
+    override suspend fun deleteHistory(historyIds: List<Int>, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
+        localDataSource.deleteHistory(historyIds).onSuccess {
+            onSuccess()
+        }.onFailure {
+            onFailure(it.message )
+        }
     }
 
 }

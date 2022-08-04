@@ -42,20 +42,35 @@ class HistoryViewModel @Inject constructor(
 
     var navItem: AccountBookItem? = null
 
-    var isSuccess = mutableStateOf(Event(DataResponse.Empty))
-
     init {
         getAccountBookItems()
     }
 
 
-    fun getAccountBookItems() {
+    fun getAccountBookItems(onFailure: (String?) -> Unit = {}) {
         viewModelScope.launch {
-            val response = accountRepository.getAccountBook(date.value.year, date.value.month)
-            if (response is DataResponse.Success) {
-                _accountBookItems.value = response.data!!
-                getMoney()
+            accountRepository.getAccountBook(date.value.year, date.value.month, onFailure){
+                _accountBookItems.value = it
             }
+            getMoney()
+        }
+    }
+
+    fun deleteHistory(historyIds: List<Int>, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            historyRepository.deleteHistory(historyIds, onFailure, onSuccess)
+        }
+    }
+
+    fun insertHistory(history: History, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            historyRepository.insertHistory(history, onFailure, onSuccess)
+        }
+    }
+
+    fun updateHistory(history: History, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            historyRepository.updateHistory(history, onFailure, onSuccess)
         }
     }
 
@@ -89,24 +104,6 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    fun deleteHistory(historyIds: List<Int>) {
-        viewModelScope.launch {
-            isSuccess.value = Event(historyRepository.deleteHistory(historyIds))
-        }
-    }
-
-    fun insertHistory(history: History) {
-        viewModelScope.launch {
-            isSuccess.value = Event(historyRepository.insertHistory(history))
-        }
-    }
-
-    fun updateHistory(history: History) {
-        viewModelScope.launch {
-            isSuccess.value = Event(historyRepository.updateHistory(history))
-        }
-    }
-
     fun decreaseDate() {
         _date.value = com.example.android_accountbook_13.utils.decreaseDate(_date.value)
         getAccountBookItems()
@@ -122,7 +119,7 @@ class HistoryViewModel @Inject constructor(
         getAccountBookItems()
     }
 
-    fun getPairList(): List<Pair<Long,Category>> {
+    fun getPairList(): List<Pair<Long, Category>> {
         val expenseHistory = _accountBookItems.value.filter { item ->
             item.history.methodType == 1
         }
@@ -130,13 +127,13 @@ class HistoryViewModel @Inject constructor(
         val group = expenseHistory.groupBy { item ->
             item.history.categoryId
         }
-        val pair = arrayListOf<Pair<Long,Category>>()
-        group.forEach{ (categoryId, list) ->
+        val pair = arrayListOf<Pair<Long, Category>>()
+        group.forEach { (categoryId, list) ->
             var money = 0L
             list.forEach { item ->
                 money += item.history.money
             }
-            pair.add(Pair(money,list[0].category))
+            pair.add(Pair(money, list[0].category))
         }
         pair.sortWith { o1, o2 -> (o2.first - o1.first).toInt() }
 

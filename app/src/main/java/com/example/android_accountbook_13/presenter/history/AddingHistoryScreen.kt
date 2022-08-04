@@ -50,6 +50,7 @@ fun AddingHistoryScreen(
     historyViewModel: HistoryViewModel,
     settingViewModel: SettingViewModel
 ) {
+    val context = LocalContext.current
     BackHandler() {
         historyViewModel.navItem = null
         navHostController.popBackStack()
@@ -76,18 +77,6 @@ fun AddingHistoryScreen(
     val methods by settingViewModel.methods.collectAsState()
     val incomeCategories by settingViewModel.incomeCategories.collectAsState()
     val expenseCategories by settingViewModel.expenseCategories.collectAsState()
-
-    val isHistorySuccess by historyViewModel.isSuccess
-
-    if (isHistorySuccess.event is DataResponse.Success) {
-        historyViewModel.navItem = null
-        historyViewModel.getAccountBookItems()
-        isHistorySuccess(DataResponse.Empty)
-        navHostController.popBackStack()
-    } else if (isHistorySuccess.event is DataResponse.Error) {
-        showToast(LocalContext.current, (isHistorySuccess.event as DataResponse.Error<*>).errorMessage)
-        isHistorySuccess(DataResponse.Empty)
-    }
 
     Scaffold(
         topBar = {
@@ -207,12 +196,18 @@ fun AddingHistoryScreen(
                         historyViewModel.insertHistory(
                             History(
                                 null,
-                                if(incomeChecked) checkedCategory.id ?: 2 else checkedCategory.id ?: 1,
+                                if (incomeChecked) checkedCategory.id ?: 2 else checkedCategory.id ?: 1,
                                 checkedMethod.id!!, content,
                                 if (incomeChecked) 0 else 1,
                                 price.toLong(),
                                 date.year, date.month, date.day
-                            )
+                            ), { message ->
+                                showToast(context, message)
+                            }, {
+                                historyViewModel.navItem = null
+                                historyViewModel.getAccountBookItems()
+                                navHostController.popBackStack()
+                            }
                         )
                     } else {
                         historyViewModel.updateHistory(
@@ -223,7 +218,13 @@ fun AddingHistoryScreen(
                                 if (incomeChecked) 0 else 1,
                                 price.toLong(),
                                 date.year, date.month, date.day
-                            )
+                            ), { message ->
+                                showToast(context, message)
+                            }, {
+                                historyViewModel.navItem = null
+                                historyViewModel.getAccountBookItems()
+                                navHostController.popBackStack()
+                            }
                         )
                     }
                 }
