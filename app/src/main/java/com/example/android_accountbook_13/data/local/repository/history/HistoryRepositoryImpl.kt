@@ -9,14 +9,6 @@ import javax.inject.Inject
 class HistoryRepositoryImpl @Inject constructor(
 private val localDataSource: LocalDataSourceImpl
 ) : HistoryRepository {
-    override suspend fun getHistory(year: Int, month: Int): DataResponse<List<History>> {
-        val cursor = localDataSource.getHistory(year, month).getOrNull() ?: return DataResponse.Error("내역을 불러오지 못 했습니다.")
-        val itemList = mutableListOf<History>()
-        while (cursor.moveToNext()) {
-            itemList.add(getHistoryFromCursor(cursor,0))
-        }
-        return DataResponse.Success(itemList)
-    }
 
     override suspend fun insertHistory(history: History): DataResponse<Unit> {
         if(localDataSource.insertHistory(history).getOrNull() == null) return DataResponse.Error("내역을 추가하지 못 했습니다.")

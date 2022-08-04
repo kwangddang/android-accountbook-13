@@ -18,12 +18,6 @@ class MethodRepositoryImpl @Inject constructor(
         return DataResponse.Success(itemList)
     }
 
-    override suspend fun getMethod(id: Int): DataResponse<Method> {
-        val cursor = localDataSource.getMethod(id).getOrNull() ?: return DataResponse.Error("결제 수단을 불러오지 못 했습니다.")
-        cursor.moveToNext()
-        return DataResponse.Success(getMethodFromCursor(cursor,0))
-    }
-
     override suspend fun insertMethod(method : Method): DataResponse<Unit> {
         if(localDataSource.insertMethod(method).getOrNull() == null) return DataResponse.Error("결제 수단을 추가하지 못 했습니다.")
         return DataResponse.Success(Unit)
@@ -34,8 +28,4 @@ class MethodRepositoryImpl @Inject constructor(
         return DataResponse.Success(Unit)
     }
 
-    override suspend fun deleteMethod(methodId: Int): DataResponse<Unit> {
-        if(localDataSource.deleteMethod(methodId).getOrNull() == null) return DataResponse.Error("결제 수단을 삭제하지 못 했습니다.")
-        return DataResponse.Success(Unit)
-    }
 }

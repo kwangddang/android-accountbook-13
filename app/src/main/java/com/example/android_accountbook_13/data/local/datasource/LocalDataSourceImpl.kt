@@ -16,13 +16,6 @@ class LocalDataSourceImpl @Inject constructor(
     /**
      * History
      */
-    override suspend fun getHistory(year: Int, month: Int): Result<Cursor> =
-        runCatching {
-            db.readableDatabase.rawQuery(
-                "SELECT * FROM history WHERE year = $year AND month = ${month};", null
-            )
-        }
-
     override suspend fun insertHistory(history: History): Result<Unit> =
         runCatching {
             db.writableDatabase.execSQL(
@@ -60,13 +53,6 @@ class LocalDataSourceImpl @Inject constructor(
      * Category
      */
 
-    override suspend fun getAllCategory(): Result<Cursor> =
-        runCatching {
-            db.readableDatabase.rawQuery(
-                "SELECT * FROM category;", null
-            )
-        }
-
     override suspend fun getIncomeCategory(): Result<Cursor> =
         runCatching {
             db.readableDatabase.rawQuery(
@@ -95,12 +81,6 @@ class LocalDataSourceImpl @Inject constructor(
             )
         }
 
-    override suspend fun deleteCategory(categoryId: Int): Result<Unit> =
-        runCatching {
-            db.writableDatabase.execSQL(
-                "DELETE FROM category WHERE id = ${categoryId};"
-            )
-        }
 
     /**
      * Method
@@ -110,13 +90,6 @@ class LocalDataSourceImpl @Inject constructor(
         runCatching {
             db.readableDatabase.rawQuery(
                 "SELECT * FROM method;", null
-            )
-        }
-
-    override suspend fun getMethod(id: Int): Result<Cursor> =
-        runCatching {
-            db.readableDatabase.rawQuery(
-                "SELECT * FROM method WHERE id like ${id};", null
             )
         }
 
@@ -131,13 +104,6 @@ class LocalDataSourceImpl @Inject constructor(
         runCatching {
             db.writableDatabase.execSQL(
                 "UPDATE method SET name = '${method.name}' WHERE id = ${method.id};"
-            )
-        }
-
-    override suspend fun deleteMethod(methodId: Int): Result<Unit> =
-        runCatching {
-            db.writableDatabase.execSQL(
-                "DELETE FROM method WHERE id = ${methodId};"
             )
         }
 

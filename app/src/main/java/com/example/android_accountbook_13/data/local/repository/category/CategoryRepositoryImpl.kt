@@ -11,10 +11,6 @@ import javax.inject.Inject
 class CategoryRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSourceImpl
 ) : CategoryRepository {
-    override suspend fun getAllCategory(): DataResponse<List<Category>> {
-        val cursor = localDataSource.getAllCategory().getOrNull() ?: return DataResponse.Error("전체 카테고리를 불러오지 못 했습니다.")
-        return cursorToCategory(cursor)
-    }
 
     override suspend fun getIncomeCategory(): DataResponse<List<Category>> {
         val cursor = localDataSource.getIncomeCategory().getOrNull() ?: return DataResponse.Error("수입 카테고리를 불러오지 못 했습니다.")
@@ -36,12 +32,7 @@ class CategoryRepositoryImpl @Inject constructor(
         return DataResponse.Success(Unit)
     }
 
-    override suspend fun deleteCategory(categoryId: Int): DataResponse<Unit> {
-        if(localDataSource.deleteCategory(categoryId).getOrNull() == null) return DataResponse.Error("카테고리를 삭제하지 못 했습니다.")
-        return DataResponse.Success(Unit)
-    }
-
-    private suspend fun cursorToCategory(cursor: Cursor): DataResponse<List<Category>> {
+    private fun cursorToCategory(cursor: Cursor): DataResponse<List<Category>> {
         val itemList = mutableListOf<Category>()
         while (cursor.moveToNext()) {
             itemList.add(getCategoryFromCursor(cursor, 0))
