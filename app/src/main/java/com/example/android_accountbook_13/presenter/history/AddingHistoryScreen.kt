@@ -200,7 +200,8 @@ fun AddingHistoryScreen(
                         .align(Alignment.BottomCenter)
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, bottom = 48.dp)
-                        .height(56.dp)
+                        .height(56.dp),
+                    title = if (navItem == null) stringResource(id = R.string.btn_add) else stringResource(id = R.string.btn_edit)
                 ) {
                     if (navItem == null) {
                         historyViewModel.insertHistory(
