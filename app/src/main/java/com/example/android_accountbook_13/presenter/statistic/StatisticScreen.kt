@@ -77,6 +77,7 @@ fun StatisticScreen(
                     pieChart.setTouchEnabled(false)
                     pieChart.description.isEnabled = false
                     pieChart.legend.isEnabled = false
+                    pieChart.transparentCircleRadius = 0f
                     pieChart.setHoleColor(0)
 
                     val colorList = mutableListOf<Int>()
@@ -91,7 +92,6 @@ fun StatisticScreen(
                     val dataSet = PieDataSet(pieEntryList,"expense")
                     dataSet.setDrawValues(false)
                     dataSet.colors = colorList
-                    dataSet.sliceSpace = 1f
                     val pieData = PieData(dataSet)
                     pieChart.data = pieData
                     pieChart.animateY(1000, Easing.EaseInBack)
@@ -109,7 +109,6 @@ fun StatisticScreen(
                         }
                         val dataSet = PieDataSet(pieEntryList,"expense")
                         dataSet.colors = colorList
-                        dataSet.sliceSpace = 1f
                         dataSet.setDrawValues(false)
                         val pieData = PieData(dataSet)
                         it.data = pieData
