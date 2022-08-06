@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -48,6 +50,16 @@ android {
 }
 
 dependencies {
+
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:30.3.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    //MPAndroidChart
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
+
+    //ChargeMap Number Picker
+    implementation "com.chargemap.compose:numberpicker:${number_picker_version}"
 
     //ThreeTenABP
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'

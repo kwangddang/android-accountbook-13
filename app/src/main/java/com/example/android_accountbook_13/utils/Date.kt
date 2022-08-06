@@ -1,12 +1,15 @@
 package com.example.android_accountbook_13.utils
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import org.threeten.bp.LocalDate
 
+@Parcelize
 data class Date(
     var year : Int,
     var month : Int,
     var day : Int
-)
+): Parcelable
 
 fun getCurrentDate(): Date {
     val current = LocalDate.now().toString()
@@ -16,14 +19,22 @@ fun getCurrentDate(): Date {
 
 fun getDayOfWeek(date: Date): String {
     val dayOfWeekName = arrayOf("월요일","화요일","수요일","목요일","금요일","토요일","일요일")
-    val date = LocalDate.of(date.year,date.month,date.day)
-    val dayOfWeek = date.dayOfWeek
-    val number = dayOfWeek.value
-    return dayOfWeekName[number - 1]
+    val number = getDayOfWeekNumber(date)
+    return dayOfWeekName[number]
 }
 
-fun getDateString(date: Date): String {
+fun getDayOfWeekNumber(date: Date): Int {
+    val date = LocalDate.of(date.year,date.month,date.day)
+    val dayOfWeek = date.dayOfWeek
+    return dayOfWeek.value - 1
+}
+
+fun getYearMonthString(date: Date): String {
     return "${date.year}년 ${date.month}월"
+}
+
+fun getYearMonthDayString(date: Date): String {
+    return "${date.year}년 ${date.month}월 ${date.day}일 ${getDayOfWeek(date)}"
 }
 
 fun getStringToDate(str : String): Date {
@@ -51,4 +62,8 @@ fun decreaseDate(date: Date): Date {
         newDate.year--
     }
     return newDate
+}
+
+fun getEndOfMonth(date: Date): Int {
+    return LocalDate.of(date.year,date.month,date.day).lengthOfMonth()
 }

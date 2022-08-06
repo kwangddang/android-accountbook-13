@@ -1,5 +1,7 @@
 package com.example.android_accountbook_13
 
+import com.example.android_accountbook_13.utils.Date
+import com.example.android_accountbook_13.utils.getDayOfWeek
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.threeten.bp.LocalDate
@@ -12,6 +14,6 @@ import org.threeten.bp.LocalDate
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, LocalDate.now().toString())
+        assertEquals(4, LocalDate.of(2022,2,1).lengthOfMonth())
     }
 }
