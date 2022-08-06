@@ -1,9 +1,9 @@
-package com.example.android_accountbook_13.presenter
+package com.example.android_accountbook_13.ui
 
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.android_accountbook_13.presenter.component.BottomAppBar
+import com.example.android_accountbook_13.ui.common.component.BottomAppBar
 import com.example.android_accountbook_13.ui.theme.AccountBookTheme
 
 @Composable
@@ -27,7 +27,7 @@ fun AccountBookApp() {
                 appState.navController,
                 innerPadding,
                 History.route,
-                appState.historyViewModel,
+                appState.accountBookViewModel,
                 appState.settingViewModel
             )
         }

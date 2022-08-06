@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter.setting
+package com.example.android_accountbook_13.ui.setting
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.android_accountbook_13.R
-import com.example.android_accountbook_13.presenter.component.TopAppBar
-import com.example.android_accountbook_13.presenter.setting.component.SettingContent
-import com.example.android_accountbook_13.presenter.setting.component.SettingFooter
-import com.example.android_accountbook_13.presenter.setting.component.SettingHeader
+import com.example.android_accountbook_13.ui.common.component.TopAppBar
+import com.example.android_accountbook_13.ui.setting.component.SettingContent
+import com.example.android_accountbook_13.ui.setting.component.SettingFooter
+import com.example.android_accountbook_13.ui.setting.component.SettingHeader
 import com.example.android_accountbook_13.utils.showToast
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter.calendar
+package com.example.android_accountbook_13.ui.accountbook.calendar
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.android_accountbook_13.R
-import com.example.android_accountbook_13.presenter.component.TopAppBar
-import com.example.android_accountbook_13.presenter.component.YearMonthDatePicker
-import com.example.android_accountbook_13.presenter.history.HistoryViewModel
+import com.example.android_accountbook_13.ui.common.component.TopAppBar
+import com.example.android_accountbook_13.ui.common.component.YearMonthDatePicker
+import com.example.android_accountbook_13.ui.accountbook.AccountBookViewModel
 import com.example.android_accountbook_13.ui.theme.*
 import com.example.android_accountbook_13.utils.*
 
@@ -39,9 +39,9 @@ import com.example.android_accountbook_13.utils.*
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun CalendarScreen(
-    historyViewModel: HistoryViewModel
+    accountBookViewModel: AccountBookViewModel
 ) {
-    val date by historyViewModel.date
+    val date by accountBookViewModel.date
     var isDialog by rememberSaveable { mutableStateOf(false) }
     Scaffold(
         topBar = {
@@ -50,28 +50,28 @@ fun CalendarScreen(
                 titleOnClick = { isDialog = true },
                 leftVectorResource = R.drawable.ic_left,
                 rightVectorResource = R.drawable.ic_right,
-                onLeftClick = historyViewModel::decreaseDate,
-                onRightClick = historyViewModel::increaseDate
+                onLeftClick = accountBookViewModel::decreaseDate,
+                onRightClick = accountBookViewModel::increaseDate
             )
         },
         backgroundColor = MaterialTheme.colors.background
     ) {
-        historyViewModel.getCheckedItems(true,true)
+        accountBookViewModel.getCheckedItems(true,true)
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->
-                    historyViewModel.changeDate(year,month)
+                    accountBookViewModel.changeDate(year,month)
                     isDialog = false
                 }
             }
         }
         Column(modifier = Modifier.fillMaxSize()) {
-            Calendar(date, historyViewModel)
-            BothText(stringResource(id = R.string.income), longToMoneyUnit(historyViewModel.incomeMoney.value), Green6)
+            Calendar(date, accountBookViewModel)
+            BothText(stringResource(id = R.string.income), longToMoneyUnit(accountBookViewModel.incomeMoney.value), Green6)
             Divider(modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp), color = LightPurple)
-            BothText(stringResource(id = R.string.expense), "-"  + longToMoneyUnit(historyViewModel.expenseMoney.value), Red)
+            BothText(stringResource(id = R.string.expense), "-"  + longToMoneyUnit(accountBookViewModel.expenseMoney.value), Red)
             Divider(modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp), color = LightPurple)
-            BothText(stringResource(id = R.string.total), longToMoneyUnit(historyViewModel.incomeMoney.value - historyViewModel.expenseMoney.value), Purple)
+            BothText(stringResource(id = R.string.total), longToMoneyUnit(accountBookViewModel.incomeMoney.value - accountBookViewModel.expenseMoney.value), Purple)
             Divider(modifier = Modifier.padding(top = 8.dp), color = Purple)
         }
     }
@@ -82,7 +82,7 @@ fun CalendarScreen(
 @Composable
 fun Calendar(
     date: Date,
-    viewModel: HistoryViewModel
+    viewModel: AccountBookViewModel
 ) {
     val calendar = getCalendar(date)
     LazyVerticalGrid(cells = GridCells.Fixed(7)) {
@@ -177,5 +177,5 @@ data class CalendarText(
 @Preview
 @Composable
 fun CalendarItemPreview() {
-    CalendarScreen(historyViewModel = hiltViewModel())
+    CalendarScreen(accountBookViewModel = hiltViewModel())
 }

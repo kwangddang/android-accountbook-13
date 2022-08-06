@@ -1,7 +1,6 @@
-package com.example.android_accountbook_13.presenter.history
+package com.example.android_accountbook_13.ui.accountbook.history
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,10 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
-import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.AccountBookItem
-import com.example.android_accountbook_13.presenter.component.*
-import com.example.android_accountbook_13.presenter.history.component.HistoryFab
+import com.example.android_accountbook_13.ui.accountbook.AccountBookViewModel
+import com.example.android_accountbook_13.ui.accountbook.history.component.HistoryFab
+import com.example.android_accountbook_13.ui.common.component.*
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.utils.*
@@ -32,10 +31,10 @@ import com.example.android_accountbook_13.utils.*
 @Composable
 fun HistoryScreen(
     navHostController: NavHostController,
-    historyViewModel: HistoryViewModel,
+    accountBookViewModel: AccountBookViewModel,
 ) {
     val context = LocalContext.current
-    val date by historyViewModel.date
+    val date by accountBookViewModel.date
     var incomeChecked by rememberSaveable { mutableStateOf(true) }
     var expenseChecked by rememberSaveable { mutableStateOf(true) }
     var isEditMode by rememberSaveable { mutableStateOf(false) }
@@ -55,22 +54,21 @@ fun HistoryScreen(
                         deleteIdList.clear()
                     }
                     else {
-                        historyViewModel.decreaseDate()
+                        accountBookViewModel.decreaseDate()
                     }
                 },
                 onRightClick = {
                     if(isEditMode) {
-                        historyViewModel.deleteHistory(deleteIdList,{ message ->
+                        accountBookViewModel.deleteHistory(deleteIdList,{ message ->
                             showToast(context, message)
                         },{
-                            Log.d("Test","success")
-                            historyViewModel.getAccountBookItems()
+                            accountBookViewModel.getAccountBookItems()
                         })
                         isEditMode = false
                         deleteIdList.clear()
                     }
                     else {
-                        historyViewModel.increaseDate()
+                        accountBookViewModel.increaseDate()
                     }
                 }
             )
@@ -82,14 +80,14 @@ fun HistoryScreen(
         },
         backgroundColor = MaterialTheme.colors.background
     ) {
-        historyViewModel.getCheckedItems(incomeChecked, expenseChecked)
-        val incomeMoney by historyViewModel.incomeMoney
-        val expenseMoney by historyViewModel.expenseMoney
-        val group = historyViewModel.checkedItems.value.groupBy { it.history.day }
+        accountBookViewModel.getCheckedItems(incomeChecked, expenseChecked)
+        val incomeMoney by accountBookViewModel.incomeMoney
+        val expenseMoney by accountBookViewModel.expenseMoney
+        val group = accountBookViewModel.checkedItems.value.groupBy { it.history.day }
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->
-                    historyViewModel.changeDate(year,month)
+                    accountBookViewModel.changeDate(year,month)
                     isDialog = false
                 }
             }
@@ -115,8 +113,8 @@ fun HistoryScreen(
                         item {
                             ItemHeader(
                                 date = "${date.month}월 ${day}일",
-                                income = historyViewModel.incomeMoneyOfDay[day] ?: 0,
-                                expense = historyViewModel.expenseMoneyOfDay[day] ?: 0,
+                                income = accountBookViewModel.incomeMoneyOfDay[day] ?: 0,
+                                expense = accountBookViewModel.expenseMoneyOfDay[day] ?: 0,
                                 incomeChecked,
                                 expenseChecked
                             )
@@ -138,7 +136,7 @@ fun HistoryScreen(
                                         deleteIdList.add(id)
                                 },
                                 onClick = {
-                                    historyViewModel.navItem = item
+                                    accountBookViewModel.navItem = item
                                     navHostController.navigate("addingHistory/${item.history.methodType}")
                                 },
                                 onCheckClick = { id ->
@@ -167,7 +165,7 @@ fun HistoryScreen(
                                 lastAccountBookItem,
                                 isEditMode = isEditMode,
                                 onClick = {
-                                    historyViewModel.navItem = lastAccountBookItem
+                                    accountBookViewModel.navItem = lastAccountBookItem
                                     navHostController.navigate("addingHistory/${lastAccountBookItem.history.methodType}")
                                 },
                                 onCheckClick = { id ->

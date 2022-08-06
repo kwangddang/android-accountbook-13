@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter.setting.component
+package com.example.android_accountbook_13.ui.setting.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
-import com.example.android_accountbook_13.presenter.component.Category
+import com.example.android_accountbook_13.ui.common.component.Category
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 

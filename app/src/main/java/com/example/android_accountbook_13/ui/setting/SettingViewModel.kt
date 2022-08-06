@@ -1,14 +1,11 @@
-package com.example.android_accountbook_13.presenter.setting
+package com.example.android_accountbook_13.ui.setting
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.Method
 import com.example.android_accountbook_13.data.local.repository.category.CategoryRepository
 import com.example.android_accountbook_13.data.local.repository.method.MethodRepository
-import com.example.android_accountbook_13.utils.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

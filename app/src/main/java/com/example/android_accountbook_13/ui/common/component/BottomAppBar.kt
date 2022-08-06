@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter.component
+package com.example.android_accountbook_13.ui.common.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,10 +14,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.android_accountbook_13.presenter.AccountBookDestination
-import com.example.android_accountbook_13.presenter.Calendar
-import com.example.android_accountbook_13.presenter.History
-import com.example.android_accountbook_13.presenter.bottomTabScreens
+import com.example.android_accountbook_13.ui.AccountBookDestination
+import com.example.android_accountbook_13.ui.Calendar
+import com.example.android_accountbook_13.ui.History
+import com.example.android_accountbook_13.ui.bottomTabScreens
 import com.example.android_accountbook_13.ui.theme.AccountBookTheme
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.White

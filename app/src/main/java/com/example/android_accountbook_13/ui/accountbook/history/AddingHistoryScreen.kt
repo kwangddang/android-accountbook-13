@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter.history
+package com.example.android_accountbook_13.ui.accountbook.history
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
@@ -28,32 +28,30 @@ import com.example.android_accountbook_13.R
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.dto.Method
-import com.example.android_accountbook_13.presenter.component.AddingButton
-import com.example.android_accountbook_13.presenter.component.SwitchButton
-import com.example.android_accountbook_13.presenter.component.TopAppBar
-import com.example.android_accountbook_13.presenter.component.YearMonthDayDatePicker
-import com.example.android_accountbook_13.presenter.setting.SettingViewModel
+import com.example.android_accountbook_13.ui.accountbook.AccountBookViewModel
+import com.example.android_accountbook_13.ui.common.component.AddingButton
+import com.example.android_accountbook_13.ui.common.component.SwitchButton
+import com.example.android_accountbook_13.ui.common.component.TopAppBar
+import com.example.android_accountbook_13.ui.common.component.YearMonthDayDatePicker
+import com.example.android_accountbook_13.ui.setting.SettingViewModel
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.OffWhite
 import com.example.android_accountbook_13.ui.theme.Purple
-import com.example.android_accountbook_13.utils.Date
-import com.example.android_accountbook_13.utils.getCurrentDate
-import com.example.android_accountbook_13.utils.getYearMonthDayString
-import com.example.android_accountbook_13.utils.showToast
+import com.example.android_accountbook_13.utils.*
 
 @Composable
 fun AddingHistoryScreen(
     navHostController: NavHostController,
     method: Int,
-    historyViewModel: HistoryViewModel,
+    accountBookViewModel: AccountBookViewModel,
     settingViewModel: SettingViewModel
 ) {
     val context = LocalContext.current
     BackHandler() {
-        historyViewModel.navItem = null
+        accountBookViewModel.navItem = null
         navHostController.popBackStack()
     }
-    val navItem = historyViewModel.navItem
+    val navItem = accountBookViewModel.navItem
     var date by rememberSaveable {
         mutableStateOf(
             if (navItem == null) getCurrentDate()
@@ -82,7 +80,7 @@ fun AddingHistoryScreen(
                 title = "${stringResource(id = R.string.history)} ${if (navItem == null) stringResource(id = R.string.add) else stringResource(id = R.string.edit)}",
                 leftVectorResource = R.drawable.ic_back,
                 onLeftClick = {
-                    historyViewModel.navItem = null
+                    accountBookViewModel.navItem = null
                     navHostController.popBackStack()
                 }
             )
@@ -142,7 +140,7 @@ fun AddingHistoryScreen(
                 Box() {
                     AddingHistoryTextField(checkedMethod.name, stringResource(id = R.string.placeholder), {}, true)
                     AddingHistorySpinner(
-                        Modifier.Companion.align(Alignment.CenterEnd),
+                        Modifier.align(Alignment.CenterEnd),
                         methodExpanded,
                         methods,
                         { methodExpanded = !methodExpanded },
@@ -160,7 +158,7 @@ fun AddingHistoryScreen(
                 Box() {
                     AddingHistoryTextField(checkedCategory.name, stringResource(id = R.string.placeholder), {}, true)
                     AddingHistorySpinner(
-                        Modifier.Companion.align(Alignment.CenterEnd),
+                        Modifier.align(Alignment.CenterEnd),
                         categoryExpanded,
                         if (incomeChecked) incomeCategories else expenseCategories,
                         { categoryExpanded = !categoryExpanded },
@@ -193,7 +191,7 @@ fun AddingHistoryScreen(
                     title = if (navItem == null) stringResource(id = R.string.btn_add) else stringResource(id = R.string.btn_edit)
                 ) {
                     if (navItem == null) {
-                        historyViewModel.insertHistory(
+                        accountBookViewModel.insertHistory(
                             History(
                                 null,
                                 if (incomeChecked) checkedCategory.id ?: 2 else checkedCategory.id ?: 1,
@@ -204,13 +202,13 @@ fun AddingHistoryScreen(
                             ), { message ->
                                 showToast(context, message)
                             }, {
-                                historyViewModel.navItem = null
-                                historyViewModel.getAccountBookItems()
+                                accountBookViewModel.navItem = null
+                                accountBookViewModel.getAccountBookItems()
                                 navHostController.popBackStack()
                             }
                         )
                     } else {
-                        historyViewModel.updateHistory(
+                        accountBookViewModel.updateHistory(
                             History(
                                 navItem.history.id,
                                 checkedCategory.id ?: 3,
@@ -221,8 +219,8 @@ fun AddingHistoryScreen(
                             ), { message ->
                                 showToast(context, message)
                             }, {
-                                historyViewModel.navItem = null
-                                historyViewModel.getAccountBookItems()
+                                accountBookViewModel.navItem = null
+                                accountBookViewModel.getAccountBookItems()
                                 navHostController.popBackStack()
                             }
                         )

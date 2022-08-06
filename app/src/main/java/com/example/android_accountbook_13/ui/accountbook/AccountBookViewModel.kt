@@ -1,17 +1,15 @@
-package com.example.android_accountbook_13.presenter.history
+package com.example.android_accountbook_13.ui.accountbook
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.AccountBookItem
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.local.repository.accountbook.AccountRepository
 import com.example.android_accountbook_13.data.local.repository.history.HistoryRepository
 import com.example.android_accountbook_13.utils.Date
-import com.example.android_accountbook_13.utils.Event
 import com.example.android_accountbook_13.utils.getCurrentDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HistoryViewModel @Inject constructor(
+class AccountBookViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
     private val historyRepository: HistoryRepository
 ) : ViewModel() {

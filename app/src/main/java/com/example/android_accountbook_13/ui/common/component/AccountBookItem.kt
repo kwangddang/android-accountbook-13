@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter.component
+package com.example.android_accountbook_13.ui.common.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable

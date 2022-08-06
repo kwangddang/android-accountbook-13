@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter.common
+package com.example.android_accountbook_13.ui.common
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.TweenSpec
@@ -24,12 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.android_accountbook_13.R
-import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.Category
 import com.example.android_accountbook_13.data.dto.Method
-import com.example.android_accountbook_13.presenter.component.AddingButton
-import com.example.android_accountbook_13.presenter.setting.SettingViewModel
-import com.example.android_accountbook_13.presenter.setting.component.SettingHeader
+import com.example.android_accountbook_13.ui.common.component.AddingButton
+import com.example.android_accountbook_13.ui.setting.SettingViewModel
+import com.example.android_accountbook_13.ui.setting.component.SettingHeader
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.OffWhite
 import com.example.android_accountbook_13.ui.theme.Purple
@@ -65,7 +64,7 @@ fun AddingScreen(
 
     Scaffold(
         topBar = {
-            com.example.android_accountbook_13.presenter.component.TopAppBar(
+            com.example.android_accountbook_13.ui.common.component.TopAppBar(
                 title = screenTitle,
                 leftVectorResource = R.drawable.ic_back,
                 onLeftClick = { navController.popBackStack() }

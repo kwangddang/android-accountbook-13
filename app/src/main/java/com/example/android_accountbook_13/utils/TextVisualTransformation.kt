@@ -1,10 +1,8 @@
-package com.example.android_accountbook_13.presenter.history
+package com.example.android_accountbook_13.utils
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
-import com.example.android_accountbook_13.utils.longToMoneyUnit
 
 fun priceVisualTransformation(text: String): TransformedText {
     var out = if(text == "") "" else longToMoneyUnit(text.toLong())

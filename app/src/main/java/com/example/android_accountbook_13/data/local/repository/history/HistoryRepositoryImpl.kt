@@ -1,7 +1,6 @@
 package com.example.android_accountbook_13.data.local.repository.history
 
 import android.util.Log
-import com.example.android_accountbook_13.data.DataResponse
 import com.example.android_accountbook_13.data.dto.History
 import com.example.android_accountbook_13.data.local.datasource.LocalDataSourceImpl
 import javax.inject.Inject
@@ -12,10 +11,8 @@ private val localDataSource: LocalDataSourceImpl
 
     override suspend fun insertHistory(history: History, onFailure: (String?) -> Unit, onSuccess: () -> Unit) {
         localDataSource.insertHistory(history).onSuccess {
-            Log.d("Test","success")
             onSuccess()
         }.onFailure {
-            Log.d("Test","Failure")
             onFailure(it.message)
         }
     }

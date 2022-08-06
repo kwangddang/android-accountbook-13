@@ -1,7 +1,6 @@
-package com.example.android_accountbook_13.presenter.statistic
+package com.example.android_accountbook_13.ui.accountbook.statistic
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,16 +10,17 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.example.android_accountbook_13.R
-import com.example.android_accountbook_13.presenter.calendar.BothText
-import com.example.android_accountbook_13.presenter.component.Category
-import com.example.android_accountbook_13.presenter.component.TopAppBar
-import com.example.android_accountbook_13.presenter.component.YearMonthDatePicker
-import com.example.android_accountbook_13.presenter.history.HistoryViewModel
+import com.example.android_accountbook_13.ui.accountbook.calendar.BothText
+import com.example.android_accountbook_13.ui.common.component.Category
+import com.example.android_accountbook_13.ui.common.component.TopAppBar
+import com.example.android_accountbook_13.ui.common.component.YearMonthDatePicker
+import com.example.android_accountbook_13.ui.accountbook.AccountBookViewModel
 import com.example.android_accountbook_13.ui.theme.LightPurple
 import com.example.android_accountbook_13.ui.theme.Purple
 import com.example.android_accountbook_13.ui.theme.Red
@@ -34,11 +34,11 @@ import com.github.mikephil.charting.data.PieEntry
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun StatisticScreen(
-    historyViewModel: HistoryViewModel
+    accountBookViewModel: AccountBookViewModel
 ) {
-    val date by historyViewModel.date
+    val date by accountBookViewModel.date
     var isDialog by rememberSaveable { mutableStateOf(false) }
-    val totalMoney by historyViewModel.expenseMoney
+    val totalMoney by accountBookViewModel.expenseMoney
     Scaffold(
         topBar = {
             TopAppBar(
@@ -47,10 +47,10 @@ fun StatisticScreen(
                 leftVectorResource = R.drawable.ic_left,
                 rightVectorResource = R.drawable.ic_right,
                 onLeftClick = {
-                    historyViewModel.decreaseDate()
+                    accountBookViewModel.decreaseDate()
                 },
                 onRightClick = {
-                    historyViewModel.increaseDate()
+                    accountBookViewModel.increaseDate()
                 }
             )
         },
@@ -59,12 +59,12 @@ fun StatisticScreen(
         if (isDialog) {
             Dialog(onDismissRequest = { isDialog = false }) {
                 YearMonthDatePicker(onDismissRequest = { isDialog = false }) { year, month ->
-                    historyViewModel.changeDate(year,month)
+                    accountBookViewModel.changeDate(year,month)
                     isDialog = false
                 }
             }
         }
-        val list = if(totalMoney > 0 ) historyViewModel.getPairList() else emptyList()
+        val list = if(totalMoney > 0 ) accountBookViewModel.getPairList() else emptyList()
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             item {
@@ -125,7 +125,7 @@ fun StatisticScreen(
                     .padding(start = 16.dp, end = 16.dp)) {
                     Category(
                         title = pair.second.name,
-                        backgroundColor = androidx.compose.ui.graphics.Color(Color.parseColor(pair.second.color)),
+                        backgroundColor = Color(Color.parseColor(pair.second.color)),
                         modifier = Modifier.padding(top = 10.dp)
                     )
                     BothText(leftText = longToMoneyUnit(pair.first), rightText = "${pair.first * 100 / totalMoney}%", textColor = Purple)

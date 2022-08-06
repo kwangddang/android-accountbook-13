@@ -1,4 +1,4 @@
-package com.example.android_accountbook_13.presenter
+package com.example.android_accountbook_13.ui
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -14,14 +13,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.android_accountbook_13.R
-import com.example.android_accountbook_13.presenter.calendar.CalendarScreen
-import com.example.android_accountbook_13.presenter.common.AddingScreen
-import com.example.android_accountbook_13.presenter.history.AddingHistoryScreen
-import com.example.android_accountbook_13.presenter.history.HistoryScreen
-import com.example.android_accountbook_13.presenter.history.HistoryViewModel
-import com.example.android_accountbook_13.presenter.setting.SettingScreen
-import com.example.android_accountbook_13.presenter.setting.SettingViewModel
-import com.example.android_accountbook_13.presenter.statistic.StatisticScreen
+import com.example.android_accountbook_13.ui.accountbook.calendar.CalendarScreen
+import com.example.android_accountbook_13.ui.common.AddingScreen
+import com.example.android_accountbook_13.ui.accountbook.history.AddingHistoryScreen
+import com.example.android_accountbook_13.ui.accountbook.history.HistoryScreen
+import com.example.android_accountbook_13.ui.accountbook.AccountBookViewModel
+import com.example.android_accountbook_13.ui.setting.SettingScreen
+import com.example.android_accountbook_13.ui.setting.SettingViewModel
+import com.example.android_accountbook_13.ui.accountbook.statistic.StatisticScreen
 
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
@@ -29,7 +28,7 @@ fun AccountBookNavHost(
     navController: NavHostController,
     innerPaddingModifier: PaddingValues,
     startDestination: String = History.route,
-    historyViewModel: HistoryViewModel,
+    accountBookViewModel: AccountBookViewModel,
     settingViewModel: SettingViewModel
 ) {
     NavHost(
@@ -38,15 +37,15 @@ fun AccountBookNavHost(
         modifier = Modifier.padding(innerPaddingModifier)
     ) {
         composable(History.route) {
-            HistoryScreen(navController, historyViewModel)
+            HistoryScreen(navController, accountBookViewModel)
         }
 
         composable(Calendar.route) {
-            CalendarScreen(historyViewModel)
+            CalendarScreen(accountBookViewModel)
         }
 
         composable(Statistic.route) {
-            StatisticScreen(historyViewModel)
+            StatisticScreen(accountBookViewModel)
         }
 
         composable(Setting.route) {
@@ -84,7 +83,7 @@ fun AccountBookNavHost(
             AddingHistoryScreen(
                 navController,
                 method = it.arguments?.getInt("method")!!,
-                historyViewModel,
+                accountBookViewModel,
                 settingViewModel
             )
         }
