@@ -86,7 +86,7 @@ fun StatisticScreen(
                             this.add(
                                 PieEntry(pair.first.toFloat(), pair.first / totalMoney.toFloat())
                             )
-                            colorList.add(Color.parseColor(pair.second.color))
+                            colorList.add(android.graphics.Color.parseColor(pair.second.color))
                         }
                     }
                     val dataSet = PieDataSet(pieEntryList,"expense")
@@ -104,7 +104,7 @@ fun StatisticScreen(
                                 this.add(
                                     PieEntry(pair.first.toFloat(), pair.first / totalMoney.toFloat())
                                 )
-                                colorList.add(Color.parseColor(pair.second.color))
+                                colorList.add(android.graphics.Color.parseColor(pair.second.color))
                             }
                         }
                         val dataSet = PieDataSet(pieEntryList,"expense")
@@ -125,7 +125,7 @@ fun StatisticScreen(
                     .padding(start = 16.dp, end = 16.dp)) {
                     Category(
                         title = pair.second.name,
-                        backgroundColor = Color(Color.parseColor(pair.second.color)),
+                        backgroundColor = Color(android.graphics.Color.parseColor(pair.second.color)),
                         modifier = Modifier.padding(top = 10.dp)
                     )
                     BothText(leftText = longToMoneyUnit(pair.first), rightText = "${pair.first * 100 / totalMoney}%", textColor = Purple)
